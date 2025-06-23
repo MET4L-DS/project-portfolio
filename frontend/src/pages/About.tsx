@@ -2,6 +2,7 @@ function About() {
 	return (
 		<div className="min-h-screen bg-gray-900 py-20">
 			<div className="max-w-6xl mx-auto px-8">
+				{" "}
 				{/* Header */}
 				<div className="text-center mb-16">
 					<h1 className="text-5xl font-bold text-white mb-4">
@@ -11,41 +12,41 @@ function About() {
 						</span>
 					</h1>
 					<p className="text-xl text-gray-300">
-						Northeast India's Premier Event Management Expert &
-						Media Entrepreneur
-					</p>
+						Northeast India's Event Management Expert & Arts
+						Education Pioneer
+					</p>{" "}
+					<div className="text-lg text-green-300 mt-2 italic">
+						"Your Vision, Our Spectacle"
+					</div>
 				</div>
-
 				{/* Mission & Vision */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
 					<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
 						<h2 className="text-3xl font-bold text-yellow-400 mb-6">
 							My Mission
-						</h2>
+						</h2>{" "}
 						<p className="text-gray-300 text-lg leading-relaxed">
-							To elevate Northeast India's entertainment industry
-							by creating world-class events that showcase our
-							region's incredible talent, culture, and beauty.
-							Through Sankalp Entertainment and AAMAR XOPUN, I aim
-							to build bridges between local talent and global
-							opportunities.
+							To preserve and showcase Northeast India's rich
+							tribal heritage through world-class events while
+							nurturing the next generation of artists through
+							comprehensive education. I believe in creating
+							platforms where tradition meets modernity.
 						</p>
 					</div>
 
 					<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
 						<h2 className="text-3xl font-bold text-yellow-400 mb-6">
 							My Vision
-						</h2>
+						</h2>{" "}
 						<p className="text-gray-300 text-lg leading-relaxed">
 							To establish Northeast India as a premier
-							destination for entertainment, fashion, and cultural
-							events. I envision a future where our region's
-							artists and performers have equal opportunities to
-							shine on national and international stages.
+							destination for cultural events and arts education.
+							I envision a future where our tribal traditions are
+							celebrated globally while local artists have
+							world-class training facilities.
 						</p>
 					</div>
 				</div>
-
 				{/* Experience Timeline */}
 				<div className="mb-20">
 					<h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -53,60 +54,141 @@ function About() {
 						<span className="text-yellow-400 font-bold">
 							Journey
 						</span>
-					</h2>
-
+					</h2>{" "}
 					<div className="space-y-8">
-						{/* Sankalp Entertainment */}
-						<div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<div className="md:w-1/3">
-								<img
-									src="https://via.placeholder.com/300x200/f59e0b/ffffff?text=Sankalp+Logo"
-									alt="Sankalp Entertainment"
-									className="rounded-lg shadow-xl w-full"
-								/>
+						{/* Journey Timeline */}
+						<div className="space-y-6">
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+									2019
+								</div>
+								<div>
+									<h3 className="text-xl font-bold text-yellow-400 mb-2">
+										Started as a Model
+									</h3>
+									<p className="text-gray-300">
+										Beginning my journey in the
+										entertainment industry as a professional
+										model.
+									</p>
+								</div>
 							</div>
-							<div className="md:w-2/3">
-								<h3 className="text-2xl font-bold text-yellow-400 mb-4">
-									Founder - Sankalp Entertainment
-								</h3>
-								<p className="text-gray-300 leading-relaxed">
-									Established Northeast India's leading event
-									management company, specializing in beauty
-									pageants, talent hunts, fashion shows, and
-									cultural festivals. Under my leadership,
-									Sankalp has become synonymous with quality
-									entertainment and professional event
-									management.
-								</p>
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold text-sm">
+									2020-21
+								</div>
+								<div>
+									<h3 className="text-xl font-bold text-yellow-400 mb-2">
+										Online Competitions Era
+									</h3>
+									<p className="text-gray-300">
+										Directed Northeast Talent Hunt (2020)
+										and Northeast Shining Star (2020). Prize
+										distribution held at Dispur Press Club,
+										Guwahati.
+									</p>
+								</div>
+							</div>{" "}
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+									2022
+								</div>
+								<div className="flex-1">
+									<div className="flex items-center gap-4 mb-3">
+										<h3 className="text-xl font-bold text-yellow-400">
+											Expansion Year
+										</h3>
+										<img
+											src="./logo/sankalp_event_entertainment.jpg"
+											alt="Sankalp Event and Entertainment Logo"
+											className="h-8 w-auto rounded"
+										/>
+									</div>
+									<p className="text-gray-300">
+										Founded{" "}
+										<strong>
+											Sankalp Event and Entertainment
+										</strong>
+										. Organized Perfect Glam Beauty Pageant
+										Season 2, launched Goalpara Shining Star
+										Season 1, and managed Rongmon cultural
+										event.
+									</p>
+								</div>
 							</div>
-						</div>
-
-						{/* AAMAR XOPUN */}
-						<div className="flex flex-col md:flex-row-reverse items-center gap-8 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<div className="md:w-1/3">
-								<img
-									src="https://via.placeholder.com/300x200/10b981/ffffff?text=AAMAR+XOPUN"
-									alt="AAMAR XOPUN E-Magazine"
-									className="rounded-lg shadow-xl w-full"
-								/>
-							</div>
-							<div className="md:w-2/3">
-								<h3 className="text-2xl font-bold text-yellow-400 mb-4">
-									Founder & Editor - AAMAR XOPUN E-Magazine
-								</h3>
-								<p className="text-gray-300 leading-relaxed">
-									Created and launched Northeast India's
-									premier digital magazine, showcasing local
-									culture, talent, fashion, and stories. AAMAR
-									XOPUN has become a vital platform for
-									promoting Northeast heritage and connecting
-									our community with the world.
-								</p>
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+									2023
+								</div>
+								<div>
+									<h3 className="text-xl font-bold text-yellow-400 mb-2">
+										Major Breakthrough
+									</h3>
+									<p className="text-gray-300">
+										Production Head for Guwahati City Fest,
+										directed BAIDEHI runway show for CST,
+										organized Aadibazar's Aadi The Runway
+										Show, and continued Goalpara Shining
+										Star Season 2.
+									</p>
+								</div>
+							</div>{" "}
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+									2024
+								</div>
+								<div className="flex-1">
+									<div className="flex items-center gap-4 mb-3">
+										<h3 className="text-xl font-bold text-yellow-400">
+											Peak Performance
+										</h3>
+										<img
+											src="./logo/sankalp_school.jpg"
+											alt="Sankalp School Logo"
+											className="h-8 w-auto rounded"
+										/>
+									</div>
+									<p className="text-gray-300">
+										Founded{" "}
+										<strong>
+											Sankalp School of Art and Skills
+										</strong>
+										offering 13+ skills training. Director
+										of Bongaigaon Winter Carnival, launched
+										Bokajan Shining Star, completed Goalpara
+										Shining Star Season 3, and managed Style
+										Stunner pageant.
+									</p>
+								</div>
+							</div>{" "}
+							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-green-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+									2025
+								</div>
+								<div className="flex-1">
+									<div className="flex items-center gap-4 mb-3">
+										<h3 className="text-xl font-bold text-green-400">
+											Current & Future
+										</h3>
+										<img
+											src="./logo/aamar_xopun_logo.jpg"
+											alt="Aamar Xopun Logo"
+											className="h-8 w-auto rounded"
+										/>
+									</div>
+									<p className="text-gray-300">
+										Launched <strong>Aamar Xopun</strong>{" "}
+										digital magazine celebrating Assamese
+										culture. Organized Dudhnoi Shining Star
+										Season 1 (Jan 2025) and continuing to
+										expand event management and arts
+										education initiatives.
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
 				{/* Major Achievements */}
 				<div className="mb-20">
 					<h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -222,7 +304,130 @@ function About() {
 						</div>
 					</div>
 				</div>
+				{/* School Section */}
+				<div className="mb-20">
+					<h2 className="text-4xl font-bold text-center text-white mb-4">
+						<span className="text-yellow-400 font-bold">
+							Sankalp School
+						</span>{" "}
+						of Art and Skills
+					</h2>
+					<p className="text-center text-xl text-green-300 mb-12 italic">
+						"Confidence Starts Here"
+					</p>
 
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+							<h3 className="text-2xl font-bold text-yellow-400 mb-6">
+								Our Locations
+							</h3>
+							<div className="space-y-4">
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										📍
+									</span>
+									<span className="text-gray-300">
+										Bapujinagar, Carbon Gate
+									</span>
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										📍
+									</span>
+									<span className="text-gray-300">
+										LKRB Road, Nabinnagar
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+							<h3 className="text-2xl font-bold text-yellow-400 mb-6">
+								13+ Skills We Teach
+							</h3>
+							<div className="grid grid-cols-2 gap-2 text-gray-300">
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Art
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Dance
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Craft
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Acting
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Singing
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Zumba
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Yoga
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Karate
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Makeup
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Mehendi
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Stitching
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Modelling
+								</div>
+								<div className="flex items-center">
+									<span className="text-yellow-400 mr-2">
+										•
+									</span>
+									Photography
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				{/* Call to Action */}
 				<div className="text-center">
 					<h3 className="text-3xl font-bold text-white mb-4">

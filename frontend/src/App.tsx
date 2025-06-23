@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Projects from "./pages/Projects";
+import Events from "./pages/Events";
+import School from "./pages/School";
+import Magazine from "./pages/Magazine";
 import Contact from "./pages/Contact";
 
 function App() {
@@ -14,7 +16,9 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/about" element={<About />} />
-						<Route path="/projects" element={<Projects />} />
+						<Route path="/events" element={<Events />} />
+						<Route path="/school" element={<School />} />
+						<Route path="/magazine" element={<Magazine />} />
 						<Route path="/contact" element={<Contact />} />
 					</Routes>
 				</main>
