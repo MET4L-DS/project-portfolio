@@ -213,32 +213,35 @@ function Events() {
 							key={event.id}
 							className="group relative overflow-hidden rounded-2xl aspect-video transition-transform duration-300 hover:scale-105"
 						>
+							{" "}
 							<img
 								src={event.image}
 								alt={event.title}
 								className="w-full h-full object-cover"
 							/>
-							<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />{" "}
+							<div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 							<div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-								<div className="flex justify-between items-start mb-2">
-									<span className="inline-block bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
-										{event.category}
-									</span>
-									{event.importance === "high" && (
-										<span className="inline-block bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-											Featured
+								<div className="relative z-10">
+									<div className="flex justify-between items-start mb-2">
+										<span className="inline-block bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
+											{event.category}
 										</span>
-									)}
+										{event.importance === "high" && (
+											<span className="inline-block bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+												Featured
+											</span>
+										)}
+									</div>
+									<h3 className="text-xl font-bold mb-1 text-white drop-shadow-lg">
+										{event.title}
+									</h3>
+									<div className="text-sm text-gray-200 mb-2 drop-shadow-md">
+										{event.year} • {event.location}
+									</div>
+									<p className="text-gray-100 text-sm drop-shadow-md">
+										{event.description}
+									</p>
 								</div>
-								<h3 className="text-xl font-bold mb-1">
-									{event.title}
-								</h3>
-								<div className="text-sm text-gray-400 mb-2">
-									{event.year} • {event.location}
-								</div>
-								<p className="text-gray-300 text-sm">
-									{event.description}
-								</p>
 							</div>
 						</div>
 					))}
