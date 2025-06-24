@@ -75,7 +75,7 @@ function Events() {
 			category: "Beauty Pageant",
 			year: "Jan 12, 2025",
 			location: "Dudhnoi",
-			image: "https://via.placeholder.com/400x300/06b6d4/ffffff?text=Dudhnoi+Star",
+			image: "./images/Dudhnoi Shining Star.jpg",
 			description:
 				"Director of Season 1 - Latest addition to the Shining Star pageant series.",
 			importance: "high",
@@ -97,7 +97,7 @@ function Events() {
 			category: "Beauty Pageant",
 			year: "Oct 27, 2024",
 			location: "Bokajan",
-			image: "https://via.placeholder.com/400x300/dc2626/ffffff?text=Style+Stunner",
+			image: "./images/Style Stunner.jpg",
 			description:
 				"Management Head of this beauty pageant organized by Ekadfa.",
 			importance: "low",
@@ -108,7 +108,7 @@ function Events() {
 			category: "Cultural Event",
 			year: "2022",
 			location: "Baihata, Kamrup Rural",
-			image: "https://via.placeholder.com/400x300/14b8a6/ffffff?text=Rongmon",
+			image: "./images/Rongmon Cultural Event.jpg",
 			description:
 				"Management Head and Organizer of this cultural celebration.",
 			importance: "low",
@@ -119,7 +119,7 @@ function Events() {
 			category: "Talent Hunt",
 			year: "2020",
 			location: "Guwahati",
-			image: "https://via.placeholder.com/400x300/f59e0b/ffffff?text=NE+Talent",
+			image: "./images/Northeast Talent Hunt.jpg",
 			description:
 				"Director of both Northeast Talent Hunt and Northeast Shining Star. Prize distribution held at Dispur Press Club.",
 			importance: "low",
@@ -130,7 +130,7 @@ function Events() {
 			category: "Fashion Show",
 			year: "Various",
 			location: "Multiple",
-			image: "https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Fashion+Shows",
+			image: "./images/Fashion Frolic.jpg",
 			description:
 				"Event Management Head for Fashion Carnival and Fashion Frolic runway shows.",
 			importance: "low",

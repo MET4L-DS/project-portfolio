@@ -89,30 +89,33 @@ function About() {
 									</p>
 								</div>
 							</div>{" "}
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
 									2022
 								</div>
 								<div className="flex-1">
-									<div className="flex items-center gap-4 mb-3">
-										<h3 className="text-xl font-bold text-yellow-400">
-											Expansion Year
-										</h3>
-										<img
-											src="./logo/sankalp_event_entertainment.jpg"
-											alt="Sankalp Event and Entertainment Logo"
-											className="h-8 w-auto rounded"
-										/>
-									</div>
-									<p className="text-gray-300">
+									<h3 className="text-xl font-bold text-yellow-400 mb-3">
+										Expansion Year
+									</h3>
+									<p className="text-gray-300 leading-relaxed">
 										Founded{" "}
-										<strong>
+										<strong className="text-yellow-400">
 											Sankalp Event and Entertainment
 										</strong>
 										. Organized Perfect Glam Beauty Pageant
 										Season 2, launched Goalpara Shining Star
 										Season 1, and managed Rongmon cultural
 										event.
+									</p>
+								</div>
+								<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
+									<img
+										src="./logo/sankalp_event_entertainment.jpg"
+										alt="Sankalp Event and Entertainment Logo"
+										className="h-16 w-16 object-cover rounded-lg shadow-lg"
+									/>
+									<p className="text-xs text-yellow-400 text-center mt-2 font-semibold">
+										Event & Entertainment
 									</p>
 								</div>
 							</div>
@@ -133,26 +136,19 @@ function About() {
 									</p>
 								</div>
 							</div>{" "}
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
 									2024
 								</div>
 								<div className="flex-1">
-									<div className="flex items-center gap-4 mb-3">
-										<h3 className="text-xl font-bold text-yellow-400">
-											Peak Performance
-										</h3>
-										<img
-											src="./logo/sankalp_school.jpg"
-											alt="Sankalp School Logo"
-											className="h-8 w-auto rounded"
-										/>
-									</div>
-									<p className="text-gray-300">
+									<h3 className="text-xl font-bold text-yellow-400 mb-3">
+										Peak Performance
+									</h3>
+									<p className="text-gray-300 leading-relaxed">
 										Founded{" "}
-										<strong>
+										<strong className="text-purple-400">
 											Sankalp School of Art and Skills
-										</strong>
+										</strong>{" "}
 										offering 13+ skills training. Director
 										of Bongaigaon Winter Carnival, launched
 										Bokajan Shining Star, completed Goalpara
@@ -160,29 +156,45 @@ function About() {
 										Stunner pageant.
 									</p>
 								</div>
+								<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-4 rounded-xl border border-purple-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
+									<img
+										src="./logo/sankalp_school.jpg"
+										alt="Sankalp School Logo"
+										className="h-16 w-16 object-cover rounded-lg shadow-lg"
+									/>
+									<p className="text-xs text-purple-400 text-center mt-2 font-semibold">
+										School of Arts
+									</p>
+								</div>
 							</div>{" "}
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-green-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+								<div className="bg-green-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
 									2025
 								</div>
 								<div className="flex-1">
-									<div className="flex items-center gap-4 mb-3">
-										<h3 className="text-xl font-bold text-green-400">
-											Current & Future
-										</h3>
-										<img
-											src="./logo/aamar_xopun_logo.jpg"
-											alt="Aamar Xopun Logo"
-											className="h-8 w-auto rounded"
-										/>
-									</div>
-									<p className="text-gray-300">
-										Launched <strong>Aamar Xopun</strong>{" "}
+									<h3 className="text-xl font-bold text-green-400 mb-3">
+										Current & Future
+									</h3>
+									<p className="text-gray-300 leading-relaxed">
+										Launched{" "}
+										<strong className="text-blue-400">
+											Aamar Xopun
+										</strong>{" "}
 										digital magazine celebrating Assamese
 										culture. Organized Dudhnoi Shining Star
 										Season 1 (Jan 2025) and continuing to
 										expand event management and arts
 										education initiatives.
+									</p>
+								</div>
+								<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-4 rounded-xl border border-blue-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
+									<img
+										src="./logo/aamar_xopun_logo.jpg"
+										alt="Aamar Xopun Logo"
+										className="h-16 w-16 object-cover rounded-lg shadow-lg"
+									/>
+									<p className="text-xs text-blue-400 text-center mt-2 font-semibold">
+										Digital Magazine
 									</p>
 								</div>
 							</div>
