@@ -2,14 +2,20 @@ function School() {
 	return (
 		<div className="min-h-screen bg-gray-900 py-20">
 			<div className="max-w-7xl mx-auto px-8">
+				{" "}
 				{/* Header */}
 				<div className="text-center mb-16">
 					<div className="mb-8">
-						<img
-							src="./logo/sankalp_school_2.jpg"
-							alt="Sankalp School of Art and Skills"
-							className="w-32 h-32 mx-auto rounded-2xl shadow-xl object-cover border-4 border-yellow-400"
-						/>
+						<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-6 rounded-xl border border-purple-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto">
+							<img
+								src="./logo/sankalp_school_2.jpg"
+								alt="Sankalp School of Art and Skills"
+								className="w-full object-cover rounded-lg shadow-lg mb-3"
+							/>
+							{/* <p className="text-sm text-purple-400 text-center font-semibold">
+								School of Art & Skills
+							</p> */}
+						</div>
 					</div>
 					<h1 className="text-5xl font-bold text-white mb-4">
 						<span className="text-yellow-400 font-bold">
@@ -26,7 +32,6 @@ function School() {
 						meet modern techniques.
 					</p>
 				</div>
-
 				{/* Our Locations */}
 				<div className="mb-20">
 					<h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -60,7 +65,6 @@ function School() {
 						</div>
 					</div>
 				</div>
-
 				{/* Skills We Teach */}
 				<div className="mb-20">
 					<h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -99,7 +103,6 @@ function School() {
 						))}
 					</div>
 				</div>
-
 				{/* Why Choose Us */}
 				<div className="mb-20">
 					<h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -146,7 +149,6 @@ function School() {
 						</div>
 					</div>
 				</div>
-
 				{/* Call to Action */}
 				<div className="text-center">
 					<h3 className="text-3xl font-bold text-white mb-4">

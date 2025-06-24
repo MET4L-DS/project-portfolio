@@ -30,27 +30,27 @@ function Home() {
 						<span className="text-yellow-400 font-bold">
 							Sankalp School of Art and Skills
 						</span>
-					</h2>
+					</h2>{" "}
 					{/* Organization Logos */}
 					<div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-6">
-						<div className="flex flex-col items-center">
+						<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-6 rounded-xl border border-yellow-400/40 shadow-xl flex flex-col items-center">
 							<img
 								src="./logo/sankalp_event_entertainment.jpg"
 								alt="Sankalp Event and Entertainment Logo"
-								className="h-16 w-auto rounded-lg shadow-lg mb-2"
+								className="h-20 w-20 object-cover rounded-lg shadow-lg mb-3"
 							/>
-							<p className="text-sm text-gray-300">
-								Sankalp Event and Entertainment
+							<p className="text-sm text-yellow-400 text-center font-semibold">
+								Event & Entertainment
 							</p>
 						</div>
-						<div className="flex flex-col items-center">
+						<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-6 rounded-xl border border-purple-400/40 shadow-xl flex flex-col items-center">
 							<img
 								src="./logo/sankalp_school.jpg"
 								alt="Sankalp School Logo"
-								className="h-16 w-auto rounded-lg shadow-lg mb-2"
+								className="h-20 w-20 object-cover rounded-lg shadow-lg mb-3"
 							/>
-							<p className="text-sm text-gray-300">
-								Sankalp School of Art and Skills
+							<p className="text-sm text-purple-400 text-center font-semibold">
+								School of Art & Skills
 							</p>
 						</div>
 					</div>

@@ -56,15 +56,21 @@ function Magazine() {
 
 	return (
 		<div className="min-h-screen bg-gray-900 text-white">
+			{" "}
 			{/* Hero Section */}
 			<section className="py-20 px-4">
 				<div className="max-w-6xl mx-auto text-center">
 					<div className="mb-8">
-						<img
-							src="./logo/aamar_xopun_logo.jpg"
-							alt="Aamar Xopun Logo"
-							className="h-24 mx-auto mb-6 rounded-lg shadow-lg"
-						/>
+						<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-6 rounded-xl border border-blue-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto mb-6">
+							<img
+								src="./logo/aamar_xopun_logo.jpg"
+								alt="Aamar Xopun Logo"
+								className="w-full object-cover rounded-lg shadow-lg mb-3"
+							/>
+							{/* <p className="text-sm text-blue-400 text-center font-semibold">
+								Digital Magazine
+							</p> */}
+						</div>
 						<h1 className="text-5xl font-bold mb-4">
 							<span className="text-yellow-400">Aamar Xopun</span>
 						</h1>
@@ -78,7 +84,6 @@ function Magazine() {
 					</div>
 				</div>
 			</section>
-
 			{/* Magazine Navigation */}
 			<section className="py-16 px-4">
 				<div className="max-w-4xl mx-auto">
@@ -200,12 +205,18 @@ function Magazine() {
 								{selectedMonth} {selectedYear} Issue
 							</h2>
 							<div className="bg-gray-800 rounded-lg p-8 text-center">
+								{" "}
 								<div className="mb-6">
-									<img
-										src="./logo/aamar_xopun_logo_2.jpg"
-										alt="Aamar Xopun Issue Cover"
-										className="h-32 mx-auto mb-4 rounded-lg shadow-lg"
-									/>
+									<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-4 rounded-xl border border-blue-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto mb-4">
+										<img
+											src="./logo/aamar_xopun_logo_2.jpg"
+											alt="Aamar Xopun Issue Cover"
+											className="h-20 w-20 object-cover rounded-lg shadow-lg mb-2"
+										/>
+										<p className="text-xs text-blue-400 text-center font-semibold">
+											{selectedMonth} {selectedYear}
+										</p>
+									</div>
 									<h3 className="text-xl font-semibold text-yellow-400 mb-2">
 										{selectedMonth} {selectedYear} Edition
 									</h3>
@@ -237,7 +248,6 @@ function Magazine() {
 					)}
 				</div>
 			</section>
-
 			{/* About Section */}
 			<section className="py-16 px-4 bg-gray-800/50">
 				<div className="max-w-4xl mx-auto text-center">
