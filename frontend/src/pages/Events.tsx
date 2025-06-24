@@ -213,13 +213,12 @@ function Events() {
 							key={event.id}
 							className="group relative overflow-hidden rounded-2xl aspect-video transition-transform duration-300 hover:scale-105"
 						>
-							{" "}
 							<img
 								src={event.image}
 								alt={event.title}
-								className="w-full h-full object-cover"
+								className="w-full h-full p-2 object-cover rounded-2xl"
 							/>
-							<div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+							<div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
 							<div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
 								<div className="relative z-10">
 									<div className="flex justify-between items-start mb-2">
