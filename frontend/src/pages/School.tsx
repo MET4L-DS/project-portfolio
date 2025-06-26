@@ -44,7 +44,7 @@ function School() {
 						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl text-center hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
 							<div className="text-4xl mb-4">📍</div>
 							<h3 className="text-2xl font-bold text-yellow-400 mb-4">
-								Carbon Gate Campus
+								Carbon Gate
 							</h3>
 							<p className="text-gray-300 text-lg">
 								Bapujinagar, Carbon Gate
@@ -55,7 +55,7 @@ function School() {
 						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl text-center hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
 							<div className="text-4xl mb-4">📍</div>
 							<h3 className="text-2xl font-bold text-yellow-400 mb-4">
-								Nabinnagar Campus
+								Nabinnagar
 							</h3>
 							<p className="text-gray-300 text-lg">
 								LKRB Road, Nabinnagar
