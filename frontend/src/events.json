@@ -1,0 +1,132 @@
+[
+	{
+		"id": 1,
+		"title": "NABARD Karigar Mela - Traditional Runway",
+		"category": "Cultural Festival",
+		"year": "2022-2023",
+		"location": "Guwahati",
+		"image": "./images/Nabard.jpg",
+		"description": "Organized Traditional Attire runway show showcasing all north-eastern tribes for National Bank of Agriculture and Rural Development.",
+		"importance": "high"
+	},
+	{
+		"id": 2,
+		"title": "Aadibazaar - Aadi The Runway Show",
+		"category": "Cultural Festival",
+		"year": "Dec 15, 2023",
+		"location": "Guwahati",
+		"image": "./images/Aadibazaar.jpg",
+		"description": "Tribal beats, Local Threads: Where Tradition Meets The Catwalk - Under TRIFED showcasing north-eastern traditional attire.",
+		"importance": "high"
+	},
+	{
+		"id": 3,
+		"title": "Bongaigaon Winter Carnival - Couturiers' Euphoria",
+		"category": "Fashion Show",
+		"year": "Jan 7, 2024",
+		"location": "Bongaigaon",
+		"image": "./images/Bongaigaoo Winter Carnival.jpg",
+		"description": "Director and Organizer of this spectacular runway show at Bongaigaon Winter Carnival.",
+		"importance": "high"
+	},
+	{
+		"id": 4,
+		"title": "CST Vocational Training - BAIDEHI Runway",
+		"category": "Fashion Show",
+		"year": "July 30, 2023",
+		"location": "Guwahati",
+		"image": "./images/Baidehi.jpg",
+		"description": "Director of BAIDEHI runway show for CST vocational training trust.",
+		"importance": "high"
+	},
+	{
+		"id": 5,
+		"title": "Goalpara Shining Star (3 Seasons)",
+		"category": "Beauty Pageant",
+		"year": "2022-2024",
+		"location": "Goalpara",
+		"image": "./images/Goalpara_s2.jpg",
+		"description": "Director of Season 1 (2022), Season 2 (2023), Season 3 (Sep 8, 2024) - Premier beauty pageant series.",
+		"importance": "high"
+	},
+	{
+		"id": 6,
+		"title": "Bokajan Shining Star",
+		"category": "Beauty Pageant",
+		"year": "May 16, 2024",
+		"location": "Bokajan",
+		"image": "./images/Bokajan Shining Star.jpg",
+		"description": "Director of Season 1 - Bringing glamour and talent showcase to Bokajan.",
+		"importance": "high"
+	},
+	{
+		"id": 7,
+		"title": "Dudhnoi Shining Star",
+		"category": "Beauty Pageant",
+		"year": "Jan 12, 2025",
+		"location": "Dudhnoi",
+		"image": "./images/Dudhnoi Shining Star.jpg",
+		"description": "Director of Season 1 - Latest addition to the Shining Star pageant series.",
+		"importance": "high"
+	},
+	{
+		"id": 8,
+		"title": "Guwahati City Fest",
+		"category": "City Festival",
+		"year": "2023",
+		"location": "Guwahati",
+		"image": "./images/Guwahati City Fest.jpg",
+		"description": "Production Head of this major city-wide celebration and entertainment festival.",
+		"importance": "high"
+	},
+	{
+		"id": 9,
+		"title": "Style Stunner by Ekadfa",
+		"category": "Beauty Pageant",
+		"year": "Oct 27, 2024",
+		"location": "Bokajan",
+		"image": "./images/Style Stunner.jpg",
+		"description": "Management Head of this beauty pageant organized by Ekadfa.",
+		"importance": "low"
+	},
+	{
+		"id": 10,
+		"title": "Rongmon Cultural Event",
+		"category": "Cultural Event",
+		"year": "2022",
+		"location": "Baihata, Kamrup Rural",
+		"image": "./images/Rongmon Cultural Event.jpg",
+		"description": "Management Head and Organizer of this cultural celebration.",
+		"importance": "low"
+	},
+	{
+		"id": 11,
+		"title": "Northeast Talent Hunt & Shining Star",
+		"category": "Talent Hunt",
+		"year": "2020",
+		"location": "Guwahati",
+		"image": "./images/Northeast Talent Hunt.jpg",
+		"description": "Director of both Northeast Talent Hunt and Northeast Shining Star. Prize distribution held at Dispur Press Club.",
+		"importance": "low"
+	},
+	{
+		"id": 12,
+		"title": "Fashion Carnival & Frolic",
+		"category": "Fashion Show",
+		"year": "Various",
+		"location": "Multiple",
+		"image": "./images/Fashion Frolic.jpg",
+		"description": "Event Management Head for Fashion Carnival and Fashion Frolic runway shows.",
+		"importance": "low"
+	},
+	{
+		"id": 13,
+		"title": "IIT Alcheringa Runway Show",
+		"category": "Cultural Festival",
+		"year": "Various",
+		"location": "IIT Guwahati",
+		"image": "https://via.placeholder.com/400x300/ec4899/ffffff?text=Alcheringa",
+		"description": "Management head of runway show for IIT Guwahati's premier cultural festival.",
+		"importance": "low"
+	}
+]
