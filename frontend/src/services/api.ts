@@ -120,4 +120,79 @@ export const eventsAPI = {
 	},
 };
 
+// Magazine API
+export const magazineAPI = {
+	// Public endpoints
+	getMagazines: async (params?: {
+		year?: number;
+		month?: string;
+		page?: number;
+		limit?: number;
+		search?: string;
+	}) => {
+		const response = await api.get("/magazines", { params });
+		return response.data;
+	},
+
+	getMagazinesByYear: async () => {
+		const response = await api.get("/magazines/by-year");
+		return response.data;
+	},
+
+	getMagazine: async (id: string) => {
+		const response = await api.get(`/magazines/${id}`);
+		return response.data;
+	},
+
+	trackView: async (id: string) => {
+		const response = await api.post(`/magazines/${id}/view`);
+		return response.data;
+	},
+
+	trackDownload: async (id: string) => {
+		const response = await api.post(`/magazines/${id}/download`);
+		return response.data;
+	},
+
+	// Admin endpoints
+	getAdminMagazines: async (params?: {
+		page?: number;
+		limit?: number;
+		search?: string;
+		year?: number;
+		isActive?: boolean;
+	}) => {
+		const response = await api.get("/magazines/admin/all", { params });
+		return response.data;
+	},
+
+	createMagazine: async (formData: FormData) => {
+		const response = await api.post("/magazines", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+
+	updateMagazine: async (id: string, formData: FormData) => {
+		const response = await api.put(`/magazines/${id}`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+
+	deleteMagazine: async (id: string) => {
+		const response = await api.delete(`/magazines/${id}`);
+		return response.data;
+	},
+
+	toggleActive: async (id: string) => {
+		const response = await api.patch(`/magazines/${id}/toggle-active`);
+		return response.data;
+	},
+};
+
 export default api;

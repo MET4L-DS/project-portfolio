@@ -54,14 +54,50 @@ const uploadToCloudinary = (buffer, options = {}) => {
 	});
 };
 
+// Upload PDF or other files to Cloudinary
+const uploadPdfToCloudinary = (buffer, options = {}) => {
+	return new Promise((resolve, reject) => {
+		const uploadOptions = {
+			folder: "portfolio-magazines",
+			resource_type: "raw", // Use 'raw' for PDFs and other non-image files
+			use_filename: true, // Use original filename if no public_id is specified
+			unique_filename: false, // Don't add random characters to filename
+			...options,
+		};
+
+		cloudinary.uploader
+			.upload_stream(uploadOptions, (error, result) => {
+				if (error) {
+					console.error("Cloudinary PDF upload error:", error);
+					reject(error);
+				} else {
+					console.log(
+						"✅ Successfully uploaded PDF to Cloudinary:",
+						result.public_id
+					);
+					resolve({
+						url: result.secure_url,
+						publicId: result.public_id,
+						secure_url: result.secure_url,
+						public_id: result.public_id,
+					});
+				}
+			})
+			.end(buffer);
+	});
+};
+
 // Delete image from Cloudinary
-const deleteFromCloudinary = (publicId) => {
-	return cloudinary.uploader.destroy(publicId);
+const deleteFromCloudinary = (publicId, resourceType = "image") => {
+	return cloudinary.uploader.destroy(publicId, {
+		resource_type: resourceType,
+	});
 };
 
 module.exports = {
 	cloudinary,
 	upload,
 	uploadToCloudinary,
+	uploadPdfToCloudinary,
 	deleteFromCloudinary,
 };
