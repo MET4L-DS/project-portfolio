@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { eventsAPI } from "../../services/api";
 import MagazineManagement from "./MagazineManagement";
+import StudentManagement from "./StudentManagement";
 
 interface Event {
 	_id: string;
@@ -24,9 +25,9 @@ const AdminDashboard: React.FC = () => {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
-	const [activeTab, setActiveTab] = useState<"events" | "magazines">(
-		"events"
-	);
+	const [activeTab, setActiveTab] = useState<
+		"events" | "magazines" | "students"
+	>("events");
 	const [filter, setFilter] = useState({
 		category: "All",
 		importance: "",
@@ -150,6 +151,16 @@ const AdminDashboard: React.FC = () => {
 								}`}
 							>
 								Magazine Management
+							</button>
+							<button
+								onClick={() => setActiveTab("students")}
+								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+									activeTab === "students"
+										? "border-yellow-400 text-yellow-400"
+										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
+								}`}
+							>
+								Student Management
 							</button>
 						</nav>
 					</div>
@@ -327,8 +338,10 @@ const AdminDashboard: React.FC = () => {
 							</div>
 						)}
 					</>
-				) : (
+				) : activeTab === "magazines" ? (
 					<MagazineManagement />
+				) : (
+					<StudentManagement />
 				)}
 			</div>
 		</div>

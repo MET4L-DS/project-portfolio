@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const eventRoutes = require("./routes/events");
 const authRoutes = require("./routes/auth");
 const magazineRoutes = require("./routes/magazines");
+const studentRoutes = require("./routes/students");
 
 // Load environment variables
 dotenv.config();
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use("/api/events", eventRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/magazines", magazineRoutes);
+app.use("/api/students", studentRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {

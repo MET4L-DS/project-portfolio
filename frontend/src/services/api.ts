@@ -195,4 +195,75 @@ export const magazineAPI = {
 	},
 };
 
+// Student API
+export const studentAPI = {
+	// Public endpoints
+	registerStudent: async (formData: FormData) => {
+		const response = await api.post("/students/register", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+
+	getRegistrationStatus: async (formNo: string) => {
+		const response = await api.get(`/students/status/${formNo}`);
+		return response.data;
+	},
+
+	downloadRegistrationPDF: async (formNo: string) => {
+		const response = await api.get(`/students/pdf/${formNo}`, {
+			responseType: "blob",
+		});
+
+		// Create blob link to download
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement("a");
+		link.href = url;
+		link.setAttribute("download", `registration-${formNo}.pdf`);
+		document.body.appendChild(link);
+		link.click();
+		link.remove();
+		window.URL.revokeObjectURL(url);
+	},
+
+	// Admin endpoints
+	getAllRegistrations: async (params?: {
+		page?: number;
+		limit?: number;
+		search?: string;
+		status?: string;
+		course?: string;
+		sortBy?: string;
+		sortOrder?: string;
+	}) => {
+		const response = await api.get("/students/admin/all", { params });
+		return response.data;
+	},
+
+	getRegistration: async (id: string) => {
+		const response = await api.get(`/students/admin/${id}`);
+		return response.data;
+	},
+
+	updateRegistrationStatus: async (
+		id: string,
+		data: { status: string; notes?: string }
+	) => {
+		const response = await api.patch(`/students/admin/${id}/status`, data);
+		return response.data;
+	},
+
+	deleteRegistration: async (id: string) => {
+		const response = await api.delete(`/students/admin/${id}`);
+		return response.data;
+	},
+
+	getStatistics: async () => {
+		const response = await api.get("/students/admin/stats/overview");
+		return response.data;
+	},
+};
+
 export default api;

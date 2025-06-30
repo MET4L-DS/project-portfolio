@@ -1,4 +1,30 @@
+import { useState } from "react";
+import StudentRegistration from "../components/StudentRegistration";
+import RegistrationSuccess from "../components/RegistrationSuccess";
+
 function School() {
+	const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+	const [showSuccessModal, setShowSuccessModal] = useState(false);
+	const [registrationFormNo, setRegistrationFormNo] = useState<string>("");
+
+	const handleEnrollClick = () => {
+		setShowRegistrationForm(true);
+	};
+
+	const handleRegistrationSuccess = (formNo: string) => {
+		setRegistrationFormNo(formNo);
+		setShowRegistrationForm(false);
+		setShowSuccessModal(true);
+	};
+
+	const handleCloseRegistration = () => {
+		setShowRegistrationForm(false);
+	};
+
+	const handleCloseSuccess = () => {
+		setShowSuccessModal(false);
+		setRegistrationFormNo("");
+	};
 	return (
 		<div className="min-h-screen bg-gray-900 py-20">
 			<div className="max-w-7xl mx-auto px-8">
@@ -159,7 +185,10 @@ function School() {
 						potential
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<button className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg">
+						<button
+							onClick={handleEnrollClick}
+							className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg"
+						>
 							Enroll Now
 						</button>
 						<a
@@ -170,6 +199,20 @@ function School() {
 						</a>
 					</div>
 				</div>
+				{/* Registration Form Modal */}
+				{showRegistrationForm && (
+					<StudentRegistration
+						onClose={handleCloseRegistration}
+						onSuccess={handleRegistrationSuccess}
+					/>
+				)}
+				{/* Success Modal */}
+				{showSuccessModal && (
+					<RegistrationSuccess
+						formNo={registrationFormNo}
+						onClose={handleCloseSuccess}
+					/>
+				)}
 			</div>
 		</div>
 	);
