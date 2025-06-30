@@ -74,8 +74,8 @@ const StudentRegistration: React.FC<StudentRegistrationProps> = ({
 				return;
 			}
 
-			if (file.size > 5 * 1024 * 1024) {
-				setError("Image file size must be less than 5MB");
+			if (file.size > 200 * 1024) {
+				setError("Image file size must be less than 200KB");
 				return;
 			}
 
