@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
 import School from "./pages/School";
 import Services from "./pages/Services";
 import Magazine from "./pages/Magazine";
@@ -49,6 +50,17 @@ function App() {
 									<Navigation />
 									<main>
 										<Events />
+									</main>
+								</>
+							}
+						/>
+						<Route
+							path="/events/:id"
+							element={
+								<>
+									<Navigation />
+									<main>
+										<EventDetail />
 									</main>
 								</>
 							}
