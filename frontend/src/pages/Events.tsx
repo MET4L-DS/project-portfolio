@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { eventsAPI } from "../services/api";
+import CandidateRegistration from "../components/CandidateRegistration";
+import { CandidateRegistrationSuccess } from "../components/CandidateRegistrationSuccess";
 
 interface Event {
 	_id: string;
@@ -27,6 +29,15 @@ function Events() {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
+	const [selectedEventForRegistration, setSelectedEventForRegistration] =
+		useState<Event | null>(null);
+	const [showCandidateRegistration, setShowCandidateRegistration] =
+		useState(false);
+	const [showRegistrationSuccess, setShowRegistrationSuccess] =
+		useState(false);
+	const [registrationFormNo, setRegistrationFormNo] = useState<string | null>(
+		null
+	);
 
 	const categories = [
 		"All",
@@ -61,6 +72,29 @@ function Events() {
 
 	const handleEventClick = (event: Event) => {
 		navigate(`/events/${event._id}`);
+	};
+
+	const handleApplyForEvent = (event: Event, e: React.MouseEvent) => {
+		e.stopPropagation(); // Prevent navigation to event detail
+		setSelectedEventForRegistration(event);
+		setShowCandidateRegistration(true);
+	};
+
+	const handleCloseRegistration = () => {
+		setShowCandidateRegistration(false);
+		setSelectedEventForRegistration(null);
+	};
+
+	const handleRegistrationSuccess = (formNo: string) => {
+		setRegistrationFormNo(formNo);
+		setShowCandidateRegistration(false);
+		setShowRegistrationSuccess(true);
+	};
+
+	const handleCloseSuccess = () => {
+		setShowRegistrationSuccess(false);
+		setRegistrationFormNo(null);
+		setSelectedEventForRegistration(null);
 	};
 
 	// Sort events by importance and year
@@ -157,23 +191,36 @@ function Events() {
 											<p className="text-gray-100 text-sm drop-shadow-md mb-3">
 												{event.description}
 											</p>
-											<div className="flex items-center text-yellow-400 text-sm font-semibold">
-												<span>
-													View Details & Gallery
-												</span>
-												<svg
-													className="w-4 h-4 ml-2"
-													fill="none"
-													stroke="currentColor"
-													viewBox="0 0 24 24"
+											<div className="flex items-center justify-between">
+												<div className="flex items-center text-yellow-400 text-sm font-semibold">
+													<span>
+														View Details & Gallery
+													</span>
+													<svg
+														className="w-4 h-4 ml-2"
+														fill="none"
+														stroke="currentColor"
+														viewBox="0 0 24 24"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															strokeWidth={2}
+															d="M9 5l7 7-7 7"
+														/>
+													</svg>
+												</div>
+												<button
+													onClick={(e) =>
+														handleApplyForEvent(
+															event,
+															e
+														)
+													}
+													className="bg-green-500 hover:bg-green-400 text-white px-3 py-1 rounded-full text-xs font-semibold transition-colors shadow-lg"
 												>
-													<path
-														strokeLinecap="round"
-														strokeLinejoin="round"
-														strokeWidth={2}
-														d="M9 5l7 7-7 7"
-													/>
-												</svg>
+													Apply Now
+												</button>
 											</div>
 										</div>
 									</div>
@@ -215,6 +262,24 @@ function Events() {
 					</div>
 				</div>
 			</div>
+
+			{/* Candidate Registration Modal */}
+			{showCandidateRegistration && selectedEventForRegistration && (
+				<CandidateRegistration
+					eventId={selectedEventForRegistration._id}
+					eventName={selectedEventForRegistration.title}
+					onClose={handleCloseRegistration}
+					onSuccess={handleRegistrationSuccess}
+				/>
+			)}
+
+			{/* Registration Success Message */}
+			{showRegistrationSuccess && registrationFormNo && (
+				<CandidateRegistrationSuccess
+					formNo={registrationFormNo}
+					onClose={handleCloseSuccess}
+				/>
+			)}
 		</div>
 	);
 }

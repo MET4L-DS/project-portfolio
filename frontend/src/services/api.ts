@@ -255,4 +255,51 @@ export const studentAPI = {
 	},
 };
 
+// Candidates API
+export const candidatesAPI = {
+	// Public endpoints
+	registerCandidate: async (formData: FormData) => {
+		const response = await api.post("/candidates", formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+
+	getCandidateByFormNo: async (formNo: string) => {
+		const response = await api.get(`/candidates/form/${formNo}`);
+		return response.data;
+	},
+
+	// Admin endpoints
+	getAllCandidates: async (params?: {
+		eventId?: string;
+		status?: string;
+		page?: number;
+		limit?: number;
+	}) => {
+		const response = await api.get("/candidates", { params });
+		return response.data;
+	},
+
+	getCandidate: async (id: string) => {
+		const response = await api.get(`/candidates/${id}`);
+		return response.data;
+	},
+
+	updateCandidateStatus: async (
+		id: string,
+		data: { status: string; notes?: string }
+	) => {
+		const response = await api.patch(`/candidates/${id}`, data);
+		return response.data;
+	},
+
+	deleteCandidate: async (id: string) => {
+		const response = await api.delete(`/candidates/${id}`);
+		return response.data;
+	},
+};
+
 export default api;

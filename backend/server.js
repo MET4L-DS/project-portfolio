@@ -8,6 +8,7 @@ const eventRoutes = require("./routes/events");
 const authRoutes = require("./routes/auth");
 const magazineRoutes = require("./routes/magazines");
 const studentRoutes = require("./routes/students");
+const candidateRoutes = require("./routes/candidates");
 
 // Load environment variables
 dotenv.config();
@@ -38,6 +39,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/magazines", magazineRoutes);
 app.use("/api/students", studentRoutes);
+app.use("/api/candidates", candidateRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {

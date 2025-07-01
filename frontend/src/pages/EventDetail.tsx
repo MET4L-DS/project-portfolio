@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { eventsAPI } from "../services/api";
+import CandidateRegistration from "../components/CandidateRegistration";
+import { CandidateRegistrationSuccess } from "../components/CandidateRegistrationSuccess";
 
 interface Event {
 	_id: string;
@@ -31,6 +33,13 @@ function EventDetail() {
 		string | null
 	>(null);
 	const [relatedEvents, setRelatedEvents] = useState<Event[]>([]);
+	const [showCandidateRegistration, setShowCandidateRegistration] =
+		useState(false);
+	const [showRegistrationSuccess, setShowRegistrationSuccess] =
+		useState(false);
+	const [registrationFormNo, setRegistrationFormNo] = useState<string | null>(
+		null
+	);
 
 	useEffect(() => {
 		if (id) {
@@ -70,6 +79,25 @@ function EventDetail() {
 
 	const handleCloseGalleryModal = () => {
 		setSelectedGalleryImage(null);
+	};
+
+	const handleApplyForEvent = () => {
+		setShowCandidateRegistration(true);
+	};
+
+	const handleCloseRegistration = () => {
+		setShowCandidateRegistration(false);
+	};
+
+	const handleRegistrationSuccess = (formNo: string) => {
+		setRegistrationFormNo(formNo);
+		setShowCandidateRegistration(false);
+		setShowRegistrationSuccess(true);
+	};
+
+	const handleCloseSuccess = () => {
+		setShowRegistrationSuccess(false);
+		setRegistrationFormNo(null);
 	};
 
 	if (loading) {
@@ -399,15 +427,33 @@ function EventDetail() {
 				{/* Call to Action */}
 				<div className="mt-20 text-center bg-gradient-to-r from-gray-800 to-gray-700 rounded-2xl p-12">
 					<h3 className="text-3xl font-bold text-white mb-4">
-						Inspired by This Event?
+						Interested in This Event?
 					</h3>
 					<p className="text-gray-300 mb-8 text-lg max-w-2xl mx-auto">
-						Let's create something equally spectacular for your next
-						occasion. Get in touch to discuss your vision with
-						Sankalp Entertainment.
+						Apply now to participate in {event.title} and be part of
+						this spectacular event experience.
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<button className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg">
+						<button
+							onClick={handleApplyForEvent}
+							className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+						>
+							<svg
+								className="w-5 h-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+								/>
+							</svg>
+							Apply for Event
+						</button>
+						<button className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold hover:bg-green-400 hover:text-black transition-all transform hover:scale-105">
 							Book Consultation
 						</button>
 						<button
@@ -442,6 +488,24 @@ function EventDetail() {
 						</div>
 					</div>
 				</div>
+			)}
+
+			{/* Candidate Registration Modal */}
+			{showCandidateRegistration && (
+				<CandidateRegistration
+					eventId={id!}
+					eventName={event.title}
+					onClose={handleCloseRegistration}
+					onSuccess={handleRegistrationSuccess}
+				/>
+			)}
+
+			{/* Registration Success Modal */}
+			{showRegistrationSuccess && registrationFormNo && (
+				<CandidateRegistrationSuccess
+					formNo={registrationFormNo}
+					onClose={handleCloseSuccess}
+				/>
 			)}
 		</div>
 	);
