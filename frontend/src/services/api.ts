@@ -212,20 +212,9 @@ export const studentAPI = {
 		return response.data;
 	},
 
-	downloadRegistrationPDF: async (formNo: string) => {
-		const response = await api.get(`/students/pdf/${formNo}`, {
-			responseType: "blob",
-		});
-
-		// Create blob link to download
-		const url = window.URL.createObjectURL(new Blob([response.data]));
-		const link = document.createElement("a");
-		link.href = url;
-		link.setAttribute("download", `registration-${formNo}.pdf`);
-		document.body.appendChild(link);
-		link.click();
-		link.remove();
-		window.URL.revokeObjectURL(url);
+	getByFormNo: async (formNo: string) => {
+		const response = await api.get(`/students/details/${formNo}`);
+		return response.data;
 	},
 
 	// Admin endpoints

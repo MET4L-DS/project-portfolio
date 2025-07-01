@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { studentAPI } from "../../services/api";
+import PDFPreviewModal from "../../components/PDFPreviewModal";
 
 interface Student {
 	_id: string;
@@ -33,6 +34,8 @@ const StudentManagement: React.FC = () => {
 		null
 	);
 	const [showDetailModal, setShowDetailModal] = useState(false);
+	const [showPDFPreview, setShowPDFPreview] = useState(false);
+	const [pdfStudent, setPdfStudent] = useState<Student | null>(null);
 	const [filters, setFilters] = useState({
 		search: "",
 		status: "",
@@ -143,6 +146,11 @@ const StudentManagement: React.FC = () => {
 	const handleViewDetails = (student: Student) => {
 		setSelectedStudent(student);
 		setShowDetailModal(true);
+	};
+
+	const handleViewPDF = (student: Student) => {
+		setPdfStudent(student);
+		setShowPDFPreview(true);
 	};
 
 	const getStatusColor = (status: string) => {
@@ -369,6 +377,12 @@ const StudentManagement: React.FC = () => {
 									className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
 								>
 									View Details
+								</button>
+								<button
+									onClick={() => handleViewPDF(student)}
+									className="px-3 py-1 bg-purple-500 text-white text-sm rounded hover:bg-purple-600 transition-colors"
+								>
+									📄 PDF
 								</button>
 								<button
 									onClick={() =>
@@ -629,6 +643,18 @@ const StudentManagement: React.FC = () => {
 						</div>
 					</div>
 				</div>
+			)}
+
+			{/* PDF Preview Modal */}
+			{pdfStudent && (
+				<PDFPreviewModal
+					student={pdfStudent}
+					isOpen={showPDFPreview}
+					onClose={() => {
+						setShowPDFPreview(false);
+						setPdfStudent(null);
+					}}
+				/>
 			)}
 		</div>
 	);
