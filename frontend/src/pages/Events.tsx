@@ -11,6 +11,10 @@ interface Event {
 		url: string;
 		publicId: string;
 	};
+	gallery?: {
+		url: string;
+		publicId: string;
+	}[];
 	description: string;
 	importance: string;
 	isActive: boolean;
@@ -21,6 +25,11 @@ function Events() {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
+	const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+	const [showEventDetail, setShowEventDetail] = useState(false);
+	const [selectedGalleryImage, setSelectedGalleryImage] = useState<
+		string | null
+	>(null);
 
 	const categories = [
 		"All",
@@ -51,6 +60,25 @@ function Events() {
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const handleEventClick = (event: Event) => {
+		setSelectedEvent(event);
+		setShowEventDetail(true);
+	};
+
+	const handleCloseEventDetail = () => {
+		setShowEventDetail(false);
+		setSelectedEvent(null);
+		setSelectedGalleryImage(null);
+	};
+
+	const handleGalleryImageClick = (imageUrl: string) => {
+		setSelectedGalleryImage(imageUrl);
+	};
+
+	const handleCloseGalleryModal = () => {
+		setSelectedGalleryImage(null);
 	};
 
 	// Sort events by importance and year
@@ -116,7 +144,8 @@ function Events() {
 							{sortedEvents.map((event) => (
 								<div
 									key={event._id}
-									className="group relative overflow-hidden rounded-2xl aspect-video transition-transform duration-300 hover:scale-105"
+									className="group relative overflow-hidden rounded-2xl transition-transform duration-300 hover:scale-105 cursor-pointer"
+									onClick={() => handleEventClick(event)}
 								>
 									<img
 										src={event.image.url}
@@ -146,6 +175,15 @@ function Events() {
 											<p className="text-gray-100 text-sm drop-shadow-md">
 												{event.description}
 											</p>
+											<button
+												onClick={(e) => {
+													e.stopPropagation();
+													handleEventClick(event);
+												}}
+												className="mt-3 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-all"
+											>
+												View Gallery
+											</button>
 										</div>
 									</div>
 								</div>
@@ -186,6 +224,119 @@ function Events() {
 					</div>
 				</div>
 			</div>
+
+			{/* Event Detail Modal */}
+			{showEventDetail && selectedEvent && (
+				<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+					<div className="bg-gray-800 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+						<div className="p-6">
+							{/* Modal Header */}
+							<div className="flex justify-between items-start mb-6">
+								<div>
+									<h2 className="text-3xl font-bold text-white mb-2">
+										{selectedEvent.title}
+									</h2>
+									<div className="flex items-center gap-4 text-gray-300">
+										<span className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
+											{selectedEvent.category}
+										</span>
+										<span>{selectedEvent.year}</span>
+										<span>{selectedEvent.location}</span>
+									</div>
+								</div>
+								<button
+									onClick={handleCloseEventDetail}
+									className="text-gray-400 hover:text-white text-2xl font-bold"
+								>
+									×
+								</button>
+							</div>
+
+							{/* Event Description */}
+							<p className="text-gray-300 text-lg mb-8">
+								{selectedEvent.description}
+							</p>
+
+							{/* Photo Gallery */}
+							<div>
+								<h3 className="text-2xl font-bold text-white mb-4">
+									Event Gallery
+								</h3>
+
+								{/* Main Image */}
+								<div className="mb-6">
+									<img
+										src={selectedEvent.image.url}
+										alt={selectedEvent.title}
+										className="w-full max-h-96 object-cover rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
+										onClick={() =>
+											handleGalleryImageClick(
+												selectedEvent.image.url
+											)
+										}
+									/>
+								</div>
+
+								{/* Gallery Grid */}
+								{selectedEvent.gallery &&
+									selectedEvent.gallery.length > 0 && (
+										<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+											{selectedEvent.gallery.map(
+												(image, index) => (
+													<img
+														key={index}
+														src={image.url}
+														alt={`${
+															selectedEvent.title
+														} - Gallery ${
+															index + 1
+														}`}
+														className="aspect-square object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+														onClick={() =>
+															handleGalleryImageClick(
+																image.url
+															)
+														}
+													/>
+												)
+											)}
+										</div>
+									)}
+
+								{/* If no gallery images, show placeholder */}
+								{(!selectedEvent.gallery ||
+									selectedEvent.gallery.length === 0) && (
+									<div className="text-center py-8">
+										<p className="text-gray-400">
+											More gallery images coming soon for
+											this event
+										</p>
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Gallery Image Modal */}
+			{selectedGalleryImage && (
+				<div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-60 flex items-center justify-center p-4">
+					<div className="relative max-w-7xl max-h-[90vh]">
+						<img
+							src={selectedGalleryImage}
+							alt="Gallery Image"
+							className="max-w-full max-h-full object-contain rounded-lg"
+						/>
+						<button
+							onClick={handleCloseGalleryModal}
+							className="absolute top-4 right-4 bg-black/50 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-black/70 transition-colors"
+						>
+							×
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

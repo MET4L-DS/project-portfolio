@@ -14,6 +14,10 @@ interface Event {
 		url: string;
 		publicId: string;
 	};
+	gallery?: {
+		url: string;
+		publicId: string;
+	}[];
 	isActive: boolean;
 }
 
@@ -34,6 +38,11 @@ const EventForm: React.FC = () => {
 
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string>("");
+	const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+	const [existingGallery, setExistingGallery] = useState<
+		{ url: string; publicId: string }[]
+	>([]);
+	const [newGalleryPreviews, setNewGalleryPreviews] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 
@@ -58,6 +67,10 @@ const EventForm: React.FC = () => {
 			const response = await eventsAPI.getEvent(eventId);
 			setEvent(response);
 			setImagePreview(response.image?.url || "");
+			// Load existing gallery images
+			if (response.gallery) {
+				setExistingGallery(response.gallery);
+			}
 		} catch (err) {
 			setError("Failed to fetch event details");
 			console.error("Fetch event error:", err);
@@ -95,6 +108,34 @@ const EventForm: React.FC = () => {
 		}
 	};
 
+	const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = Array.from(e.target.files || []);
+		if (files.length > 0) {
+			setGalleryFiles((prev) => [...prev, ...files]);
+
+			// Create previews for new files
+			files.forEach((file) => {
+				const reader = new FileReader();
+				reader.onloadend = () => {
+					setNewGalleryPreviews((prev) => [
+						...prev,
+						reader.result as string,
+					]);
+				};
+				reader.readAsDataURL(file);
+			});
+		}
+	};
+
+	const removeExistingGalleryImage = (index: number) => {
+		setExistingGallery((prev) => prev.filter((_, i) => i !== index));
+	};
+
+	const removeNewGalleryImage = (index: number) => {
+		setNewGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+		setGalleryFiles((prev) => prev.filter((_, i) => i !== index));
+	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
@@ -112,6 +153,19 @@ const EventForm: React.FC = () => {
 
 			if (imageFile) {
 				formData.append("image", imageFile);
+			}
+
+			// Add new gallery files
+			galleryFiles.forEach((file) => {
+				formData.append(`gallery`, file);
+			});
+
+			// For editing, send existing gallery data to preserve
+			if (isEditing && existingGallery.length > 0) {
+				formData.append(
+					"existingGallery",
+					JSON.stringify(existingGallery)
+				);
 			}
 
 			if (isEditing && id) {
@@ -342,6 +396,108 @@ const EventForm: React.FC = () => {
 										alt="Preview"
 										className="w-full max-w-md h-48 object-cover rounded-lg border border-gray-600"
 									/>
+								</div>
+							)}
+						</div>
+					</div>
+
+					{/* Gallery Upload */}
+					<div className="bg-gray-800 rounded-lg p-6">
+						<h2 className="text-xl font-semibold text-white mb-4">
+							Event Gallery (Optional)
+						</h2>
+
+						<div className="space-y-4">
+							<div>
+								<label className="block text-sm font-medium text-gray-300 mb-2">
+									Upload Gallery Images
+								</label>
+								<input
+									type="file"
+									accept="image/*"
+									multiple
+									onChange={handleGalleryChange}
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
+								/>
+								<p className="text-sm text-gray-400 mt-1">
+									You can select multiple images for the
+									gallery
+								</p>
+							</div>
+
+							{/* Gallery Preview */}
+							{(existingGallery.length > 0 ||
+								newGalleryPreviews.length > 0) && (
+								<div>
+									<p className="text-sm font-medium text-gray-300 mb-2">
+										Gallery Preview (
+										{existingGallery.length +
+											newGalleryPreviews.length}{" "}
+										images):
+									</p>
+									<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+										{/* Existing Gallery Images */}
+										{existingGallery.map((image, index) => (
+											<div
+												key={`existing-${index}`}
+												className="relative"
+											>
+												<img
+													src={image.url}
+													alt={`Existing Gallery ${
+														index + 1
+													}`}
+													className="w-full h-32 object-cover rounded-lg border border-gray-600"
+												/>
+												<button
+													type="button"
+													onClick={() =>
+														removeExistingGalleryImage(
+															index
+														)
+													}
+													className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+												>
+													×
+												</button>
+												<div className="absolute bottom-2 left-2 bg-blue-500 text-white px-2 py-1 rounded text-xs">
+													Existing
+												</div>
+											</div>
+										))}
+
+										{/* New Gallery Images */}
+										{newGalleryPreviews.map(
+											(preview, index) => (
+												<div
+													key={`new-${index}`}
+													className="relative"
+												>
+													<img
+														src={preview}
+														alt={`New Gallery ${
+															index + 1
+														}`}
+														className="w-full h-32 object-cover rounded-lg border border-gray-600"
+													/>
+													<button
+														type="button"
+														onClick={() =>
+															removeNewGalleryImage(
+																index
+															)
+														}
+														className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+													>
+														×
+													</button>
+													<div className="absolute bottom-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-xs">
+														New
+													</div>
+												</div>
+											)
+										)}
+									</div>
 								</div>
 							)}
 						</div>

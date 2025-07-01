@@ -122,7 +122,10 @@ router.post(
 	"/",
 	authenticateToken,
 	requireAdmin,
-	upload.single("image"),
+	upload.fields([
+		{ name: "image", maxCount: 1 },
+		{ name: "gallery", maxCount: 10 },
+	]),
 	async (req, res) => {
 		try {
 			console.log("📝 Creating new event...");
@@ -146,8 +149,10 @@ router.post(
 				});
 			}
 
-			if (!req.file) {
-				return res.status(400).json({ error: "Image is required" });
+			if (!req.files || !req.files.image || !req.files.image[0]) {
+				return res
+					.status(400)
+					.json({ error: "Main image is required" });
 			}
 
 			// Check MongoDB connection
@@ -171,13 +176,38 @@ router.post(
 			}
 
 			console.log("☁️ Uploading to Cloudinary...");
-			// Upload image to Cloudinary
-			const imageData = await uploadToCloudinary(req.file.buffer, {
-				folder: "portfolio-events",
-				public_id: `event_${Date.now()}`,
-			});
+			// Upload main image to Cloudinary
+			const imageData = await uploadToCloudinary(
+				req.files.image[0].buffer,
+				{
+					folder: "portfolio-events",
+					public_id: `event_${Date.now()}`,
+				}
+			);
 
-			console.log("✅ Image uploaded successfully:", imageData.url);
+			console.log("✅ Main image uploaded successfully:", imageData.url);
+
+			// Upload gallery images if provided
+			let galleryData = [];
+			if (req.files.gallery && req.files.gallery.length > 0) {
+				console.log("☁️ Uploading gallery images...");
+				for (let i = 0; i < req.files.gallery.length; i++) {
+					const galleryImageData = await uploadToCloudinary(
+						req.files.gallery[i].buffer,
+						{
+							folder: "portfolio-events/gallery",
+							public_id: `event_gallery_${Date.now()}_${i}`,
+						}
+					);
+					galleryData.push({
+						url: galleryImageData.url,
+						publicId: galleryImageData.publicId,
+					});
+				}
+				console.log(
+					`✅ ${galleryData.length} gallery images uploaded successfully`
+				);
+			}
 
 			console.log("💾 Saving to database...");
 			// Create event
@@ -192,6 +222,7 @@ router.post(
 					url: imageData.url,
 					publicId: imageData.publicId,
 				},
+				gallery: galleryData,
 			});
 
 			await event.save();
@@ -238,7 +269,10 @@ router.put(
 	"/:id",
 	authenticateToken,
 	requireAdmin,
-	upload.single("image"),
+	upload.fields([
+		{ name: "image", maxCount: 1 },
+		{ name: "gallery", maxCount: 10 },
+	]),
 	async (req, res) => {
 		try {
 			const {
@@ -266,23 +300,101 @@ router.put(
 			if (isActive !== undefined) event.isActive = isActive;
 
 			// Handle image update
-			if (req.file) {
+			if (req.files && req.files.image && req.files.image[0]) {
 				// Delete old image from Cloudinary
 				if (event.image.publicId) {
 					await deleteFromCloudinary(event.image.publicId);
 				}
 
 				// Upload new image
-				const imageData = await uploadToCloudinary(req.file.buffer, {
-					folder: "portfolio-events",
-					public_id: `event_${Date.now()}`,
-				});
+				const imageData = await uploadToCloudinary(
+					req.files.image[0].buffer,
+					{
+						folder: "portfolio-events",
+						public_id: `event_${Date.now()}`,
+					}
+				);
 
 				event.image = {
 					url: imageData.url,
 					publicId: imageData.publicId,
 				};
 			}
+
+			// Handle gallery update
+			let finalGallery = [];
+
+			// First, handle existing gallery images to keep
+			if (req.body.existingGallery) {
+				try {
+					const existingGalleryData = JSON.parse(
+						req.body.existingGallery
+					);
+					finalGallery = [...existingGalleryData];
+
+					// Find which existing images were removed and delete them from Cloudinary
+					if (event.gallery && event.gallery.length > 0) {
+						const existingPublicIds = existingGalleryData.map(
+							(img) => img.publicId
+						);
+						const imagesToDelete = event.gallery.filter(
+							(img) => !existingPublicIds.includes(img.publicId)
+						);
+
+						for (const imageToDelete of imagesToDelete) {
+							if (imageToDelete.publicId) {
+								await deleteFromCloudinary(
+									imageToDelete.publicId
+								);
+							}
+						}
+					}
+				} catch (error) {
+					console.error(
+						"Error parsing existing gallery data:",
+						error
+					);
+				}
+			} else if (event.gallery && event.gallery.length > 0) {
+				// If no existing gallery data provided, delete all existing images
+				for (const galleryImage of event.gallery) {
+					if (galleryImage.publicId) {
+						await deleteFromCloudinary(galleryImage.publicId);
+					}
+				}
+			}
+
+			// Then, add new gallery images
+			if (
+				req.files &&
+				req.files.gallery &&
+				req.files.gallery.length > 0
+			) {
+				console.log(
+					`📸 Uploading ${req.files.gallery.length} new gallery images...`
+				);
+
+				for (let i = 0; i < req.files.gallery.length; i++) {
+					const galleryImageData = await uploadToCloudinary(
+						req.files.gallery[i].buffer,
+						{
+							folder: "portfolio-events/gallery",
+							public_id: `event_gallery_${Date.now()}_${i}`,
+						}
+					);
+					finalGallery.push({
+						url: galleryImageData.url,
+						publicId: galleryImageData.publicId,
+					});
+				}
+
+				console.log(
+					`✅ Uploaded ${req.files.gallery.length} new gallery images`
+				);
+			}
+
+			// Update event gallery
+			event.gallery = finalGallery;
 
 			await event.save();
 
@@ -307,9 +419,18 @@ router.delete("/:id", authenticateToken, requireAdmin, async (req, res) => {
 			return res.status(404).json({ error: "Event not found" });
 		}
 
-		// Delete image from Cloudinary
+		// Delete main image from Cloudinary
 		if (event.image.publicId) {
 			await deleteFromCloudinary(event.image.publicId);
+		}
+
+		// Delete gallery images from Cloudinary
+		if (event.gallery && event.gallery.length > 0) {
+			for (const galleryImage of event.gallery) {
+				if (galleryImage.publicId) {
+					await deleteFromCloudinary(galleryImage.publicId);
+				}
+			}
 		}
 
 		// Delete event from database

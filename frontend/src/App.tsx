@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import School from "./pages/School";
+import Services from "./pages/Services";
 import Magazine from "./pages/Magazine";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -59,6 +60,17 @@ function App() {
 									<Navigation />
 									<main>
 										<School />
+									</main>
+								</>
+							}
+						/>
+						<Route
+							path="/services"
+							element={
+								<>
+									<Navigation />
+									<main>
+										<Services />
 									</main>
 								</>
 							}

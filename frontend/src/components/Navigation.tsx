@@ -7,6 +7,7 @@ function Navigation() {
 		{ path: "/about", label: "About" },
 		{ path: "/events", label: "Events" },
 		{ path: "/school", label: "School" },
+		{ path: "/services", label: "Services" },
 		{ path: "/magazine", label: "Aamar Xopun" },
 		{ path: "/contact", label: "Contact" },
 	];

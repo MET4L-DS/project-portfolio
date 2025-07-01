@@ -47,6 +47,18 @@ const eventSchema = new mongoose.Schema(
 				required: true,
 			},
 		},
+		gallery: [
+			{
+				url: {
+					type: String,
+					required: true,
+				},
+				publicId: {
+					type: String,
+					required: true,
+				},
+			},
+		],
 		isActive: {
 			type: Boolean,
 			default: true,
