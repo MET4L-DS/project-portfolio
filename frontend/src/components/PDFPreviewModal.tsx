@@ -70,7 +70,7 @@ const PDFPreviewModal: React.FC<PDFPreviewModalProps> = ({
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-			<div className="bg-white rounded-lg shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden">
+			<div className="bg-white rounded-lg shadow-2xl w-full max-w-5xl overflow-hidden">
 				{/* Header */}
 				<div className="bg-gray-800 text-white p-4 flex justify-between items-center">
 					<div>
