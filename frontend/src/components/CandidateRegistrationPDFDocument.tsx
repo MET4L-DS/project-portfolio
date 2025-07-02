@@ -17,10 +17,24 @@ const styles = StyleSheet.create({
 		fontFamily: "Helvetica",
 	},
 	header: {
+		flexDirection: "row",
 		marginBottom: 20,
-		textAlign: "center",
 		borderBottom: "2pt solid #000",
 		paddingBottom: 15,
+		alignItems: "center",
+	},
+	logoContainer: {
+		marginRight: 20,
+	},
+	logo: {
+		width: 70,
+		height: 70,
+		borderRadius: 5,
+	},
+	headerText: {
+		flex: 1,
+		textAlign: "center",
+		paddingRight: 70,
 	},
 	title: {
 		fontSize: 20,
@@ -198,12 +212,20 @@ const CandidateRegistrationPDFDocument: React.FC<
 			<Page size="A4" style={styles.page}>
 				{/* Header */}
 				<View style={styles.header}>
-					<Text style={styles.title}>
-						{candidateData.eventName} – Application Form
-					</Text>
-					<Text style={styles.subtitle}>
-						Please fill in all details in BLOCK letters
-					</Text>
+					<View style={styles.logoContainer}>
+						<Image
+							style={styles.logo}
+							src="/logo/sankalp_event_entertainment.jpg"
+						/>
+					</View>
+					<View style={styles.headerText}>
+						<Text style={styles.title}>
+							{candidateData.eventName} – Application Form
+						</Text>
+						<Text style={styles.subtitle}>
+							Please fill in all details in BLOCK letters
+						</Text>
+					</View>
 				</View>
 
 				{/* Main Content with Photo */}
