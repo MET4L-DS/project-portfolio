@@ -105,6 +105,32 @@ const styles = StyleSheet.create({
 		marginRight: 5,
 		backgroundColor: "#fff",
 		borderRadius: 3,
+		alignItems: "center",
+		justifyContent: "center",
+		position: "relative",
+	},
+	checkmarkContainer: {
+		width: 8,
+		height: 6,
+		position: "relative",
+	},
+	checkmarkLine1: {
+		position: "absolute",
+		width: 3,
+		height: 1,
+		backgroundColor: "#000",
+		transform: "rotate(45deg)",
+		left: 1,
+		top: 3,
+	},
+	checkmarkLine2: {
+		position: "absolute",
+		width: 5,
+		height: 1,
+		backgroundColor: "#000",
+		transform: "rotate(-45deg)",
+		left: 2,
+		top: 2,
 	},
 	checkboxLabel: {
 		fontSize: 10,
@@ -376,7 +402,12 @@ const CandidateRegistrationPDFDocument: React.FC<
 							and support him/her in this program.
 						</Text>
 						<View style={styles.checkbox}>
-							<View style={styles.checkboxSquare}></View>
+							<View style={styles.checkboxSquare}>
+								<View style={styles.checkmarkContainer}>
+									<View style={styles.checkmarkLine1}></View>
+									<View style={styles.checkmarkLine2}></View>
+								</View>
+							</View>
 							<Text style={styles.checkboxLabel}>
 								I agree to the above declaration
 							</Text>
