@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
 	header: {
 		marginBottom: 20,
 		textAlign: "center",
+		borderBottom: "2pt solid #000",
+		paddingBottom: 15,
 	},
 	title: {
 		fontSize: 20,
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
 		color: "#666",
 	},
 	section: {
-		marginBottom: 20,
+		marginBottom: 10,
 	},
 	sectionTitle: {
 		fontSize: 14,
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
 	signatureSection: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginTop: 30,
+		marginTop: 0,
 	},
 	signatureBox: {
 		flex: 1,
@@ -115,22 +117,31 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	photoBox: {
-		position: "absolute",
-		top: 30,
-		right: 30,
 		width: 80,
 		height: 100,
 		border: "1pt solid #000",
 		borderColor: "#000",
 		textAlign: "center",
 		justifyContent: "center",
+		marginBottom: 15,
 	},
 	photoText: {
 		fontSize: 8,
 		color: "#666",
 	},
+	mainContent: {
+		flexDirection: "row",
+		marginBottom: 15,
+	},
+	leftColumn: {
+		flex: 3,
+		marginRight: 15,
+	},
+	rightColumn: {
+		flex: 1,
+	},
 	formInfo: {
-		marginTop: 20,
+		marginTop: "auto",
 		paddingTop: 10,
 		borderTop: "1pt solid #000",
 		borderTopColor: "#000",
@@ -191,81 +202,98 @@ const CandidateRegistrationPDFDocument: React.FC<
 					</Text>
 				</View>
 
-				{/* Photo Box */}
-				<View style={styles.photoBox}>
-					{candidateData.photoUrl ? (
-						<Image
-							src={candidateData.photoUrl}
-							style={{ width: "100%", height: "100%" }}
-						/>
-					) : (
-						<Text style={styles.photoText}>
-							PASSPORT{"\n"}SIZE{"\n"}PHOTO
-						</Text>
-					)}
-				</View>
-
-				{/* Applicant Details */}
-				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
-						Applicant Details (to be filled in BLOCK letters):
-					</Text>
-
-					<View style={styles.row}>
-						<View style={styles.field}>
-							<Text style={styles.label}>First Name:</Text>
-							<Text style={styles.value}>
-								{candidateData.firstName}
+				{/* Main Content with Photo */}
+				<View style={styles.mainContent}>
+					{/* Left Column - Form Fields */}
+					<View style={styles.leftColumn}>
+						{/* Applicant Details */}
+						<View style={styles.section}>
+							<Text style={styles.sectionTitle}>
+								Applicant Details (to be filled in BLOCK
+								letters):
 							</Text>
-						</View>
-						<View style={styles.field}>
-							<Text style={styles.label}>Last Name:</Text>
-							<Text style={styles.value}>
-								{candidateData.lastName}
-							</Text>
+
+							<View style={styles.row}>
+								<View style={styles.field}>
+									<Text style={styles.label}>
+										First Name:
+									</Text>
+									<Text style={styles.value}>
+										{candidateData.firstName}
+									</Text>
+								</View>
+								<View style={styles.field}>
+									<Text style={styles.label}>Last Name:</Text>
+									<Text style={styles.value}>
+										{candidateData.lastName}
+									</Text>
+								</View>
+							</View>
+
+							<View style={styles.row}>
+								<View style={styles.field}>
+									<Text style={styles.label}>
+										Date of Birth (DD/MM/YY):
+									</Text>
+									<Text style={styles.value}>
+										{candidateData.dateOfBirth
+											? formatDate(
+													candidateData.dateOfBirth
+											  )
+											: ""}
+									</Text>
+								</View>
+								<View style={styles.field}>
+									<Text style={styles.label}>Gender:</Text>
+									<Text style={styles.value}>
+										{candidateData.gender}
+									</Text>
+								</View>
+							</View>
+
+							<View style={styles.row}>
+								<View style={styles.fullWidth}>
+									<Text style={styles.label}>Address:</Text>
+									<Text style={styles.value}>
+										{candidateData.address}
+									</Text>
+								</View>
+							</View>
+
+							<View style={styles.row}>
+								<View style={styles.field}>
+									<Text style={styles.label}>
+										Educational Level:
+									</Text>
+									<Text style={styles.value}>
+										{candidateData.educationalLevel}
+									</Text>
+								</View>
+								<View style={styles.field}>
+									<Text style={styles.label}>
+										Height (in feet):
+									</Text>
+									<Text style={styles.value}>
+										{candidateData.height}
+									</Text>
+								</View>
+							</View>
 						</View>
 					</View>
 
-					<View style={styles.row}>
-						<View style={styles.field}>
-							<Text style={styles.label}>
-								Date of Birth (DD/MM/YY):
-							</Text>
-							<Text style={styles.value}>
-								{candidateData.dateOfBirth
-									? formatDate(candidateData.dateOfBirth)
-									: ""}
-							</Text>
-						</View>
-						<View style={styles.field}>
-							<Text style={styles.label}>Gender:</Text>
-							<Text style={styles.value}>
-								{candidateData.gender}
-							</Text>
-						</View>
-					</View>
-
-					<View style={styles.row}>
-						<View style={styles.fullWidth}>
-							<Text style={styles.label}>Address:</Text>
-							<Text style={styles.value}>
-								{candidateData.address}
-							</Text>
-						</View>
-					</View>
-
-					<View style={styles.row}>
-						<View style={styles.field}>
-							<Text style={styles.label}>Educational Level:</Text>
-							<Text style={styles.value}>
-								{candidateData.educationalLevel}
-							</Text>
-						</View>
-						<View style={styles.field}>
-							<Text style={styles.label}>Height (in feet):</Text>
-							<Text style={styles.value}>
-								{candidateData.height}
-							</Text>
+					{/* Right Column - Photo */}
+					<View style={styles.rightColumn}>
+						<View style={styles.photoBox}>
+							{candidateData.photoUrl ? (
+								<Image
+									src={candidateData.photoUrl}
+									style={{ width: "100%", height: "100%" }}
+								/>
+							) : (
+								<Text style={styles.photoText}>
+									PASSPORT{"\n"}SIZE{"\n"}PHOTO
+								</Text>
+							)}
 						</View>
 					</View>
 				</View>
@@ -314,11 +342,13 @@ const CandidateRegistrationPDFDocument: React.FC<
 					</Text>
 					<View style={styles.declarationBox}>
 						<Text style={styles.declarationText}>
-							I, Mr./Mrs. {candidateData.parentFirstName}{" "}
-							{candidateData.parentLastName}{" "}
+							I, Mr./Mrs.{" "}
+							{candidateData.parentFirstName.toUpperCase()}{" "}
+							{candidateData.parentLastName.toUpperCase()}{" "}
 							(Father/Mother/Guardian of Mr./Miss{" "}
-							{candidateData.firstName} {candidateData.lastName}),
-							have no objection to his/her participation in{" "}
+							{candidateData.firstName.toUpperCase()}{" "}
+							{candidateData.lastName.toUpperCase()}), have no
+							objection to his/her participation in{" "}
 							{candidateData.eventName}. I will fully co-operate
 							and support him/her in this program.
 						</Text>
