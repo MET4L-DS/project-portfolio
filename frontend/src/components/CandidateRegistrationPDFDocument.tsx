@@ -34,18 +34,13 @@ const styles = StyleSheet.create({
 	headerText: {
 		flex: 1,
 		textAlign: "center",
-		paddingRight: 70,
+		gap: 5,
+		paddingRight: 80,
 	},
 	title: {
 		fontSize: 20,
 		fontWeight: "bold",
-		marginBottom: 10,
 		textTransform: "uppercase",
-	},
-	subtitle: {
-		fontSize: 12,
-		marginBottom: 5,
-		color: "#666",
 	},
 	section: {
 		marginBottom: 10,
@@ -108,7 +103,8 @@ const styles = StyleSheet.create({
 		border: "1pt solid #000",
 		borderColor: "#000",
 		marginRight: 5,
-		backgroundColor: "#000",
+		backgroundColor: "#fff",
+		borderRadius: 3,
 	},
 	checkboxLabel: {
 		fontSize: 10,
@@ -117,7 +113,7 @@ const styles = StyleSheet.create({
 	signatureSection: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginTop: 0,
+		marginTop: 20,
 	},
 	signatureBox: {
 		flex: 1,
@@ -220,11 +216,9 @@ const CandidateRegistrationPDFDocument: React.FC<
 					</View>
 					<View style={styles.headerText}>
 						<Text style={styles.title}>
-							{candidateData.eventName} – Application Form
+							{candidateData.eventName}
 						</Text>
-						<Text style={styles.subtitle}>
-							Please fill in all details in BLOCK letters
-						</Text>
+						<Text style={styles.title}>Application Form</Text>
 					</View>
 				</View>
 
@@ -235,8 +229,7 @@ const CandidateRegistrationPDFDocument: React.FC<
 						{/* Applicant Details */}
 						<View style={styles.section}>
 							<Text style={styles.sectionTitle}>
-								Applicant Details (to be filled in BLOCK
-								letters):
+								Applicant Details:
 							</Text>
 
 							<View style={styles.row}>
@@ -383,17 +376,7 @@ const CandidateRegistrationPDFDocument: React.FC<
 							and support him/her in this program.
 						</Text>
 						<View style={styles.checkbox}>
-							{candidateData.parentDeclaration && (
-								<View style={styles.checkboxSquare}></View>
-							)}
-							{!candidateData.parentDeclaration && (
-								<View
-									style={[
-										styles.checkboxSquare,
-										{ backgroundColor: "#fff" },
-									]}
-								></View>
-							)}
+							<View style={styles.checkboxSquare}></View>
 							<Text style={styles.checkboxLabel}>
 								I agree to the above declaration
 							</Text>
