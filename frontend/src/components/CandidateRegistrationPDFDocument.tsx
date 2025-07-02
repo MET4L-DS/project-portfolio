@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
 		lineHeight: 1.4,
 		marginBottom: 10,
 	},
+	underlinedName: {
+		textDecoration: "underline",
+		fontWeight: "bold",
+	},
 	checkbox: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -343,12 +347,16 @@ const CandidateRegistrationPDFDocument: React.FC<
 					<View style={styles.declarationBox}>
 						<Text style={styles.declarationText}>
 							I, Mr./Mrs.{" "}
-							{candidateData.parentFirstName.toUpperCase()}{" "}
-							{candidateData.parentLastName.toUpperCase()}{" "}
+							<Text style={styles.underlinedName}>
+								{candidateData.parentFirstName.toUpperCase()}{" "}
+								{candidateData.parentLastName.toUpperCase()}
+							</Text>{" "}
 							(Father/Mother/Guardian of Mr./Miss{" "}
-							{candidateData.firstName.toUpperCase()}{" "}
-							{candidateData.lastName.toUpperCase()}), have no
-							objection to his/her participation in{" "}
+							<Text style={styles.underlinedName}>
+								{candidateData.firstName.toUpperCase()}{" "}
+								{candidateData.lastName.toUpperCase()}
+							</Text>
+							), have no objection to his/her participation in{" "}
 							{candidateData.eventName}. I will fully co-operate
 							and support him/her in this program.
 						</Text>
