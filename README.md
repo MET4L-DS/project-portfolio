@@ -1,24 +1,29 @@
 # Saurav Shil Portfolio - Content Management System
 
-A full-stack portfolio website with Content Management System for event management, built with React.js frontend and Express.js backend.
+A comprehensive full-stack portfolio website with Content Management System for event management, student/candidate registration, and PDF generation, built with React.js frontend and Express.js backend.
 
 ## Features
 
 ### Frontend
 
--   **Portfolio Website**: Responsive portfolio showcasing events, school, and magazine
--   **Admin CMS**: Complete content management system for events
+-   **Portfolio Website**: Responsive portfolio showcasing events, school, magazine, and services
+-   **Admin CMS**: Complete content management system for events, students, and candidates
+-   **Registration Systems**: Student registration for courses and candidate registration for events
+-   **PDF Generation**: Dynamic PDF creation using react-pdf for registration forms
 -   **Authentication**: Secure admin login system
 -   **Image Management**: Cloudinary integration for image uploads
--   **Real-time Updates**: Events are loaded from the backend API
+-   **Gallery Support**: Event galleries with multiple images
+-   **Real-time Updates**: All content loaded from backend APIs
 
 ### Backend
 
 -   **REST API**: Express.js server with MongoDB Atlas
--   **Image Storage**: Cloudinary for image management
+-   **Image Storage**: Cloudinary for image and document management
 -   **Authentication**: JWT-based admin authentication
--   **CRUD Operations**: Full Create, Read, Update, Delete for events
+-   **CRUD Operations**: Full Create, Read, Update, Delete for events, students, and candidates
+-   **PDF Operations**: Generate, preview, download, and print PDFs
 -   **Data Validation**: Input validation and error handling
+-   **File Upload**: Support for photos and documents
 
 ## Technology Stack
 
@@ -29,6 +34,8 @@ A full-stack portfolio website with Content Management System for event manageme
 -   Tailwind CSS 4.1.10
 -   React Router Dom 7.6.2
 -   Axios for API calls
+-   @react-pdf/renderer for PDF generation
+-   React PDF Viewer for PDF preview
 
 ### Backend
 
@@ -163,26 +170,44 @@ Use Postman or similar tools:
 
 -   **Home**: Portfolio overview with four pillars
 -   **About**: Journey timeline with organization logos
--   **Events**: Dynamic event gallery loaded from CMS
--   **School**: Sankalp School of Art and Skills details
+-   **Events**: Dynamic event gallery with image galleries and detailed event pages
+-   **Services**: Comprehensive services offered by Sankalp Events and Entertainment
+-   **School**: Sankalp School of Art and Skills with student registration
 -   **Magazine**: Aamar Xopun digital magazine
 -   **Contact**: Contact information and services
+-   **Student Registration**: Course enrollment with PDF form generation
+-   **Candidate Registration**: Event participation with PDF application forms
 
 ### Admin CMS
 
--   **Dashboard**: View all events with filtering options
--   **Add Event**: Create new events with image upload
--   **Edit Event**: Update existing event details
--   **Delete Event**: Remove events (with confirmation)
--   **Toggle Active**: Enable/disable events on public site
+-   **Dashboard**: View all events, students, and candidates with filtering options
+-   **Event Management**:
+    -   Create/edit/delete events with multiple image galleries
+    -   Toggle active status
+    -   Category and importance filtering
+-   **Student Management**:
+    -   View all registered students
+    -   Filter by status, course, and date
+    -   Generate and download PDF registration forms
+    -   Update student status (Pending/Approved/Rejected)
+-   **Candidate Management**:
+    -   View all event candidates
+    -   Filter by event, status, and date
+    -   Generate and download PDF application forms
+    -   Update candidate status
+-   **PDF Operations**: Preview, download, and print all registration documents
 
 ### API Endpoints
 
 #### Public Endpoints
 
 -   `GET /api/events` - Get all active events
--   `GET /api/events/:id` - Get single event
+-   `GET /api/events/:id` - Get single event with gallery
 -   `GET /api/events/meta/categories` - Get event categories
+-   `POST /api/students` - Register new student
+-   `GET /api/students/form/:formNo` - Get student by form number
+-   `POST /api/candidates` - Register new candidate
+-   `GET /api/candidates/form/:formNo` - Get candidate by form number
 
 #### Admin Endpoints (Requires Authentication)
 
@@ -190,9 +215,15 @@ Use Postman or similar tools:
 -   `POST /api/auth/register` - Register admin user
 -   `GET /api/auth/me` - Get user profile
 -   `GET /api/events/admin/all` - Get all events (including inactive)
--   `POST /api/events` - Create new event
+-   `POST /api/events` - Create new event with gallery
 -   `PUT /api/events/:id` - Update event
 -   `DELETE /api/events/:id` - Delete event
+-   `GET /api/students` - Get all students with filtering
+-   `PUT /api/students/:id` - Update student status
+-   `DELETE /api/students/:id` - Delete student
+-   `GET /api/candidates` - Get all candidates with filtering
+-   `PUT /api/candidates/:id` - Update candidate status
+-   `DELETE /api/candidates/:id` - Delete candidate
 
 ## Development
 
@@ -237,33 +268,64 @@ project-portfolio/
 │   │   └── auth.js
 │   ├── models/
 │   │   ├── Event.js
-│   │   └── User.js
+│   │   ├── User.js
+│   │   ├── Student.js
+│   │   ├── Candidate.js
+│   │   └── Magazine.js
 │   ├── routes/
 │   │   ├── auth.js
-│   │   └── events.js
+│   │   ├── events.js
+│   │   ├── students.js
+│   │   ├── candidates.js
+│   │   └── magazines.js
+│   ├── get-event-ids.js
+│   ├── seed-events.js
+│   ├── test-connection.js
 │   ├── .env.example
 │   ├── package.json
 │   └── server.js
 ├── frontend/
+│   ├── public/
+│   │   ├── images/
+│   │   ├── logo/
+│   │   └── pdf/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── Navigation.tsx
-│   │   │   └── ProtectedRoute.tsx
+│   │   │   ├── ProtectedRoute.tsx
+│   │   │   ├── StudentRegistration.tsx
+│   │   │   ├── CandidateRegistration.tsx
+│   │   │   ├── RegistrationSuccess.tsx
+│   │   │   ├── CandidateRegistrationSuccess.tsx
+│   │   │   ├── RegistrationPDFDocument.tsx
+│   │   │   ├── CandidateRegistrationPDFDocument.tsx
+│   │   │   ├── PDFPreviewModal.tsx
+│   │   │   ├── CandidatePDFPreviewModal.tsx
+│   │   │   └── RegistrationFormPDF.tsx
 │   │   ├── contexts/
 │   │   │   └── AuthContext.tsx
 │   │   ├── pages/
 │   │   │   ├── admin/
 │   │   │   │   ├── AdminDashboard.tsx
 │   │   │   │   ├── AdminLogin.tsx
-│   │   │   │   └── EventForm.tsx
+│   │   │   │   ├── EventForm.tsx
+│   │   │   │   ├── StudentManagement.tsx
+│   │   │   │   ├── CandidateManagement.tsx
+│   │   │   │   ├── MagazineForm.tsx
+│   │   │   │   └── MagazineManagement.tsx
 │   │   │   ├── About.tsx
 │   │   │   ├── Contact.tsx
 │   │   │   ├── Events.tsx
+│   │   │   ├── EventDetail.tsx
 │   │   │   ├── Home.tsx
 │   │   │   ├── Magazine.tsx
-│   │   │   └── School.tsx
+│   │   │   ├── School.tsx
+│   │   │   └── Services.tsx
 │   │   ├── services/
 │   │   │   └── api.ts
+│   │   ├── utils/
+│   │   │   └── pdfGenerator.ts
+│   │   ├── events.json
 │   │   └── App.tsx
 │   └── package.json
 └── README.md
@@ -274,9 +336,44 @@ project-portfolio/
 ✅ **Event Management CMS**
 
 -   Create, edit, delete events
--   Image upload to Cloudinary
+-   Multiple image gallery upload to Cloudinary
 -   Category and importance filtering
 -   Active/inactive toggle
+-   Dedicated event detail pages
+-   Event seeding and management utilities
+
+✅ **Student Registration System**
+
+-   Complete student registration form with photo upload
+-   Course selection (multiple courses)
+-   PDF generation with react-pdf
+-   Admin management dashboard
+-   Status tracking (Pending/Approved/Rejected)
+-   PDF preview, download, and print functionality
+
+✅ **Candidate Registration System**
+
+-   Event-based candidate registration
+-   Comprehensive application form with photo upload
+-   Parent/guardian declaration system
+-   PDF application form generation
+-   Admin candidate management
+-   Status tracking and filtering
+
+✅ **PDF Generation & Management**
+
+-   Dynamic PDF creation using react-pdf
+-   Professional form layouts with logos
+-   PDF preview modals with viewer
+-   Download and print functionality
+-   Both user and admin PDF access
+-   Proper styling and formatting
+
+✅ **Services Page**
+
+-   Comprehensive services showcase
+-   Professional service descriptions
+-   Modern UI design
 
 ✅ **Authentication System**
 
@@ -287,31 +384,73 @@ project-portfolio/
 ✅ **Image Management**
 
 -   Cloudinary integration
+-   Multiple image upload support
 -   Automatic image optimization
 -   Secure image deletion
+-   Gallery management
 
 ✅ **Responsive Design**
 
 -   Mobile-first approach
 -   Tailwind CSS styling
 -   Modern UI/UX
+-   Cross-device compatibility
 
 ✅ **API Integration**
 
 -   RESTful API design
--   Error handling
+-   Comprehensive error handling
 -   Loading states
+-   Form validation
 
 ## Next Steps
 
-1. **Backup existing images**: Migrate current static images to Cloudinary
-2. **Data Migration**: Transfer existing event data to MongoDB
-3. **Production Deployment**: Deploy to hosting platforms
-4. **Additional Features**:
-    - Bulk upload functionality
-    - Event analytics
-    - SEO optimization
-    - Image compression settings
+1. **Production Deployment**: Deploy to hosting platforms (Vercel, Netlify, Heroku)
+2. **Performance Optimization**:
+    - Image lazy loading
+    - PDF caching
+    - Database indexing
+3. **Additional Features**:
+    - Email notifications for registrations
+    - Bulk operations for admin
+    - Advanced search and filtering
+    - Export data to Excel/CSV
+    - Student/candidate analytics dashboard
+    - Payment integration for courses
+4. **SEO & Analytics**:
+    - Meta tags optimization
+    - Google Analytics integration
+    - Sitemap generation
+5. **Security Enhancements**:
+    - Rate limiting
+    - Input sanitization
+    - CORS configuration
+    - SSL certificates
+
+## PDF Features
+
+### Student Registration PDF
+
+-   **Professional Layout**: Sankalp School branding with logo
+-   **Comprehensive Form**: All student details with photo
+-   **Course Display**: Selected courses in styled pills
+-   **Signature Section**: Student/parent and approval signatures
+-   **Terms & Conditions**: Built-in terms section
+
+### Candidate Application PDF
+
+-   **Event-Specific**: Dynamic event name in header
+-   **Sankalp Events Branding**: Professional logo placement
+-   **Detailed Application**: Complete candidate information
+-   **Parent Declaration**: Underlined names and checkbox confirmation
+-   **Multi-Signature**: Applicant, parent, and approval signatures
+
+### PDF Operations
+
+-   **Preview**: In-browser PDF viewer
+-   **Download**: Direct PDF file download
+-   **Print**: Browser print functionality
+-   **Admin Access**: Full PDF management from admin panel
 
 ## Support
 
@@ -320,3 +459,38 @@ For setup assistance or questions, please refer to:
 -   MongoDB Atlas documentation
 -   Cloudinary documentation
 -   React and Express.js documentation
+-   React-PDF library documentation
+
+## Project Status
+
+🎉 **Current Version**: v2.0 - Full-featured CMS with Registration Systems
+
+### What's New in v2.0
+
+-   ✅ Complete student registration system with PDF generation
+-   ✅ Event candidate registration and management
+-   ✅ Professional PDF documents with react-pdf
+-   ✅ Admin dashboards for student and candidate management
+-   ✅ Event galleries with multiple images
+-   ✅ Services page with comprehensive offerings
+-   ✅ Enhanced UI/UX with modern design
+-   ✅ Robust error handling and validation
+
+### Live Features
+
+-   📝 **3 Registration Systems**: Events, Students, Candidates
+-   📄 **PDF Generation**: Dynamic, professional documents
+-   🖼️ **Gallery Support**: Multiple images per event
+-   👥 **Admin Management**: Complete CMS for all content
+-   🔐 **Security**: JWT authentication and protected routes
+-   📱 **Responsive**: Mobile-first design approach
+
+## Key Technologies & Libraries
+
+-   **@react-pdf/renderer**: PDF generation
+-   **react-pdf**: PDF viewing
+-   **Cloudinary**: Image storage and optimization
+-   **MongoDB Atlas**: Database hosting
+-   **JWT**: Authentication tokens
+-   **Tailwind CSS**: Utility-first styling
+-   **TypeScript**: Type safety
