@@ -9,6 +9,7 @@ A comprehensive full-stack portfolio website with Content Management System for 
 -   **Portfolio Website**: Responsive portfolio showcasing events, school, magazine, and services
 -   **Admin CMS**: Complete content management system for events, students, and candidates
 -   **Registration Systems**: Student registration for courses and candidate registration for events
+-   **Contact Form System**: Smart contact form with EmailJS integration that routes messages to appropriate email addresses
 -   **PDF Generation**: Dynamic PDF creation using react-pdf for registration forms
 -   **Authentication**: Secure admin login system
 -   **Image Management**: Cloudinary integration for image uploads
@@ -36,6 +37,7 @@ A comprehensive full-stack portfolio website with Content Management System for 
 -   Axios for API calls
 -   @react-pdf/renderer for PDF generation
 -   React PDF Viewer for PDF preview
+-   @emailjs/browser for contact form integration
 
 ### Backend
 
@@ -99,6 +101,30 @@ NODE_ENV=development
 2. Create a free account
 3. Get your cloud name, API key, and API secret from dashboard
 4. Update the Cloudinary variables in `.env`
+
+#### EmailJS Setup (For Contact Form)
+
+1. Go to [EmailJS](https://www.emailjs.com/)
+2. Create a free account
+3. Set up an email service (Gmail, Outlook, etc.)
+4. Create an email template with the required variables
+5. Get your Service ID, Template ID, and Public Key
+6. Copy `frontend/.env.example` to `frontend/.env` and update with your credentials
+
+#### Frontend Environment Variables
+
+```bash
+cd frontend
+cp .env.example .env
+```
+
+Update `.env` with your EmailJS credentials:
+
+```env
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
 
 #### Start Backend Server
 
@@ -174,7 +200,7 @@ Use Postman or similar tools:
 -   **Services**: Comprehensive services offered by Sankalp Events and Entertainment
 -   **School**: Sankalp School of Art and Skills with student registration
 -   **Magazine**: Aamar Xopun digital magazine
--   **Contact**: Contact information and services
+-   **Contact**: Contact information and services with smart contact form routing
 -   **Student Registration**: Course enrollment with PDF form generation
 -   **Candidate Registration**: Event participation with PDF application forms
 
@@ -302,6 +328,8 @@ project-portfolio/
 │   │   │   ├── PDFPreviewModal.tsx
 │   │   │   ├── CandidatePDFPreviewModal.tsx
 │   │   │   └── RegistrationFormPDF.tsx
+│   │   ├── config/
+│   │   │   └── emailjs.ts
 │   │   ├── contexts/
 │   │   │   └── AuthContext.tsx
 │   │   ├── pages/
@@ -368,6 +396,15 @@ project-portfolio/
 -   Download and print functionality
 -   Both user and admin PDF access
 -   Proper styling and formatting
+
+✅ **Contact Form System**
+
+-   EmailJS integration for contact form
+-   Smart email routing based on query type
+-   Three recipient channels: Entertainment, School, Magazine
+-   Professional email templates
+-   Form validation and user feedback
+-   Real-time status updates during submission
 
 ✅ **Services Page**
 
@@ -460,6 +497,7 @@ For setup assistance or questions, please refer to:
 -   Cloudinary documentation
 -   React and Express.js documentation
 -   React-PDF library documentation
+-   **EmailJS Setup**: See `EMAILJS_SETUP.md` for detailed EmailJS configuration guide
 
 ## Project Status
 
@@ -487,6 +525,7 @@ For setup assistance or questions, please refer to:
 
 ## Key Technologies & Libraries
 
+-   **@emailjs/browser**: Contact form email integration
 -   **@react-pdf/renderer**: PDF generation
 -   **react-pdf**: PDF viewing
 -   **Cloudinary**: Image storage and optimization

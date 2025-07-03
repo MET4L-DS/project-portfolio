@@ -1,4 +1,98 @@
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
+import { EMAILJS_CONFIG, EMAIL_RECIPIENTS } from "../config/emailjs";
+
+interface FormData {
+	name: string;
+	email: string;
+	queryType: string;
+	message: string;
+}
+
 function Contact() {
+	const form = useRef<HTMLFormElement>(null);
+	const [formData, setFormData] = useState<FormData>({
+		name: "",
+		email: "",
+		queryType: "",
+		message: "",
+	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitStatus, setSubmitStatus] = useState<
+		"idle" | "success" | "error"
+	>("idle");
+
+	// Get email configuration based on query type
+	const getEmailConfig = (queryType: string) => {
+		return (
+			EMAIL_RECIPIENTS[queryType as keyof typeof EMAIL_RECIPIENTS] ||
+			EMAIL_RECIPIENTS.entertainment
+		);
+	};
+
+	const handleInputChange = (
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+		>
+	) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		if (
+			!formData.name ||
+			!formData.email ||
+			!formData.queryType ||
+			!formData.message
+		) {
+			alert("Please fill in all required fields.");
+			return;
+		}
+
+		setIsSubmitting(true);
+		setSubmitStatus("idle");
+
+		try {
+			const emailConfig = getEmailConfig(formData.queryType);
+
+			// EmailJS template parameters
+			const templateParams = {
+				from_name: formData.name,
+				from_email: formData.email,
+				to_email: emailConfig.email,
+				to_name: emailConfig.name,
+				query_type: formData.queryType,
+				message: formData.message,
+				reply_to: formData.email,
+			};
+
+			await emailjs.send(
+				EMAILJS_CONFIG.SERVICE_ID,
+				EMAILJS_CONFIG.TEMPLATE_ID,
+				templateParams,
+				EMAILJS_CONFIG.PUBLIC_KEY
+			);
+
+			setSubmitStatus("success");
+			setFormData({
+				name: "",
+				email: "",
+				queryType: "",
+				message: "",
+			});
+		} catch (error) {
+			console.error("Email sending failed:", error);
+			setSubmitStatus("error");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
 	return (
 		<div className="min-h-screen bg-gray-900 py-20">
 			<div className="max-w-4xl mx-auto px-8">
@@ -20,63 +114,101 @@ function Contact() {
 						<h2 className="text-2xl font-bold text-yellow-400 mb-6">
 							Send us a message
 						</h2>
-						<form className="space-y-6">
+
+						{submitStatus === "success" && (
+							<div className="mb-6 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-400">
+								✅ Message sent successfully! We'll get back to
+								you soon.
+							</div>
+						)}
+
+						{submitStatus === "error" && (
+							<div className="mb-6 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-400">
+								❌ Failed to send message. Please try again or
+								contact us directly.
+							</div>
+						)}
+
+						<form
+							ref={form}
+							onSubmit={handleSubmit}
+							className="space-y-6"
+						>
 							<div>
 								<label className="block text-gray-300 mb-2">
-									Name
+									Name *
 								</label>
 								<input
 									type="text"
+									name="name"
+									value={formData.name}
+									onChange={handleInputChange}
 									className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
 									placeholder="Your Name"
+									required
 								/>
 							</div>
 							<div>
 								<label className="block text-gray-300 mb-2">
-									Email
+									Email *
 								</label>
 								<input
 									type="email"
+									name="email"
+									value={formData.email}
+									onChange={handleInputChange}
 									className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
 									placeholder="your.email@example.com"
+									required
 								/>
 							</div>
 							<div>
 								<label className="block text-gray-300 mb-2">
-									Event Type
+									Query Type *
 								</label>
-								<select className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none">
-									<option value="">Select Event Type</option>
-									<option value="beauty-pageant">
-										Beauty Pageant
+								<select
+									name="queryType"
+									value={formData.queryType}
+									onChange={handleInputChange}
+									className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
+									required
+								>
+									<option value="">Select Query Type</option>
+									<option value="entertainment">
+										Event Management & Entertainment
 									</option>
-									<option value="talent-hunt">
-										Talent Hunt
+									<option value="school">
+										School of Art and Skills
 									</option>
-									<option value="fashion-show">
-										Fashion Show
+									<option value="magazine">
+										Aamar Xopun Magazine
 									</option>
-									<option value="cultural-event">
-										Cultural Event
-									</option>
-									<option value="corporate-event">
-										Corporate Event
-									</option>
-									<option value="other">Other</option>
 								</select>
 							</div>
 							<div>
 								<label className="block text-gray-300 mb-2">
-									Message
+									Message *
 								</label>
 								<textarea
+									name="message"
+									value={formData.message}
+									onChange={handleInputChange}
 									rows={5}
 									className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
-									placeholder="Tell us about your event vision..."
+									placeholder="Tell us about your requirements..."
+									required
 								/>
 							</div>
-							<button className="w-full bg-gradient-to-r from-yellow-400 to-red-500 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105">
-								Send Message
+							<button
+								type="submit"
+								disabled={isSubmitting}
+								className={`w-full py-3 rounded-lg font-semibold transition-all transform hover:scale-105 ${
+									isSubmitting
+										? "bg-gray-600 cursor-not-allowed"
+										: "bg-gradient-to-r from-yellow-400 to-red-500 hover:opacity-90"
+								} text-white`}
+							>
+								{isSubmitting ? "Sending..." : "Send Message"}
 							</button>
 						</form>
 					</div>
@@ -85,16 +217,43 @@ function Contact() {
 					<div className="space-y-8">
 						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
 							<h3 className="text-xl font-bold text-yellow-400 mb-4">
-								📧 Business Email
+								📧 Email Addresses
 							</h3>
-							<p className="text-gray-300">
-								<a
-									href="mailto:sankalpentertainment360@gmail.com"
-									className="hover:text-yellow-400 transition-colors"
-								>
-									sankalpentertainment360@gmail.com
-								</a>
-							</p>
+							<div className="space-y-3 text-gray-300">
+								<div>
+									<p className="font-semibold text-yellow-300">
+										Event Management:
+									</p>
+									<a
+										href="mailto:sankalpentertainment360@gmail.com"
+										className="hover:text-yellow-400 transition-colors text-sm"
+									>
+										sankalpentertainment360@gmail.com
+									</a>
+								</div>
+								<div>
+									<p className="font-semibold text-yellow-300">
+										School Admissions:
+									</p>
+									<a
+										href="mailto:sankalpschool.art@gmail.com"
+										className="hover:text-yellow-400 transition-colors text-sm"
+									>
+										sankalpschool.art@gmail.com
+									</a>
+								</div>
+								<div>
+									<p className="font-semibold text-yellow-300">
+										Magazine:
+									</p>
+									<a
+										href="mailto:aamarxopun.magazine@gmail.com"
+										className="hover:text-yellow-400 transition-colors text-sm"
+									>
+										aamarxopun.magazine@gmail.com
+									</a>
+								</div>
+							</div>
 						</div>
 						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
 							<h3 className="text-xl font-bold text-yellow-400 mb-4">
