@@ -81,7 +81,8 @@ After deployment, your API will be available at:
 
 1. **MongoDB Connection**: Ensure MONGODB_URI is correctly set
 2. **CORS Errors**: Check CORS_ORIGINS environment variable
-3. **Function Timeout**: Vercel has a 30-second timeout for serverless functions
+3. **Build Errors**: Ensure vercel.json is properly configured with builds section
+4. **Function Timeout**: Vercel has a 10-second timeout for Hobby plan, 30 seconds for Pro plan
 
 ### Logs:
 
