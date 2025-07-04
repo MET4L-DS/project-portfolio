@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const { connectDB, getConnectionStatus } = require("./config/database");
+const { serverlessLogger, errorHandler } = require("./middleware/serverless");
 
 // Import routes
 const eventRoutes = require("./routes/events");
@@ -87,6 +89,32 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
+// Serverless logging and error handling
+app.use(serverlessLogger);
+
+// Middleware to ensure DB connection on each request (for serverless)
+app.use(async (req, res, next) => {
+	try {
+		await connectDB();
+		next();
+	} catch (error) {
+		console.error(
+			"❌ Database connection failed for request:",
+			error.message
+		);
+		res.status(503).json({
+			error: "Database connection failed",
+			message:
+				"Unable to connect to the database. Please try again later.",
+			timestamp: new Date().toISOString(),
+			details:
+				process.env.NODE_ENV === "development"
+					? error.message
+					: undefined,
+		});
+	}
+});
+
 // Routes
 app.use("/api/events", eventRoutes);
 app.use("/api/auth", authRoutes);
@@ -95,12 +123,28 @@ app.use("/api/students", studentRoutes);
 app.use("/api/candidates", candidateRoutes);
 
 // Health check endpoint
-app.get("/api/health", (req, res) => {
+app.get("/api/health", async (req, res) => {
+	const status = getConnectionStatus();
+	const mongoStates = {
+		0: "disconnected",
+		1: "connected",
+		2: "connecting",
+		3: "disconnecting",
+	};
+
 	res.json({
 		message: "Portfolio Backend API is running!",
 		timestamp: new Date().toISOString(),
-		mongodb:
-			mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+		mongodb: {
+			status: mongoStates[status.readyState] || "unknown",
+			readyState: status.readyState,
+			host: status.host || "not-connected",
+			name: status.name || "not-connected",
+			isConnected: status.isConnected,
+			serverless:
+				process.env.VERCEL === "1" ||
+				process.env.NODE_ENV === "production",
+		},
 		environment: process.env.NODE_ENV || "development",
 		cors: {
 			enabled: true,
@@ -108,6 +152,99 @@ app.get("/api/health", (req, res) => {
 			allowCredentials: true,
 		},
 	});
+});
+
+// Database status endpoint for debugging
+app.get("/api/db-status", async (req, res) => {
+	try {
+		const status = getConnectionStatus();
+		const mongoStates = {
+			0: "disconnected",
+			1: "connected",
+			2: "connecting",
+			3: "disconnecting",
+		};
+
+		// Attempt to ping the database
+		let pingResult = null;
+		let pingError = null;
+		let dbStats = null;
+
+		try {
+			if (status.readyState === 1) {
+				await mongoose.connection.db.admin().ping();
+				pingResult = "success";
+				// Get database stats
+				dbStats = await mongoose.connection.db.stats();
+			} else {
+				pingResult = "skipped - not connected";
+			}
+		} catch (error) {
+			pingError = error.message;
+			pingResult = "failed";
+		}
+
+		// Get connection info
+		const connectionInfo = {
+			readyState: status.readyState,
+			status: mongoStates[status.readyState] || "unknown",
+			host: status.host || "not-available",
+			name: status.name || "not-available",
+			isConnected: status.isConnected,
+			ping: {
+				result: pingResult,
+				error: pingError,
+				timestamp: new Date().toISOString(),
+			},
+			stats: dbStats
+				? {
+						database: dbStats.db,
+						collections: dbStats.collections,
+						dataSize: dbStats.dataSize,
+						indexSize: dbStats.indexSize,
+				  }
+				: null,
+		};
+
+		// Get environment info
+		const envInfo = {
+			nodeEnv: process.env.NODE_ENV || "development",
+			isVercel: process.env.VERCEL === "1",
+			hasMongoUri: !!process.env.MONGODB_URI,
+			mongoUriPreview:
+				process.env.MONGODB_URI?.substring(0, 50) + "..." || "not-set",
+			port: process.env.PORT || "5000",
+		};
+
+		res.json({
+			message: "Database status check",
+			timestamp: new Date().toISOString(),
+			connection: connectionInfo,
+			environment: envInfo,
+			troubleshooting: {
+				commonIssues: [
+					"Check if MONGODB_URI environment variable is set correctly",
+					"Verify MongoDB Atlas network access allows all IPs (0.0.0.0/0)",
+					"Confirm database user has read/write permissions",
+					"Check MongoDB Atlas cluster is running and accessible",
+					"Verify connection string format and credentials",
+				],
+				documentation:
+					"See MONGODB_TROUBLESHOOTING.md for detailed help",
+			},
+		});
+	} catch (error) {
+		const status = getConnectionStatus();
+		res.status(500).json({
+			error: "Database status check failed",
+			message: error.message,
+			timestamp: new Date().toISOString(),
+			connection: {
+				readyState: status.readyState,
+				isConnected: status.isConnected,
+			},
+		});
+	}
 });
 
 // Test endpoint for debugging
@@ -124,33 +261,65 @@ app.get("/api/test", (req, res) => {
 	});
 });
 
-// MongoDB connection with fallback
-const connectDB = async () => {
+// Middleware to ensure DB connection on each request (for serverless)
+app.use(async (req, res, next) => {
 	try {
-		await mongoose.connect(process.env.MONGODB_URI);
-		console.log("✅ Connected to MongoDB Atlas");
+		await connectDB();
+		next();
 	} catch (error) {
-		console.error("❌ MongoDB connection error:", error.message);
-		console.error("🔄 Server will continue without database connection");
-		console.error("📝 Please check your MONGODB_URI in .env file");
 		console.error(
-			"🌐 Visit: https://cloud.mongodb.com/ to set up MongoDB Atlas"
+			"❌ Database connection failed for request:",
+			error.message
 		);
+		res.status(503).json({
+			error: "Database connection failed",
+			message:
+				"Unable to connect to the database. Please try again later.",
+			timestamp: new Date().toISOString(),
+			details:
+				process.env.NODE_ENV === "development"
+					? error.message
+					: undefined,
+		});
 	}
-};
+});
 
-// Start server
-const startServer = async () => {
-	await connectDB();
-	app.listen(PORT, () => {
-		console.log(`🚀 Server is running on port ${PORT}`);
-		console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-		if (process.env.NODE_ENV === "development") {
-			console.log(`🔐 Admin Panel: http://localhost:3000/admin/login`);
+// Error handling middleware (should be last)
+app.use(errorHandler);
+
+// Start server (for local development)
+if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+	const startServer = async () => {
+		try {
+			await connectDB();
+			console.log("✅ Database connection established during startup");
+		} catch (error) {
+			console.error(
+				"❌ Failed to connect to database during startup:",
+				error.message
+			);
+			console.error(
+				"🔄 Server will start but database operations may fail"
+			);
 		}
-	});
-};
 
-startServer();
+		app.listen(PORT, () => {
+			console.log(`🚀 Server is running on port ${PORT}`);
+			console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+			console.log(`🔍 DB status: http://localhost:${PORT}/api/db-status`);
+			if (process.env.NODE_ENV === "development") {
+				console.log(
+					`🔐 Admin Panel: http://localhost:3000/admin/login`
+				);
+			}
+		});
+	};
+
+	startServer();
+} else {
+	// In production (Vercel), just ensure we export the app
+	console.log("🚀 Serverless function ready for deployment");
+	console.log("🔗 Database connections will be established per request");
+}
 
 module.exports = app;
