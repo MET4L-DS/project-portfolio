@@ -10,7 +10,8 @@ interface Event {
 	_id: string;
 	title: string;
 	category: string;
-	year: string;
+	eventDate: string;
+	year?: string; // Keep for backward compatibility
 	location: string;
 	description: string;
 	importance: string;
@@ -35,6 +36,16 @@ const AdminDashboard: React.FC = () => {
 	});
 
 	const { user, logout } = useAuth();
+
+	// Helper function to format date
+	const formatEventDate = (eventDate: string) => {
+		const date = new Date(eventDate);
+		return date.toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+		});
+	};
 
 	useEffect(() => {
 		fetchEvents();
@@ -290,7 +301,10 @@ const AdminDashboard: React.FC = () => {
 												{event.title}
 											</h3>
 											<p className="text-gray-400 text-sm mb-2">
-												{event.year} • {event.location}
+												{formatEventDate(
+													event.eventDate
+												)}{" "}
+												• {event.location}
 											</p>
 											<p className="text-gray-300 text-sm mb-4 line-clamp-3">
 												{event.description}

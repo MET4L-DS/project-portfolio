@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 
 		// Fetch events with sorting
 		const events = await Event.find(filter)
-			.sort({ importance: -1, year: -1, createdAt: -1 })
+			.sort({ importance: -1, eventDate: -1, createdAt: -1 })
 			.skip(skip)
 			.limit(parseInt(limit))
 			.select("-__v");
@@ -48,6 +48,49 @@ router.get("/", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({
 			error: "Error fetching events",
+			details: error.message,
+		});
+	}
+});
+
+// GET upcoming events only (for registration purposes)
+router.get("/upcoming", async (req, res) => {
+	try {
+		const { category, page = 1, limit = 20 } = req.query;
+
+		// Build filter for upcoming events
+		const filter = {
+			isActive: true,
+			eventDate: { $gt: new Date() },
+		};
+		if (category && category !== "All") {
+			filter.category = category;
+		}
+
+		// Calculate pagination
+		const skip = (page - 1) * limit;
+
+		// Fetch upcoming events with sorting
+		const events = await Event.find(filter)
+			.sort({ eventDate: 1, importance: -1 }) // Sort by date ascending for upcoming events
+			.skip(skip)
+			.limit(parseInt(limit))
+			.select("-__v");
+
+		// Get total count for pagination
+		const total = await Event.countDocuments(filter);
+
+		res.json({
+			events,
+			pagination: {
+				current: parseInt(page),
+				pages: Math.ceil(total / limit),
+				total,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			error: "Error fetching upcoming events",
 			details: error.message,
 		});
 	}
@@ -93,7 +136,7 @@ router.get("/admin/all", authenticateToken, async (req, res) => {
 
 		// Fetch events with sorting
 		const events = await Event.find(filter)
-			.sort({ importance: -1, year: -1, createdAt: -1 })
+			.sort({ importance: -1, eventDate: -1, createdAt: -1 })
 			.skip(skip)
 			.limit(parseInt(limit))
 			.select("-__v");
@@ -132,17 +175,29 @@ router.post(
 			console.log("📋 Request body:", req.body);
 			console.log("📁 File uploaded:", !!req.file);
 
-			const { title, category, year, location, description, importance } =
-				req.body;
+			const {
+				title,
+				category,
+				eventDate,
+				location,
+				description,
+				importance,
+			} = req.body;
 
 			// Validate required fields
-			if (!title || !category || !year || !location || !description) {
+			if (
+				!title ||
+				!category ||
+				!eventDate ||
+				!location ||
+				!description
+			) {
 				return res.status(400).json({
 					error: "Missing required fields",
 					required: [
 						"title",
 						"category",
-						"year",
+						"eventDate",
 						"location",
 						"description",
 					],
@@ -214,7 +269,7 @@ router.post(
 			const event = new Event({
 				title,
 				category,
-				year,
+				eventDate: new Date(eventDate),
 				location,
 				description,
 				importance: importance || "low",
@@ -278,7 +333,7 @@ router.put(
 			const {
 				title,
 				category,
-				year,
+				eventDate,
 				location,
 				description,
 				importance,
@@ -293,7 +348,7 @@ router.put(
 			// Update fields
 			if (title) event.title = title;
 			if (category) event.category = category;
-			if (year) event.year = year;
+			if (eventDate) event.eventDate = new Date(eventDate);
 			if (location) event.location = location;
 			if (description) event.description = description;
 			if (importance) event.importance = importance;

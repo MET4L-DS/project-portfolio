@@ -19,8 +19,8 @@ const eventSchema = new mongoose.Schema(
 				"Talent Hunt",
 			],
 		},
-		year: {
-			type: String,
+		eventDate: {
+			type: Date,
 			required: true,
 		},
 		location: {
@@ -69,7 +69,22 @@ const eventSchema = new mongoose.Schema(
 	}
 );
 
+// Virtual field for year (for backward compatibility)
+eventSchema.virtual("year").get(function () {
+	return this.eventDate.getFullYear().toString();
+});
+
+// Method to check if event is upcoming
+eventSchema.methods.isUpcoming = function () {
+	return this.eventDate > new Date();
+};
+
+// Static method to get upcoming events
+eventSchema.statics.getUpcoming = function () {
+	return this.find({ eventDate: { $gt: new Date() } });
+};
+
 // Index for better search performance
-eventSchema.index({ category: 1, importance: -1, year: -1 });
+eventSchema.index({ category: 1, importance: -1, eventDate: -1 });
 
 module.exports = mongoose.model("Event", eventSchema);

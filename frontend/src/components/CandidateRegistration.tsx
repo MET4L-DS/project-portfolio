@@ -440,33 +440,6 @@ const CandidateRegistration: React.FC<CandidateRegistrationProps> = ({
 							</div>
 						</div>
 
-						{/* Signatures Section */}
-						<div>
-							<h3 className="text-xl font-semibold text-white mb-4">
-								Signatures
-							</h3>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-								<div className="text-center">
-									<div className="h-20 border-b-2 border-gray-600 mb-2"></div>
-									<p className="text-gray-300 text-sm">
-										Signature of Applicant
-									</p>
-								</div>
-								<div className="text-center">
-									<div className="h-20 border-b-2 border-gray-600 mb-2"></div>
-									<p className="text-gray-300 text-sm">
-										Signature of Parent
-									</p>
-								</div>
-								<div className="text-center">
-									<div className="h-20 border-b-2 border-gray-600 mb-2"></div>
-									<p className="text-gray-300 text-sm">
-										Approved by
-									</p>
-								</div>
-							</div>
-						</div>
-
 						{/* Submit Button */}
 						<div className="flex gap-4 pt-6">
 							<button

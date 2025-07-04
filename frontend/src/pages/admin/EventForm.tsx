@@ -6,7 +6,8 @@ interface Event {
 	_id?: string;
 	title: string;
 	category: string;
-	year: string;
+	eventDate: string;
+	year?: string; // Keep for backward compatibility
 	location: string;
 	description: string;
 	importance: string;
@@ -29,7 +30,7 @@ const EventForm: React.FC = () => {
 	const [event, setEvent] = useState<Event>({
 		title: "",
 		category: "Beauty Pageant",
-		year: new Date().getFullYear().toString(),
+		eventDate: new Date().toISOString().split("T")[0], // Format as YYYY-MM-DD for input[type="date"]
 		location: "",
 		description: "",
 		importance: "low",
@@ -65,7 +66,16 @@ const EventForm: React.FC = () => {
 		try {
 			setLoading(true);
 			const response = await eventsAPI.getEvent(eventId);
-			setEvent(response);
+
+			// Convert eventDate to YYYY-MM-DD format for date input
+			const eventDate = response.eventDate
+				? new Date(response.eventDate).toISOString().split("T")[0]
+				: new Date().toISOString().split("T")[0];
+
+			setEvent({
+				...response,
+				eventDate,
+			});
 			setImagePreview(response.image?.url || "");
 			// Load existing gallery images
 			if (response.gallery) {
@@ -145,7 +155,7 @@ const EventForm: React.FC = () => {
 			const formData = new FormData();
 			formData.append("title", event.title);
 			formData.append("category", event.category);
-			formData.append("year", event.year);
+			formData.append("eventDate", event.eventDate);
 			formData.append("location", event.location);
 			formData.append("description", event.description);
 			formData.append("importance", event.importance);
@@ -268,19 +278,18 @@ const EventForm: React.FC = () => {
 								</select>
 							</div>
 
-							{/* Year */}
+							{/* Event Date */}
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">
-									Year *
+									Event Date *
 								</label>
 								<input
-									type="text"
-									name="year"
-									value={event.year}
+									type="date"
+									name="eventDate"
+									value={event.eventDate}
 									onChange={handleInputChange}
 									required
 									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-									placeholder="e.g., 2024 or Jan 2024"
 								/>
 							</div>
 

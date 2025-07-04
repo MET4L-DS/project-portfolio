@@ -8,7 +8,8 @@ interface Event {
 	_id: string;
 	title: string;
 	category: string;
-	year: string;
+	eventDate: string;
+	year?: string; // Keep for backward compatibility
 	location: string;
 	image: {
 		url: string;
@@ -38,6 +39,21 @@ function Events() {
 	const [registrationFormNo, setRegistrationFormNo] = useState<string | null>(
 		null
 	);
+
+	// Helper function to format date
+	const formatEventDate = (eventDate: string) => {
+		const date = new Date(eventDate);
+		return date.toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+	};
+
+	// Helper function to check if event is upcoming
+	const isEventUpcoming = (eventDate: string) => {
+		return new Date(eventDate) > new Date();
+	};
 
 	const categories = [
 		"All",
@@ -97,12 +113,15 @@ function Events() {
 		setSelectedEventForRegistration(null);
 	};
 
-	// Sort events by importance and year
+	// Sort events by importance and date
 	const sortedEvents = [...events].sort((a, b) => {
 		if (a.importance !== b.importance) {
 			return a.importance === "high" ? -1 : 1;
 		}
-		return b.year.localeCompare(a.year);
+		// Sort by eventDate (newest first)
+		const dateA = new Date(a.eventDate);
+		const dateB = new Date(b.eventDate);
+		return dateB.getTime() - dateA.getTime();
 	});
 
 	return (
@@ -186,7 +205,10 @@ function Events() {
 												{event.title}
 											</h3>
 											<div className="text-sm text-gray-200 mb-2 drop-shadow-md">
-												{event.year} • {event.location}
+												{formatEventDate(
+													event.eventDate
+												)}{" "}
+												• {event.location}
 											</div>
 											<p className="text-gray-100 text-sm drop-shadow-md mb-3">
 												{event.description}
@@ -210,17 +232,21 @@ function Events() {
 														/>
 													</svg>
 												</div>
-												<button
-													onClick={(e) =>
-														handleApplyForEvent(
-															event,
-															e
-														)
-													}
-													className="bg-green-500 hover:bg-green-400 text-white px-3 py-1 rounded-full text-xs font-semibold transition-colors shadow-lg"
-												>
-													Apply Now
-												</button>
+												{isEventUpcoming(
+													event.eventDate
+												) && (
+													<button
+														onClick={(e) =>
+															handleApplyForEvent(
+																event,
+																e
+															)
+														}
+														className="bg-green-500 hover:bg-green-400 text-white px-3 py-1 rounded-full text-xs font-semibold transition-colors shadow-lg"
+													>
+														Apply Now
+													</button>
+												)}
 											</div>
 										</div>
 									</div>

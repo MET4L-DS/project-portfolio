@@ -159,7 +159,7 @@ export const CandidateRegistrationSuccess: React.FC<
 	return (
 		<>
 			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-				<div className="bg-gray-800 rounded-2xl max-w-2xl w-full p-8">
+				<div className="bg-gray-800 rounded-2xl max-w-2xl w-full p-8 max-h-screen overflow-y-auto">
 					{/* Success Header */}
 					<div className="text-center mb-8">
 						<div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -295,9 +295,12 @@ export const CandidateRegistrationSuccess: React.FC<
 					<div className="mt-6 text-center text-gray-400 text-sm">
 						<p>
 							For any questions, please contact us at{" "}
-							<span className="text-yellow-400">
-								support@sankalp.com
-							</span>
+							<a
+								className="text-yellow-400"
+								href="mailto:sankalpentertainment360@gmail.com"
+							>
+								sankalpentertainment360@gmail.com
+							</a>
 						</p>
 					</div>
 				</div>
