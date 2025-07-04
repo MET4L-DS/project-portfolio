@@ -4,7 +4,6 @@ import { magazineAPI } from "../services/api";
 function Magazine() {
 	const [selectedYear, setSelectedYear] = useState<number | null>(null);
 	const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-	const [selectedMagazine, setSelectedMagazine] = useState<any>(null);
 	const [magazineData, setMagazineData] = useState<
 		Record<number, Record<string, any>>
 	>({});
@@ -57,7 +56,6 @@ function Magazine() {
 		setSelectedMonth(month);
 		const magazine = magazineData[selectedYear!]?.[month];
 		if (magazine) {
-			setSelectedMagazine(magazine);
 			// Track view
 			try {
 				await magazineAPI.trackView(magazine._id || magazine.id);
