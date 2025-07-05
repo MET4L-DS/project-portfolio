@@ -52,10 +52,6 @@ const corsOptions = {
 			// Add origins from environment variable
 			...additionalOrigins,
 
-			// Production URLs - Add your actual production domain here
-			"https://your-production-domain.com",
-			"https://www.your-production-domain.com",
-
 			// Vercel/Netlify patterns (update with your actual deployment URLs)
 			/^https:\/\/.*\.vercel\.app$/,
 			/^https:\/\/.*\.netlify\.app$/,
@@ -79,7 +75,7 @@ const corsOptions = {
 		}
 	},
 	credentials: true, // Allow cookies and authorization headers
-	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
 	maxAge: 86400, // 24 hours
 };
