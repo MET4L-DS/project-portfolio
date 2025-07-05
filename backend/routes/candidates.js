@@ -240,7 +240,41 @@ router.get("/:id", authenticateToken, async (req, res) => {
 // @route   PUT /api/candidates/:id
 // @desc    Update candidate status (admin only)
 // @access  Private
-router.put("/:id", authenticateToken, async (req, res) => {
+router.put("/:id", authenticateToken, requireAdmin, async (req, res) => {
+	try {
+		const { status, notes } = req.body;
+
+		const candidate = await Candidate.findById(req.params.id);
+		if (!candidate) {
+			return res.status(404).json({
+				success: false,
+				message: "Candidate not found",
+			});
+		}
+
+		if (status) candidate.status = status;
+		if (notes !== undefined) candidate.notes = notes;
+
+		await candidate.save();
+
+		res.json({
+			success: true,
+			message: "Candidate updated successfully",
+			data: candidate,
+		});
+	} catch (error) {
+		console.error("Update candidate error:", error);
+		res.status(500).json({
+			success: false,
+			message: "Server error while updating candidate",
+		});
+	}
+});
+
+// @route   PATCH /api/candidates/:id
+// @desc    Update candidate status (admin only) - PATCH method
+// @access  Private
+router.patch("/:id", authenticateToken, requireAdmin, async (req, res) => {
 	try {
 		const { status, notes } = req.body;
 
