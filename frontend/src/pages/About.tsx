@@ -74,7 +74,7 @@ function About() {
 								</div>
 							</div>
 							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold text-sm">
+								<div className="bg-yellow-400 text-black rounded-full w-16 h-16 flex items-center justify-center font-bold text-xs flex-shrink-0">
 									2020-21
 								</div>
 								<div>
@@ -120,7 +120,7 @@ function About() {
 								</div>
 							</div>
 							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
+								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
 									2023
 								</div>
 								<div>
