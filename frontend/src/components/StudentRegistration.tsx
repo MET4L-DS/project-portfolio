@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import { studentAPI } from "../services/api";
+import React, { useState, useEffect } from "react";
+import { studentAPI, skillsAPI } from "../services/api";
 
 interface StudentRegistrationProps {
 	onClose: () => void;
 	onSuccess: (formNo: string) => void;
+}
+
+interface Skill {
+	_id: string;
+	name: string;
+	icon?: string;
+	displayOrder: number;
+	isActive: boolean;
 }
 
 const StudentRegistration: React.FC<StudentRegistrationProps> = ({
@@ -29,22 +37,26 @@ const StudentRegistration: React.FC<StudentRegistrationProps> = ({
 	const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [skills, setSkills] = useState<Skill[]>([]);
+	const [skillsLoading, setSkillsLoading] = useState(true);
 
-	const courses = [
-		"Art",
-		"Craft",
-		"Acting",
-		"Singing",
-		"Yoga",
-		"Dance",
-		"Karate",
-		"Stitching",
-		"Mehendi",
-		"Modelling",
-		"Makeup",
-		"Photography",
-		"Beautician",
-	];
+	// Fetch skills from API
+	useEffect(() => {
+		const fetchSkills = async () => {
+			try {
+				setSkillsLoading(true);
+				const skillsData = await skillsAPI.getAllSkills();
+				setSkills(skillsData);
+			} catch (error) {
+				console.error("Error fetching skills:", error);
+				setError("Failed to load available courses. Please try again.");
+			} finally {
+				setSkillsLoading(false);
+			}
+		};
+
+		fetchSkills();
+	}, []);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<
@@ -358,30 +370,53 @@ const StudentRegistration: React.FC<StudentRegistrationProps> = ({
 								<label className="block text-sm font-medium text-gray-300 mb-2">
 									Course Options * (Select at least one)
 								</label>
-								<div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-									{courses.map((course) => (
-										<label
-											key={course}
-											className="flex items-center text-gray-300"
-										>
-											<input
-												type="checkbox"
-												checked={selectedCourses.includes(
-													course
-												)}
-												onChange={() =>
-													handleCourseChange(course)
-												}
-												className="mr-2 h-4 w-4 text-yellow-400 bg-gray-700 border-gray-600 rounded focus:ring-yellow-400"
-											/>
-											{course}
-										</label>
-									))}
-								</div>
+								{skillsLoading ? (
+									<div className="text-center py-4">
+										<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-yellow-400 mx-auto mb-2"></div>
+										<span className="text-gray-400 text-sm">
+											Loading courses...
+										</span>
+									</div>
+								) : (
+									<div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+										{skills.map((skill) => (
+											<label
+												key={skill._id}
+												className="flex items-center text-gray-300"
+											>
+												<input
+													type="checkbox"
+													checked={selectedCourses.includes(
+														skill.name
+													)}
+													onChange={() =>
+														handleCourseChange(
+															skill.name
+														)
+													}
+													className="mr-2 h-4 w-4 text-yellow-400 bg-gray-700 border-gray-600 rounded focus:ring-yellow-400"
+												/>
+												<span className="flex items-center">
+													{skill.icon && (
+														<span className="mr-1">
+															{skill.icon}
+														</span>
+													)}
+													{skill.name}
+												</span>
+											</label>
+										))}
+									</div>
+								)}
 								<div className="mt-2 text-sm text-gray-400">
 									Selected:{" "}
 									{selectedCourses.join(", ") || "None"}
 								</div>
+								{skills.length === 0 && !skillsLoading && (
+									<div className="text-center py-4 text-gray-400 text-sm">
+										No courses available at the moment.
+									</div>
+								)}
 							</div>
 
 							{/* Registration Date */}

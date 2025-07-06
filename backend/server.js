@@ -11,6 +11,12 @@ const authRoutes = require("./routes/auth");
 const magazineRoutes = require("./routes/magazines");
 const studentRoutes = require("./routes/students");
 const candidateRoutes = require("./routes/candidates");
+const locationRoutes = require("./routes/locations");
+const skillRoutes = require("./routes/skills");
+const journeyRoutes = require("./routes/journey");
+const achievementRoutes = require("./routes/achievements");
+const serviceRoutes = require("./routes/services");
+const galleryRoutes = require("./routes/gallery");
 
 // Load environment variables
 dotenv.config();
@@ -117,6 +123,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/magazines", magazineRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/candidates", candidateRoutes);
+app.use("/api/locations", locationRoutes);
+app.use("/api/skills", skillRoutes);
+app.use("/api/journey", journeyRoutes);
+app.use("/api/achievements", achievementRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/gallery", galleryRoutes);
 
 // Health check endpoint
 app.get("/api/health", async (req, res) => {

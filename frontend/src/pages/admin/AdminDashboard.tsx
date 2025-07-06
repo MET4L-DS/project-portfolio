@@ -5,6 +5,9 @@ import { eventsAPI } from "../../services/api";
 import MagazineManagement from "./MagazineManagement";
 import StudentManagement from "./StudentManagement";
 import CandidateManagement from "./CandidateManagement";
+import SchoolManagement from "./SchoolManagement";
+import AboutManagement from "./AboutManagement";
+import ServiceManagement from "./ServiceManagement";
 
 interface Event {
 	_id: string;
@@ -28,7 +31,13 @@ const AdminDashboard: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 	const [activeTab, setActiveTab] = useState<
-		"events" | "magazines" | "students" | "candidates"
+		| "events"
+		| "magazines"
+		| "students"
+		| "candidates"
+		| "school"
+		| "about"
+		| "services"
 	>("events");
 	const [filter, setFilter] = useState({
 		category: "All",
@@ -183,6 +192,36 @@ const AdminDashboard: React.FC = () => {
 								}`}
 							>
 								Candidate Management
+							</button>
+							<button
+								onClick={() => setActiveTab("school")}
+								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+									activeTab === "school"
+										? "border-yellow-400 text-yellow-400"
+										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
+								}`}
+							>
+								School Management
+							</button>
+							<button
+								onClick={() => setActiveTab("about")}
+								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+									activeTab === "about"
+										? "border-yellow-400 text-yellow-400"
+										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
+								}`}
+							>
+								About Management
+							</button>
+							<button
+								onClick={() => setActiveTab("services")}
+								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+									activeTab === "services"
+										? "border-yellow-400 text-yellow-400"
+										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
+								}`}
+							>
+								Services Management
 							</button>
 						</nav>
 					</div>
@@ -367,9 +406,15 @@ const AdminDashboard: React.FC = () => {
 					<MagazineManagement />
 				) : activeTab === "students" ? (
 					<StudentManagement />
-				) : (
+				) : activeTab === "candidates" ? (
 					<CandidateManagement />
-				)}
+				) : activeTab === "school" ? (
+					<SchoolManagement />
+				) : activeTab === "about" ? (
+					<AboutManagement />
+				) : activeTab === "services" ? (
+					<ServiceManagement />
+				) : null}
 			</div>
 		</div>
 	);

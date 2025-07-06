@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { studentAPI } from "../../services/api";
+import { studentAPI, skillsAPI } from "../../services/api";
 import PDFPreviewModal from "../../components/PDFPreviewModal";
 
 interface Student {
@@ -26,6 +26,14 @@ interface Student {
 	updatedAt: string;
 }
 
+interface Skill {
+	_id: string;
+	name: string;
+	icon?: string;
+	displayOrder: number;
+	isActive: boolean;
+}
+
 const StudentManagement: React.FC = () => {
 	const [students, setStudents] = useState<Student[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -50,22 +58,21 @@ const StudentManagement: React.FC = () => {
 		hasPrev: false,
 	});
 	const [statistics, setStatistics] = useState<any>(null);
+	const [skills, setSkills] = useState<Skill[]>([]);
 
-	const courses = [
-		"Art",
-		"Craft",
-		"Acting",
-		"Singing",
-		"Yoga",
-		"Dance",
-		"Karate",
-		"Stitching",
-		"Mehendi",
-		"Modelling",
-		"Makeup",
-		"Photography",
-		"Beautician",
-	];
+	// Fetch skills for course filter
+	const fetchSkills = async () => {
+		try {
+			const skillsData = await skillsAPI.getAllSkills();
+			setSkills(skillsData);
+		} catch (error) {
+			console.error("Error fetching skills:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchSkills();
+	}, []);
 
 	const fetchStudents = async (page = 1) => {
 		try {
@@ -248,9 +255,9 @@ const StudentManagement: React.FC = () => {
 						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
 					>
 						<option value="">All Courses</option>
-						{courses.map((course) => (
-							<option key={course} value={course}>
-								{course}
+						{skills.map((skill) => (
+							<option key={skill._id} value={skill.name}>
+								{skill.name}
 							</option>
 						))}
 					</select>

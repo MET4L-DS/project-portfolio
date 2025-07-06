@@ -107,6 +107,24 @@ const EventForm: React.FC = () => {
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
+			const maxSizeInMB = 10;
+			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 10MB in bytes
+
+			// Check file size
+			if (file.size > maxSizeInBytes) {
+				setError(
+					`Main image size must be less than ${maxSizeInMB}MB. Your image is ${(
+						file.size /
+						(1024 * 1024)
+					).toFixed(2)}MB.`
+				);
+				// Reset the file input
+				e.target.value = "";
+				return;
+			}
+
+			// Clear any previous errors
+			setError("");
 			setImageFile(file);
 
 			// Create preview
@@ -121,6 +139,33 @@ const EventForm: React.FC = () => {
 	const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = Array.from(e.target.files || []);
 		if (files.length > 0) {
+			const maxSizeInMB = 10;
+			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 10MB in bytes
+
+			// Check each file size
+			const oversizedFiles = files.filter(
+				(file) => file.size > maxSizeInBytes
+			);
+			if (oversizedFiles.length > 0) {
+				const fileNames = oversizedFiles
+					.map(
+						(file) =>
+							`${file.name} (${(
+								file.size /
+								(1024 * 1024)
+							).toFixed(2)}MB)`
+					)
+					.join(", ");
+				setError(
+					`Gallery images must be less than ${maxSizeInMB}MB. These files are too large: ${fileNames}`
+				);
+				// Reset the file input
+				e.target.value = "";
+				return;
+			}
+
+			// Clear any previous errors
+			setError("");
 			setGalleryFiles((prev) => [...prev, ...files]);
 
 			// Create previews for new files
@@ -392,6 +437,10 @@ const EventForm: React.FC = () => {
 									required={!isEditing}
 									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
 								/>
+								<p className="text-xs text-gray-500 mt-1">
+									Maximum file size: 10MB. Supported formats:
+									JPG, PNG, GIF, WebP
+								</p>
 							</div>
 
 							{/* Image Preview */}
@@ -428,10 +477,16 @@ const EventForm: React.FC = () => {
 									onChange={handleGalleryChange}
 									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
 								/>
-								<p className="text-sm text-gray-400 mt-1">
-									You can select multiple images for the
-									gallery
-								</p>
+								<div className="mt-1 space-y-1">
+									<p className="text-xs text-gray-500">
+										Maximum file size per image: 10MB.
+										Supported formats: JPG, PNG, GIF, WebP
+									</p>
+									<p className="text-sm text-gray-400">
+										You can select multiple images for the
+										gallery
+									</p>
+								</div>
 							</div>
 
 							{/* Gallery Preview */}

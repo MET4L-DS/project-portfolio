@@ -1,4 +1,121 @@
+import { useState, useEffect } from "react";
+import {
+	journeyAPI,
+	achievementsAPI,
+	locationsAPI,
+	skillsAPI,
+} from "../services/api";
+
+// Type definitions
+interface JourneyItem {
+	_id: string;
+	year: string;
+	title: string;
+	description: string;
+	logo?: string;
+	logoAlt?: string;
+	logoDescription?: string;
+	displayOrder: number;
+	isActive: boolean;
+}
+
+interface Achievement {
+	_id: string;
+	title: string;
+	icon: string;
+	category: string;
+	items?: Array<{
+		name: string;
+		description?: string;
+		displayOrder?: number;
+	}>;
+	displayOrder: number;
+	isActive: boolean;
+}
+
+interface Location {
+	_id: string;
+	name: string;
+	address: string;
+	icon?: string;
+	displayOrder: number;
+	isActive: boolean;
+}
+
+interface Skill {
+	_id: string;
+	name: string;
+	category?: string;
+	icon?: string;
+	displayOrder: number;
+	isActive: boolean;
+}
+
 function About() {
+	const [journey, setJourney] = useState<JourneyItem[]>([]);
+	const [achievements, setAchievements] = useState<Achievement[]>([]);
+	const [locations, setLocations] = useState<Location[]>([]);
+	const [skills, setSkills] = useState<Skill[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				setLoading(true);
+				const [
+					journeyData,
+					achievementsData,
+					locationsData,
+					skillsData,
+				] = await Promise.all([
+					journeyAPI.getAllJourneyItems(),
+					achievementsAPI.getAllAchievements(),
+					locationsAPI.getAllLocations(),
+					skillsAPI.getAllSkills(),
+				]);
+
+				setJourney(journeyData);
+				setAchievements(achievementsData);
+				setLocations(locationsData);
+				setSkills(skillsData);
+			} catch (err) {
+				console.error("Error fetching About page data:", err);
+				setError("Failed to load content. Please try again later.");
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="min-h-screen bg-gray-900 py-20 flex items-center justify-center">
+				<div className="text-center">
+					<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+					<p className="text-white text-xl">Loading...</p>
+				</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="min-h-screen bg-gray-900 py-20 flex items-center justify-center">
+				<div className="text-center">
+					<p className="text-red-400 text-xl mb-4">{error}</p>
+					<button
+						onClick={() => window.location.reload()}
+						className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition-colors"
+					>
+						Retry
+					</button>
+				</div>
+			</div>
+		);
+	}
 	return (
 		<div className="min-h-screen bg-gray-900 py-20">
 			<div className="max-w-6xl mx-auto px-8">
@@ -54,150 +171,45 @@ function About() {
 						<span className="text-yellow-400 font-bold">
 							Journey
 						</span>
-					</h2>{" "}
+					</h2>
 					<div className="space-y-8">
 						{/* Journey Timeline */}
 						<div className="space-y-6">
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold">
-									2019
+							{journey.map((item) => (
+								<div
+									key={item._id}
+									className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
+								>
+									<div className="bg-yellow-400 text-black rounded-full w-16 h-16 flex items-center justify-center font-bold text-xs flex-shrink-0">
+										{item.year}
+									</div>
+									<div className="flex-1">
+										<h3 className="text-xl font-bold text-yellow-400 mb-3">
+											{item.title}
+										</h3>
+										<p className="text-gray-300 leading-relaxed">
+											{item.description}
+										</p>
+									</div>
+									{item.logo && (
+										<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
+											<img
+												src={item.logo}
+												alt={
+													item.logoAlt ||
+													`${item.title} Logo`
+												}
+												className="h-16 w-16 object-cover rounded-lg shadow-lg"
+											/>
+											{item.logoDescription && (
+												<p className="text-xs text-yellow-400 text-center mt-2 font-semibold">
+													{item.logoDescription}
+												</p>
+											)}
+										</div>
+									)}
 								</div>
-								<div>
-									<h3 className="text-xl font-bold text-yellow-400 mb-2">
-										Started as a Model
-									</h3>
-									<p className="text-gray-300">
-										Beginning my journey in the
-										entertainment industry as a professional
-										model.
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-16 h-16 flex items-center justify-center font-bold text-xs flex-shrink-0">
-									2020-21
-								</div>
-								<div>
-									<h3 className="text-xl font-bold text-yellow-400 mb-2">
-										Online Competitions Era
-									</h3>
-									<p className="text-gray-300">
-										Directed Northeast Talent Hunt (2020)
-										and Northeast Shining Star (2020). Prize
-										distribution held at Dispur Press Club,
-										Guwahati.
-									</p>
-								</div>
-							</div>{" "}
-							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
-									2022
-								</div>
-								<div className="flex-1">
-									<h3 className="text-xl font-bold text-yellow-400 mb-3">
-										Expansion Year
-									</h3>
-									<p className="text-gray-300 leading-relaxed">
-										Founded{" "}
-										<strong className="text-yellow-400">
-											Sankalp Event and Entertainment
-										</strong>
-										. Organized Perfect Glam Beauty Pageant
-										Season 2, launched Goalpara Shining Star
-										Season 1, and managed Rongmon cultural
-										event.
-									</p>
-								</div>
-								<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
-									<img
-										src="./logo/sankalp_event_entertainment.jpg"
-										alt="Sankalp Event and Entertainment Logo"
-										className="h-16 w-16 object-cover rounded-lg shadow-lg"
-									/>
-									<p className="text-xs text-yellow-400 text-center mt-2 font-semibold">
-										Event & Entertainment
-									</p>
-								</div>
-							</div>
-							<div className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
-									2023
-								</div>
-								<div>
-									<h3 className="text-xl font-bold text-yellow-400 mb-2">
-										Major Breakthrough
-									</h3>
-									<p className="text-gray-300">
-										Production Head for Guwahati City Fest,
-										directed BAIDEHI runway show for CST,
-										organized Aadibazar's Aadi The Runway
-										Show, and continued Goalpara Shining
-										Star Season 2.
-									</p>
-								</div>
-							</div>{" "}
-							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-yellow-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
-									2024
-								</div>
-								<div className="flex-1">
-									<h3 className="text-xl font-bold text-yellow-400 mb-3">
-										Peak Performance
-									</h3>
-									<p className="text-gray-300 leading-relaxed">
-										Founded{" "}
-										<strong className="text-purple-400">
-											Sankalp School of Art and Skills
-										</strong>{" "}
-										offering 13+ skills training. Director
-										of Bongaigaon Winter Carnival, launched
-										Bokajan Shining Star, completed Goalpara
-										Shining Star Season 3, and managed Style
-										Stunner pageant.
-									</p>
-								</div>
-								<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-4 rounded-xl border border-purple-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
-									<img
-										src="./logo/sankalp_school.jpg"
-										alt="Sankalp School Logo"
-										className="h-16 w-16 object-cover rounded-lg shadow-lg"
-									/>
-									<p className="text-xs text-purple-400 text-center mt-2 font-semibold">
-										School of Arts
-									</p>
-								</div>
-							</div>{" "}
-							<div className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-								<div className="bg-green-400 text-black rounded-full w-12 h-12 flex items-center justify-center font-bold flex-shrink-0">
-									2025
-								</div>
-								<div className="flex-1">
-									<h3 className="text-xl font-bold text-green-400 mb-3">
-										Current & Future
-									</h3>
-									<p className="text-gray-300 leading-relaxed">
-										Launched{" "}
-										<strong className="text-blue-400">
-											Aamar Xopun
-										</strong>{" "}
-										digital magazine celebrating Assamese
-										culture. Organized Dudhnoi Shining Star
-										Season 1 (Jan 2025) and continuing to
-										expand event management and arts
-										education initiatives.
-									</p>
-								</div>
-								<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-4 rounded-xl border border-blue-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
-									<img
-										src="./logo/aamar_xopun_logo.jpg"
-										alt="Aamar Xopun Logo"
-										className="h-16 w-16 object-cover rounded-lg shadow-lg"
-									/>
-									<p className="text-xs text-blue-400 text-center mt-2 font-semibold">
-										Digital Magazine
-									</p>
-								</div>
-							</div>
+							))}
 						</div>
 					</div>
 				</div>
@@ -211,109 +223,50 @@ function About() {
 					</h2>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-xl font-bold text-yellow-400 mb-4">
-								🏆 Event Organizer
-							</h3>
-							<ul className="text-gray-300 space-y-2">
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Northeast Talent Hunt
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Northeast Shining Star
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Perfect Glam Beauty Pageant Season 2
-								</li>
-							</ul>
-						</div>
-
-						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-xl font-bold text-yellow-400 mb-4">
-								🎬 Production Leadership
-							</h3>
-							<ul className="text-gray-300 space-y-2">
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Production Head - Guwahati City Fest
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Show Director - Goalpara Shining Star
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Event Manager - Fashion Carnival & Frolic
-								</li>
-							</ul>
-						</div>
-
-						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-xl font-bold text-yellow-400 mb-4">
-								🌟 Special Projects
-							</h3>
-							<ul className="text-gray-300 space-y-2">
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Sustainable Runway at Kite Festival
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Alcheringa Cultural Events
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Shrimoyee Cultural Celebration
-								</li>
-							</ul>
-						</div>
-
-						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-xl font-bold text-yellow-400 mb-4">
-								📱 Media Ventures
-							</h3>
-							<ul className="text-gray-300 space-y-2">
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									AAMAR XOPUN E-Magazine Founder
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Digital Content Creation
-								</li>
-								<li className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Northeast Culture Promotion
-								</li>
-							</ul>
-						</div>
+						{achievements.map((achievement) => (
+							<div
+								key={achievement._id}
+								className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
+							>
+								<h3 className="text-xl font-bold text-yellow-400 mb-4">
+									{achievement.icon} {achievement.title}
+								</h3>
+								{achievement.items &&
+								achievement.items.length > 0 ? (
+									<ul className="text-gray-300 space-y-2">
+										{achievement.items.map(
+											(item, index) => (
+												<li
+													key={index}
+													className="flex items-center"
+												>
+													<span className="text-yellow-400 mr-2">
+														•
+													</span>
+													<div>
+														<span className="font-medium">
+															{item.name}
+														</span>
+														{item.description && (
+															<p className="text-sm text-gray-400 mt-1">
+																{
+																	item.description
+																}
+															</p>
+														)}
+													</div>
+												</li>
+											)
+										)}
+									</ul>
+								) : (
+									<p className="text-gray-300">
+										No items listed for this achievement
+										category.
+									</p>
+								)}
+							</div>
+						))}
 					</div>
 				</div>
 				{/* School Section */}
@@ -334,108 +287,51 @@ function About() {
 								Our Locations
 							</h3>
 							<div className="space-y-4">
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										📍
-									</span>
-									<span className="text-gray-300">
-										Bapujinagar, Carbon Gate
-									</span>
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										📍
-									</span>
-									<span className="text-gray-300">
-										LKRB Road, Nabinnagar
-									</span>
-								</div>
+								{locations.length > 0 ? (
+									locations.map((location) => (
+										<div
+											key={location._id}
+											className="flex items-center"
+										>
+											<span className="text-yellow-400 mr-2">
+												{location.icon || "📍"}
+											</span>
+											<span className="text-gray-300">
+												{location.name} -{" "}
+												{location.address}
+											</span>
+										</div>
+									))
+								) : (
+									<p className="text-gray-400">
+										No locations available at the moment.
+									</p>
+								)}
 							</div>
 						</div>
 
 						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
 							<h3 className="text-2xl font-bold text-yellow-400 mb-6">
-								13+ Skills We Teach
+								{skills.length}+ Skills We Teach
 							</h3>
 							<div className="grid grid-cols-2 gap-2 text-gray-300">
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Art
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Dance
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Craft
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Acting
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Singing
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Zumba
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Yoga
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Karate
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Makeup
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Mehendi
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Stitching
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Modelling
-								</div>
-								<div className="flex items-center">
-									<span className="text-yellow-400 mr-2">
-										•
-									</span>
-									Photography
-								</div>
+								{skills.length > 0 ? (
+									skills.map((skill) => (
+										<div
+											key={skill._id}
+											className="flex items-center"
+										>
+											<span className="text-yellow-400 mr-2">
+												{skill.icon || "•"}
+											</span>
+											<span>{skill.name}</span>
+										</div>
+									))
+								) : (
+									<p className="text-gray-400 col-span-2">
+										No skills available at the moment.
+									</p>
+								)}
 							</div>
 						</div>
 					</div>
