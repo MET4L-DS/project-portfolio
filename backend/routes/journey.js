@@ -1,6 +1,11 @@
 const express = require("express");
 const Journey = require("../models/Journey");
 const { authenticateToken, requireAdmin } = require("../middleware/auth");
+const {
+	upload,
+	uploadToCloudinary,
+	deleteFromCloudinary,
+} = require("../config/cloudinary");
 
 const router = express.Router();
 
@@ -53,92 +58,138 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create new journey item (admin only)
-router.post("/", authenticateToken, requireAdmin, async (req, res) => {
-	try {
-		const {
-			year,
-			title,
-			description,
-			logo,
-			logoAlt,
-			logoDescription,
-			displayOrder,
-		} = req.body;
+router.post(
+	"/",
+	authenticateToken,
+	requireAdmin,
+	upload.single("logo"),
+	async (req, res) => {
+		try {
+			const {
+				year,
+				title,
+				description,
+				logoAlt,
+				logoDescription,
+				displayOrder,
+			} = req.body;
 
-		// Validation
-		if (!year || !title || !description) {
-			return res.status(400).json({
-				error: "Year, title, and description are required",
+			// Validation
+			if (!year || !title || !description) {
+				return res.status(400).json({
+					error: "Year, title, and description are required",
+				});
+			}
+
+			// Handle logo upload
+			let logoData = null;
+			if (req.file) {
+				logoData = await uploadToCloudinary(req.file.buffer, {
+					folder: "portfolio-journey",
+					public_id: `journey_logo_${Date.now()}`,
+				});
+			}
+
+			const journeyItem = new Journey({
+				year,
+				title,
+				description,
+				logo: logoData
+					? {
+							url: logoData.url,
+							publicId: logoData.publicId,
+					  }
+					: undefined,
+				logoAlt,
+				logoDescription,
+				displayOrder: displayOrder || 0,
+			});
+
+			await journeyItem.save();
+
+			res.status(201).json({
+				message: "Journey item created successfully",
+				journeyItem,
+			});
+		} catch (error) {
+			res.status(500).json({
+				error: "Error creating journey item",
+				details: error.message,
 			});
 		}
-
-		const journeyItem = new Journey({
-			year,
-			title,
-			description,
-			logo,
-			logoAlt,
-			logoDescription,
-			displayOrder: displayOrder || 0,
-		});
-
-		await journeyItem.save();
-
-		res.status(201).json({
-			message: "Journey item created successfully",
-			journeyItem,
-		});
-	} catch (error) {
-		res.status(500).json({
-			error: "Error creating journey item",
-			details: error.message,
-		});
 	}
-});
+);
 
 // PUT update journey item (admin only)
-router.put("/:id", authenticateToken, requireAdmin, async (req, res) => {
-	try {
-		const {
-			year,
-			title,
-			description,
-			logo,
-			logoAlt,
-			logoDescription,
-			displayOrder,
-			isActive,
-		} = req.body;
+router.put(
+	"/:id",
+	authenticateToken,
+	requireAdmin,
+	upload.single("logo"),
+	async (req, res) => {
+		try {
+			const {
+				year,
+				title,
+				description,
+				logoAlt,
+				logoDescription,
+				displayOrder,
+				isActive,
+			} = req.body;
 
-		const journeyItem = await Journey.findById(req.params.id);
-		if (!journeyItem) {
-			return res.status(404).json({ error: "Journey item not found" });
+			const journeyItem = await Journey.findById(req.params.id);
+			if (!journeyItem) {
+				return res
+					.status(404)
+					.json({ error: "Journey item not found" });
+			}
+
+			// Update fields
+			if (year !== undefined) journeyItem.year = year;
+			if (title !== undefined) journeyItem.title = title;
+			if (description !== undefined)
+				journeyItem.description = description;
+			if (logoAlt !== undefined) journeyItem.logoAlt = logoAlt;
+			if (logoDescription !== undefined)
+				journeyItem.logoDescription = logoDescription;
+			if (displayOrder !== undefined)
+				journeyItem.displayOrder = displayOrder;
+			if (isActive !== undefined) journeyItem.isActive = isActive;
+
+			// Handle logo update
+			if (req.file) {
+				// Delete old logo from Cloudinary if it exists
+				if (journeyItem.logo && journeyItem.logo.publicId) {
+					await deleteFromCloudinary(journeyItem.logo.publicId);
+				}
+
+				// Upload new logo
+				const logoData = await uploadToCloudinary(req.file.buffer, {
+					folder: "portfolio-journey",
+					public_id: `journey_logo_${Date.now()}`,
+				});
+
+				journeyItem.logo = {
+					url: logoData.url,
+					publicId: logoData.publicId,
+				};
+			}
+
+			await journeyItem.save();
+
+			res.json({
+				message: "Journey item updated successfully",
+				journeyItem,
+			});
+		} catch (error) {
+			res.status(500).json({
+				error: "Error updating journey item",
+				details: error.message,
+			});
 		}
-
-		// Update fields
-		if (year !== undefined) journeyItem.year = year;
-		if (title !== undefined) journeyItem.title = title;
-		if (description !== undefined) journeyItem.description = description;
-		if (logo !== undefined) journeyItem.logo = logo;
-		if (logoAlt !== undefined) journeyItem.logoAlt = logoAlt;
-		if (logoDescription !== undefined)
-			journeyItem.logoDescription = logoDescription;
-		if (displayOrder !== undefined) journeyItem.displayOrder = displayOrder;
-		if (isActive !== undefined) journeyItem.isActive = isActive;
-
-		await journeyItem.save();
-
-		res.json({
-			message: "Journey item updated successfully",
-			journeyItem,
-		});
-	} catch (error) {
-		res.status(500).json({
-			error: "Error updating journey item",
-			details: error.message,
-		});
 	}
-});
+);
 
 // DELETE journey item (admin only)
 router.delete("/:id", authenticateToken, requireAdmin, async (req, res) => {
@@ -146,6 +197,11 @@ router.delete("/:id", authenticateToken, requireAdmin, async (req, res) => {
 		const journeyItem = await Journey.findById(req.params.id);
 		if (!journeyItem) {
 			return res.status(404).json({ error: "Journey item not found" });
+		}
+
+		// Delete logo from Cloudinary if it exists
+		if (journeyItem.logo && journeyItem.logo.publicId) {
+			await deleteFromCloudinary(journeyItem.logo.publicId);
 		}
 
 		await Journey.findByIdAndDelete(req.params.id);

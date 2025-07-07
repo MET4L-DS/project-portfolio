@@ -431,33 +431,21 @@ export const journeyAPI = {
 		return response.data;
 	},
 
-	createJourneyItem: async (journeyData: {
-		year: string;
-		title: string;
-		description: string;
-		logo?: string;
-		logoAlt?: string;
-		logoDescription?: string;
-		displayOrder?: number;
-	}) => {
-		const response = await api.post("/journey", journeyData);
+	createJourneyItem: async (journeyData: FormData) => {
+		const response = await api.post("/journey", journeyData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 		return response.data;
 	},
 
-	updateJourneyItem: async (
-		id: string,
-		journeyData: {
-			year?: string;
-			title?: string;
-			description?: string;
-			logo?: string;
-			logoAlt?: string;
-			logoDescription?: string;
-			displayOrder?: number;
-			isActive?: boolean;
-		}
-	) => {
-		const response = await api.put(`/journey/${id}`, journeyData);
+	updateJourneyItem: async (id: string, journeyData: FormData) => {
+		const response = await api.put(`/journey/${id}`, journeyData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 		return response.data;
 	},
 

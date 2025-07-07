@@ -17,7 +17,12 @@ const journeySchema = new mongoose.Schema(
 			trim: true,
 		},
 		logo: {
-			type: String, // Image path or URL
+			url: {
+				type: String,
+			},
+			publicId: {
+				type: String,
+			},
 		},
 		logoAlt: {
 			type: String,

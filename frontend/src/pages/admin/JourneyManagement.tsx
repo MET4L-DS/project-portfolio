@@ -7,7 +7,10 @@ interface JourneyItem {
 	year: string;
 	title: string;
 	description: string;
-	logo?: string;
+	logo?: {
+		url: string;
+		publicId: string;
+	};
 	logoAlt?: string;
 	logoDescription?: string;
 	displayOrder: number;
@@ -20,7 +23,7 @@ interface JourneyFormData {
 	year: string;
 	title: string;
 	description: string;
-	logo: string;
+	logo: File | null;
 	logoAlt: string;
 	logoDescription: string;
 	displayOrder: number;
@@ -36,7 +39,7 @@ const JourneyManagement: React.FC = () => {
 		year: "",
 		title: "",
 		description: "",
-		logo: "",
+		logo: null,
 		logoAlt: "",
 		logoDescription: "",
 		displayOrder: 0,
@@ -46,6 +49,15 @@ const JourneyManagement: React.FC = () => {
 	useEffect(() => {
 		fetchJourneyItems();
 	}, []);
+
+	// Cleanup function for image preview URLs to prevent memory leaks
+	useEffect(() => {
+		return () => {
+			if (formData.logo) {
+				URL.revokeObjectURL(URL.createObjectURL(formData.logo));
+			}
+		};
+	}, [formData.logo]);
 
 	const fetchJourneyItems = async () => {
 		try {
@@ -63,14 +75,42 @@ const JourneyManagement: React.FC = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+
+		// Validate file size
+		if (formData.logo) {
+			const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+			if (formData.logo.size > maxSizeInBytes) {
+				setError(
+					`Logo image size must be less than 5MB. Your image is ${(
+						formData.logo.size /
+						(1024 * 1024)
+					).toFixed(2)}MB.`
+				);
+				return;
+			}
+		}
+
 		try {
+			const submitData = new FormData();
+			submitData.append("year", formData.year);
+			submitData.append("title", formData.title);
+			submitData.append("description", formData.description);
+			submitData.append("logoAlt", formData.logoAlt);
+			submitData.append("logoDescription", formData.logoDescription);
+			submitData.append("displayOrder", formData.displayOrder.toString());
+
+			if (formData.logo) {
+				submitData.append("logo", formData.logo);
+			}
+
 			if (editingItem) {
-				await journeyAPI.updateJourneyItem(editingItem._id, formData);
+				await journeyAPI.updateJourneyItem(editingItem._id, submitData);
 			} else {
-				await journeyAPI.createJourneyItem(formData);
+				await journeyAPI.createJourneyItem(submitData);
 			}
 			await fetchJourneyItems();
 			resetForm();
+			setError(""); // Clear any previous errors
 		} catch (error: any) {
 			setError(
 				error.response?.data?.error || "Error saving journey item"
@@ -84,7 +124,7 @@ const JourneyManagement: React.FC = () => {
 			year: item.year,
 			title: item.title,
 			description: item.description,
-			logo: item.logo || "",
+			logo: null, // Reset file input for editing
 			logoAlt: item.logoAlt || "",
 			logoDescription: item.logoDescription || "",
 			displayOrder: item.displayOrder,
@@ -124,7 +164,7 @@ const JourneyManagement: React.FC = () => {
 			year: "",
 			title: "",
 			description: "",
-			logo: "",
+			logo: null,
 			logoAlt: "",
 			logoDescription: "",
 			displayOrder: 0,
@@ -250,21 +290,114 @@ const JourneyManagement: React.FC = () => {
 								</div>
 								<div>
 									<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-										Logo Path (Optional)
+										Logo Image {!editingItem && "*"}
 									</label>
 									<input
-										type="text"
-										value={formData.logo}
-										onChange={(e) =>
+										type="file"
+										accept="image/*"
+										onChange={(e) => {
+											const file =
+												e.target.files?.[0] || null;
+											if (file) {
+												const maxSizeInBytes =
+													5 * 1024 * 1024; // 5MB
+												if (
+													file.size > maxSizeInBytes
+												) {
+													setError(
+														`Logo image size must be less than 5MB. Your image is ${(
+															file.size /
+															(1024 * 1024)
+														).toFixed(2)}MB.`
+													);
+													e.target.value = ""; // Reset file input
+													return;
+												}
+												setError(""); // Clear any previous errors
+											}
 											setFormData({
 												...formData,
-												logo: e.target.value,
-											})
-										}
+												logo: file,
+											});
+										}}
 										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
-										placeholder="e.g., ./logo/company_logo.jpg"
+										required={!editingItem}
 									/>
+									<p className="text-xs text-gray-500 mt-1">
+										Upload logo image (JPG, PNG, GIF, WebP).
+										Max size: 5MB
+									</p>
+									{editingItem && (
+										<p className="text-xs sm:text-sm text-gray-400 mt-1">
+											Leave empty to keep current logo
+										</p>
+									)}
 								</div>
+
+								{/* Image Preview */}
+								{formData.logo && (
+									<div>
+										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+											Preview
+										</label>
+										<div className="flex items-center gap-3 p-3 bg-gray-700 rounded-lg">
+											<img
+												src={URL.createObjectURL(
+													formData.logo
+												)}
+												alt="Logo preview"
+												className="w-16 h-16 object-cover rounded-lg"
+											/>
+											<div className="text-xs sm:text-sm text-gray-300">
+												<p>
+													<strong>Name:</strong>{" "}
+													{formData.logo.name}
+												</p>
+												<p>
+													<strong>Size:</strong>{" "}
+													{(
+														formData.logo.size /
+														(1024 * 1024)
+													).toFixed(2)}{" "}
+													MB
+												</p>
+												<p>
+													<strong>Type:</strong>{" "}
+													{formData.logo.type}
+												</p>
+											</div>
+										</div>
+									</div>
+								)}
+
+								{/* Current Logo for Edit Mode */}
+								{editingItem &&
+									editingItem.logo &&
+									editingItem.logo.url && (
+										<div>
+											<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+												Current Logo
+											</label>
+											<div className="flex items-center gap-3 p-3 bg-gray-700 rounded-lg">
+												<img
+													src={editingItem.logo.url}
+													alt={
+														editingItem.logoAlt ||
+														"Current logo"
+													}
+													className="w-16 h-16 object-cover rounded-lg"
+												/>
+												<div className="text-xs sm:text-sm text-gray-300">
+													<p>
+														Current logo will be
+														replaced if you upload a
+														new one
+													</p>
+												</div>
+											</div>
+										</div>
+									)}
+
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 									<div>
 										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
@@ -399,8 +532,15 @@ const JourneyManagement: React.FC = () => {
 									{item.description}
 								</p>
 								{item.logo && (
-									<div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm text-gray-400 mb-3">
-										<span>📸 Logo: {item.logo}</span>
+									<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400 mb-3">
+										<div className="flex items-center gap-2">
+											<img
+												src={item.logo.url}
+												alt={item.logoAlt || "Logo"}
+												className="w-8 h-8 object-cover rounded"
+											/>
+											<span>📸 Logo attached</span>
+										</div>
 										{item.logoDescription && (
 											<span>
 												{window.innerWidth >= 640

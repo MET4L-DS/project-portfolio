@@ -12,7 +12,10 @@ interface JourneyItem {
 	year: string;
 	title: string;
 	description: string;
-	logo?: string;
+	logo?: {
+		url: string;
+		publicId: string;
+	};
 	logoAlt?: string;
 	logoDescription?: string;
 	displayOrder: number;
@@ -193,7 +196,7 @@ function About() {
 									{item.logo && (
 										<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-3 sm:p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center mx-auto sm:mx-0">
 											<img
-												src={item.logo}
+												src={item.logo.url}
 												alt={
 													item.logoAlt ||
 													`${item.title} Logo`
