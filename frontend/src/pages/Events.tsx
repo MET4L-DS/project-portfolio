@@ -123,17 +123,17 @@ function Events() {
 	});
 
 	return (
-		<div className="min-h-screen bg-gray-900 py-20">
-			<div className="max-w-7xl mx-auto px-8">
+		<div className="min-h-screen bg-gray-900 py-12 sm:py-16 lg:py-20">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-16">
-					<h1 className="text-5xl font-bold text-white mb-4">
+				<div className="text-center mb-12 sm:mb-16">
+					<h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
 						My{" "}
 						<span className="text-yellow-400 font-bold">
 							Event Portfolio
 						</span>
 					</h1>
-					<p className="text-xl text-gray-300 max-w-3xl mx-auto">
+					<p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
 						From fashion shows to cultural events, witness the
 						spectacular events that have shaped Northeast India's
 						entertainment landscape
@@ -141,18 +141,20 @@ function Events() {
 				</div>
 				{/* Error Message */}
 				{error && (
-					<div className="mb-6 bg-red-900/50 border border-red-600 rounded-lg p-4">
-						<p className="text-red-300">{error}</p>
+					<div className="mb-4 sm:mb-6 bg-red-900/50 border border-red-600 rounded-lg p-3 sm:p-4 mx-4 sm:mx-0">
+						<p className="text-red-300 text-sm sm:text-base">
+							{error}
+						</p>
 					</div>
 				)}
 				{/* Category Filter */}
-				<div className="flex justify-center mb-12">
-					<div className="flex flex-wrap gap-2 justify-center">
+				<div className="flex justify-center mb-8 sm:mb-12">
+					<div className="flex flex-wrap gap-2 justify-center px-4">
 						{categories.map((category) => (
 							<button
 								key={category}
 								onClick={() => setActiveCategory(category)}
-								className={`px-4 py-2 rounded-full border-2 border-yellow-400 font-semibold transition-all text-sm ${
+								className={`px-3 sm:px-4 py-2 rounded-full border-2 border-yellow-400 font-semibold transition-all text-xs sm:text-sm ${
 									activeCategory === category
 										? "bg-yellow-400 text-black"
 										: "text-yellow-400 hover:bg-yellow-400 hover:text-black"
@@ -162,18 +164,18 @@ function Events() {
 							</button>
 						))}
 					</div>
-				</div>{" "}
+				</div>
 				{/* Loading State */}
 				{loading ? (
-					<div className="text-center py-12">
-						<div className="text-gray-400 text-lg">
+					<div className="text-center py-8 sm:py-12">
+						<div className="text-gray-400 text-base sm:text-lg">
 							Loading events...
 						</div>
 					</div>
 				) : (
 					<>
 						{/* Photo Gallery */}
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16 px-4 sm:px-0">
 							{sortedEvents.map((event) => (
 								<div
 									key={event._id}
@@ -183,13 +185,13 @@ function Events() {
 									<img
 										src={event.image.url}
 										alt={event.title}
-										className="w-full h-full p-2 object-cover rounded-2xl"
+										className="w-full h-48 sm:h-56 lg:h-64 p-2 object-cover rounded-2xl"
 									/>
 									<div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-									<div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+									<div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 lg:p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
 										<div className="relative z-10">
 											<div className="flex justify-between items-start mb-2">
-												<span className="inline-block bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
+												<span className="inline-block bg-yellow-400 text-black px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
 													{event.category}
 												</span>
 												{event.importance ===
@@ -199,25 +201,25 @@ function Events() {
 													</span>
 												)}
 											</div>
-											<h3 className="text-xl font-bold mb-1 text-white drop-shadow-lg">
+											<h3 className="text-lg sm:text-xl font-bold mb-1 text-white drop-shadow-lg">
 												{event.title}
 											</h3>
-											<div className="text-sm text-gray-200 mb-2 drop-shadow-md">
+											<div className="text-xs sm:text-sm text-gray-200 mb-2 drop-shadow-md">
 												{formatEventDate(
 													event.eventDate
 												)}{" "}
 												• {event.location}
 											</div>
-											<p className="text-gray-100 text-sm drop-shadow-md mb-3">
+											<p className="text-gray-100 text-xs sm:text-sm drop-shadow-md mb-3">
 												{event.description}
 											</p>
 											<div className="flex items-center justify-between">
-												<div className="flex items-center text-yellow-400 text-sm font-semibold">
+												<div className="flex items-center text-yellow-400 text-xs sm:text-sm font-semibold">
 													<span>
 														View Details & Gallery
 													</span>
 													<svg
-														className="w-4 h-4 ml-2"
+														className="w-3 h-3 sm:w-4 sm:h-4 ml-2"
 														fill="none"
 														stroke="currentColor"
 														viewBox="0 0 24 24"

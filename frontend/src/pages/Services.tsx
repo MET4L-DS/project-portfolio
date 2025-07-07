@@ -76,12 +76,12 @@ function Services() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-900 py-20">
-			<div className="max-w-7xl mx-auto px-8">
+		<div className="min-h-screen bg-gray-900 py-12 sm:py-16 lg:py-20">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Hero Section */}
-				<div className="text-center mb-20">
-					<div className="mb-8">
-						<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-6 rounded-xl border border-purple-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto">
+				<div className="text-center mb-12 sm:mb-16 lg:mb-20">
+					<div className="mb-6 sm:mb-8">
+						<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-4 sm:p-6 rounded-xl border border-purple-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto">
 							<img
 								src="./logo/sankalp_logo.jpg"
 								alt="Sankalp Advertisement and Services"

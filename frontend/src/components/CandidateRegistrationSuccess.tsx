@@ -130,8 +130,8 @@ export const CandidateRegistrationSuccess: React.FC<
 
 	if (loading) {
 		return (
-			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-				<div className="bg-gray-800 rounded-2xl p-8 text-center">
+			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+				<div className="bg-gray-800 rounded-2xl p-6 sm:p-8 text-center my-4 sm:my-8">
 					<div className="text-white text-xl">
 						Loading registration details...
 					</div>
@@ -142,8 +142,8 @@ export const CandidateRegistrationSuccess: React.FC<
 
 	if (error) {
 		return (
-			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-				<div className="bg-gray-800 rounded-2xl p-8 text-center max-w-md">
+			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+				<div className="bg-gray-800 rounded-2xl p-6 sm:p-8 text-center max-w-md my-4 sm:my-8">
 					<div className="text-red-400 text-xl mb-4">{error}</div>
 					<button
 						onClick={onClose}
@@ -158,8 +158,8 @@ export const CandidateRegistrationSuccess: React.FC<
 
 	return (
 		<>
-			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-				<div className="bg-gray-800 rounded-2xl max-w-2xl w-full p-8 max-h-screen overflow-y-auto">
+			<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+				<div className="bg-gray-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 max-h-screen overflow-y-auto my-4 sm:my-8">
 					{/* Success Header */}
 					<div className="text-center mb-8">
 						<div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">

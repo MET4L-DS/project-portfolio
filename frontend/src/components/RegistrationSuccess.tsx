@@ -85,8 +85,8 @@ const RegistrationSuccess: React.FC<RegistrationSuccessProps> = ({
 
 	if (loading) {
 		return (
-			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-				<div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center">
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+				<div className="bg-gray-800 rounded-lg p-6 sm:p-8 max-w-md w-full text-center my-4 sm:my-8">
 					<div className="text-4xl mb-4">⏳</div>
 					<h2 className="text-xl font-bold text-white mb-4">
 						Loading...
@@ -101,8 +101,8 @@ const RegistrationSuccess: React.FC<RegistrationSuccessProps> = ({
 
 	if (!student) {
 		return (
-			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-				<div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center">
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+				<div className="bg-gray-800 rounded-lg p-6 sm:p-8 max-w-md w-full text-center my-4 sm:my-8">
 					<div className="text-4xl mb-4">❌</div>
 					<h2 className="text-xl font-bold text-white mb-4">Error</h2>
 					<p className="text-gray-300 mb-6">
@@ -122,8 +122,8 @@ const RegistrationSuccess: React.FC<RegistrationSuccessProps> = ({
 	return (
 		<>
 			{/* Success Modal */}
-			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-				<div className="bg-gray-800 rounded-lg p-8 max-w-md w-full text-center">
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+				<div className="bg-gray-800 rounded-lg p-6 sm:p-8 max-w-md w-full text-center my-4 sm:my-8">
 					<div className="text-6xl mb-4">🎉</div>
 					<h2 className="text-2xl font-bold text-white mb-4">
 						Registration Successful!

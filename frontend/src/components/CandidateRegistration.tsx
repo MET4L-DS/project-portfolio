@@ -169,8 +169,8 @@ const CandidateRegistration: React.FC<CandidateRegistrationProps> = ({
 	};
 
 	return (
-		<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-			<div className="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+		<div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
+			<div className="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto my-4 sm:my-8">
 				<div className="p-6">
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6">

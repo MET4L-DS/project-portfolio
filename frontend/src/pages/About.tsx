@@ -117,32 +117,31 @@ function About() {
 		);
 	}
 	return (
-		<div className="min-h-screen bg-gray-900 py-20">
-			<div className="max-w-6xl mx-auto px-8">
-				{" "}
+		<div className="min-h-screen bg-gray-900 py-12 sm:py-16 lg:py-20">
+			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="text-center mb-16">
-					<h1 className="text-5xl font-bold text-white mb-4">
+				<div className="text-center mb-12 sm:mb-16">
+					<h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
 						About{" "}
 						<span className="text-yellow-400 font-bold">
 							Saurav Shil
 						</span>
 					</h1>
-					<p className="text-xl text-gray-300">
+					<p className="text-lg sm:text-xl text-gray-300">
 						Northeast India's Event Management Expert & Arts
 						Education Pioneer
-					</p>{" "}
-					<div className="text-lg text-green-300 mt-2 italic">
+					</p>
+					<div className="text-base sm:text-lg text-green-300 mt-2 italic">
 						"Your Vision, Our Spectacle"
 					</div>
 				</div>
 				{/* Mission & Vision */}
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-					<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-						<h2 className="text-3xl font-bold text-yellow-400 mb-6">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 mb-12 sm:mb-16 lg:mb-20">
+					<div className="p-4 sm:p-6 lg:p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+						<h2 className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-4 sm:mb-6">
 							My Mission
-						</h2>{" "}
-						<p className="text-gray-300 text-lg leading-relaxed">
+						</h2>
+						<p className="text-gray-300 text-base sm:text-lg leading-relaxed">
 							To preserve and showcase Northeast India's rich
 							tribal heritage through world-class events while
 							nurturing the next generation of artists through
@@ -151,11 +150,11 @@ function About() {
 						</p>
 					</div>
 
-					<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-						<h2 className="text-3xl font-bold text-yellow-400 mb-6">
+					<div className="p-4 sm:p-6 lg:p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+						<h2 className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-4 sm:mb-6">
 							My Vision
-						</h2>{" "}
-						<p className="text-gray-300 text-lg leading-relaxed">
+						</h2>
+						<p className="text-gray-300 text-base sm:text-lg leading-relaxed">
 							To establish Northeast India as a premier
 							destination for cultural events and arts education.
 							I envision a future where our tribal traditions are
@@ -165,44 +164,44 @@ function About() {
 					</div>
 				</div>
 				{/* Experience Timeline */}
-				<div className="mb-20">
-					<h2 className="text-4xl font-bold text-center text-white mb-12">
+				<div className="mb-12 sm:mb-16 lg:mb-20">
+					<h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-8 sm:mb-12">
 						My{" "}
 						<span className="text-yellow-400 font-bold">
 							Journey
 						</span>
 					</h2>
-					<div className="space-y-8">
+					<div className="space-y-4 sm:space-y-6 lg:space-y-8">
 						{/* Journey Timeline */}
-						<div className="space-y-6">
+						<div className="space-y-4 sm:space-y-6">
 							{journey.map((item) => (
 								<div
 									key={item._id}
-									className="flex items-start gap-6 p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
+									className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
 								>
-									<div className="bg-yellow-400 text-black rounded-full w-16 h-16 flex items-center justify-center font-bold text-xs flex-shrink-0">
+									<div className="bg-yellow-400 text-black rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center font-bold text-xs sm:text-sm flex-shrink-0 mx-auto sm:mx-0">
 										{item.year}
 									</div>
-									<div className="flex-1">
-										<h3 className="text-xl font-bold text-yellow-400 mb-3">
+									<div className="flex-1 text-center sm:text-left">
+										<h3 className="text-lg sm:text-xl font-bold text-yellow-400 mb-2 sm:mb-3">
 											{item.title}
 										</h3>
-										<p className="text-gray-300 leading-relaxed">
+										<p className="text-gray-300 leading-relaxed text-sm sm:text-base">
 											{item.description}
 										</p>
 									</div>
 									{item.logo && (
-										<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center">
+										<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-3 sm:p-4 rounded-xl border border-yellow-400/40 shadow-xl flex-shrink-0 flex flex-col items-center mx-auto sm:mx-0">
 											<img
 												src={item.logo}
 												alt={
 													item.logoAlt ||
 													`${item.title} Logo`
 												}
-												className="h-16 w-16 object-cover rounded-lg shadow-lg"
+												className="h-12 w-12 sm:h-16 sm:w-16 object-cover rounded-lg shadow-lg mb-2"
 											/>
 											{item.logoDescription && (
-												<p className="text-xs text-yellow-400 text-center mt-2 font-semibold">
+												<p className="text-xs text-yellow-400 text-center">
 													{item.logoDescription}
 												</p>
 											)}
@@ -214,21 +213,21 @@ function About() {
 					</div>
 				</div>
 				{/* Major Achievements */}
-				<div className="mb-20">
-					<h2 className="text-4xl font-bold text-center text-white mb-12">
+				<div className="mb-12 sm:mb-16 lg:mb-20">
+					<h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-8 sm:mb-12">
 						Major{" "}
 						<span className="text-yellow-400 font-bold">
 							Achievements
 						</span>
 					</h2>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
 						{achievements.map((achievement) => (
 							<div
 								key={achievement._id}
-								className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
+								className="p-4 sm:p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl"
 							>
-								<h3 className="text-xl font-bold text-yellow-400 mb-4">
+								<h3 className="text-lg sm:text-xl font-bold text-yellow-400 mb-3 sm:mb-4">
 									{achievement.icon} {achievement.title}
 								</h3>
 								{achievement.items &&
@@ -238,13 +237,13 @@ function About() {
 											(item, index) => (
 												<li
 													key={index}
-													className="flex items-center"
+													className="flex items-start"
 												>
-													<span className="text-yellow-400 mr-2">
+													<span className="text-yellow-400 mr-2 mt-1">
 														•
 													</span>
 													<div>
-														<span className="font-medium">
+														<span className="font-medium text-sm sm:text-base">
 															{item.name}
 														</span>
 														{item.description && (
@@ -260,7 +259,7 @@ function About() {
 										)}
 									</ul>
 								) : (
-									<p className="text-gray-300">
+									<p className="text-gray-300 text-sm sm:text-base">
 										No items listed for this achievement
 										category.
 									</p>
@@ -270,51 +269,51 @@ function About() {
 					</div>
 				</div>
 				{/* School Section */}
-				<div className="mb-20">
-					<h2 className="text-4xl font-bold text-center text-white mb-4">
+				<div className="mb-12 sm:mb-16 lg:mb-20">
+					<h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-3 sm:mb-4">
 						<span className="text-yellow-400 font-bold">
 							Sankalp School
 						</span>{" "}
 						of Art and Skills
 					</h2>
-					<p className="text-center text-xl text-green-300 mb-12 italic">
+					<p className="text-center text-lg sm:text-xl text-green-300 mb-8 sm:mb-12 italic">
 						"Confidence Starts Here"
 					</p>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-2xl font-bold text-yellow-400 mb-6">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 mb-8 sm:mb-12">
+						<div className="p-4 sm:p-6 lg:p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+							<h3 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6">
 								Our Locations
 							</h3>
-							<div className="space-y-4">
+							<div className="space-y-3 sm:space-y-4">
 								{locations.length > 0 ? (
 									locations.map((location) => (
 										<div
 											key={location._id}
-											className="flex items-center"
+											className="flex items-start"
 										>
-											<span className="text-yellow-400 mr-2">
+											<span className="text-yellow-400 mr-2 mt-1">
 												{location.icon || "📍"}
 											</span>
-											<span className="text-gray-300">
+											<span className="text-gray-300 text-sm sm:text-base">
 												{location.name} -{" "}
 												{location.address}
 											</span>
 										</div>
 									))
 								) : (
-									<p className="text-gray-400">
+									<p className="text-gray-400 text-sm sm:text-base">
 										No locations available at the moment.
 									</p>
 								)}
 							</div>
 						</div>
 
-						<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-							<h3 className="text-2xl font-bold text-yellow-400 mb-6">
+						<div className="p-4 sm:p-6 lg:p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+							<h3 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6">
 								{skills.length}+ Skills We Teach
 							</h3>
-							<div className="grid grid-cols-2 gap-2 text-gray-300">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-300">
 								{skills.length > 0 ? (
 									skills.map((skill) => (
 										<div
@@ -324,11 +323,13 @@ function About() {
 											<span className="text-yellow-400 mr-2">
 												{skill.icon || "•"}
 											</span>
-											<span>{skill.name}</span>
+											<span className="text-sm sm:text-base">
+												{skill.name}
+											</span>
 										</div>
 									))
 								) : (
-									<p className="text-gray-400 col-span-2">
+									<p className="text-gray-400 col-span-2 text-sm sm:text-base">
 										No skills available at the moment.
 									</p>
 								)}
@@ -338,27 +339,26 @@ function About() {
 				</div>
 				{/* Call to Action */}
 				<div className="text-center">
-					<h3 className="text-3xl font-bold text-white mb-4">
+					<h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
 						Let's Create Something Amazing Together
 					</h3>
-					<p className="text-gray-300 mb-8 text-lg">
+					<p className="text-gray-300 mb-6 sm:mb-8 text-base sm:text-lg">
 						Ready to bring your event vision to life? Let's discuss
 						your next big project.
 					</p>
-					<div className="flex flex-col sm:flex-row gap-4 justify-center">
+					<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
 						<a
 							href="/contact"
-							className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg"
+							className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
 						>
 							Get In Touch
 						</a>
 						<a
-							href="https://aamarxopun.com"
-							target="_blank"
+							href="/magazine"
 							rel="noopener noreferrer"
-							className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold hover:bg-green-400 hover:text-black transition-all transform hover:scale-105"
+							className="border-2 border-blue-400 text-blue-400 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-blue-400 hover:text-black transition-all transform hover:scale-105 text-sm sm:text-base"
 						>
-							Visit AAMAR XOPUN
+							Read Magazine
 						</a>
 					</div>
 				</div>

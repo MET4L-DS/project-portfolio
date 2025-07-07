@@ -84,20 +84,16 @@ function Magazine() {
 
 	return (
 		<div className="min-h-screen bg-gray-900 text-white">
-			{" "}
 			{/* Hero Section */}
-			<section className="py-20 px-4">
+			<section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-6xl mx-auto text-center">
-					<div className="mb-8">
-						<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-6 rounded-xl border border-blue-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto mb-6">
+					<div className="mb-6 sm:mb-8">
+						<div className="bg-gradient-to-br from-blue-400/20 to-cyan-400/20 p-4 sm:p-6 rounded-xl border border-blue-400/40 shadow-xl flex flex-col items-center max-w-xs mx-auto mb-4 sm:mb-6">
 							<img
 								src="./logo/aamar_xopun_logo.jpg"
 								alt="Aamar Xopun Logo"
-								className="w-full object-cover rounded-lg shadow-lg mb-3"
+								className="w-full object-cover rounded-lg shadow-lg mb-2 sm:mb-3"
 							/>
-							{/* <p className="text-sm text-blue-400 text-center font-semibold">
-								Digital Magazine
-							</p> */}
 						</div>
 						<h1 className="text-5xl font-bold mb-4">
 							<span className="text-yellow-400">Aamar Xopun</span>

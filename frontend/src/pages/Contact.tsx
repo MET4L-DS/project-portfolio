@@ -94,36 +94,36 @@ function Contact() {
 		}
 	};
 	return (
-		<div className="min-h-screen bg-gray-900 py-20">
-			<div className="max-w-4xl mx-auto px-8">
-				<div className="text-center mb-16">
-					<h1 className="text-5xl font-bold text-white mb-4">
+		<div className="min-h-screen bg-gray-900 py-12 sm:py-16 lg:py-20">
+			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-12 sm:mb-16">
+					<h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
 						Get In{" "}
 						<span className="text-yellow-400 font-bold">Touch</span>
-					</h1>{" "}
-					<p className="text-xl text-gray-300">
+					</h1>
+					<p className="text-base sm:text-lg lg:text-xl text-gray-300 px-4">
 						Ready to create your next spectacular event or join our
 						arts school? Let's bring your vision to life with
 						Sankalp Event and Entertainment.
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
 					{/* Contact Form */}
-					<div className="p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
-						<h2 className="text-2xl font-bold text-yellow-400 mb-6">
+					<div className="p-4 sm:p-6 lg:p-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+						<h2 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6">
 							Send us a message
 						</h2>
 
 						{submitStatus === "success" && (
-							<div className="mb-6 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-400">
+							<div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-400 text-sm sm:text-base">
 								✅ Message sent successfully! We'll get back to
 								you soon.
 							</div>
 						)}
 
 						{submitStatus === "error" && (
-							<div className="mb-6 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-400">
+							<div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-400 text-sm sm:text-base">
 								❌ Failed to send message. Please try again or
 								contact us directly.
 							</div>
@@ -132,10 +132,10 @@ function Contact() {
 						<form
 							ref={form}
 							onSubmit={handleSubmit}
-							className="space-y-6"
+							className="space-y-4 sm:space-y-6"
 						>
 							<div>
-								<label className="block text-gray-300 mb-2">
+								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
 									Name *
 								</label>
 								<input
@@ -143,7 +143,7 @@ function Contact() {
 									name="name"
 									value={formData.name}
 									onChange={handleInputChange}
-									className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none"
+									className="w-full p-2 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
 									placeholder="Your Name"
 									required
 								/>
