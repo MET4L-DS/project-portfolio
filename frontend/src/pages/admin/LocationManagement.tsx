@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { locationsAPI } from "../../services/api";
+import Portal from "../../components/Portal";
 
 interface Location {
 	_id: string;
@@ -145,100 +146,103 @@ const LocationManagement: React.FC = () => {
 
 			{/* Form Modal */}
 			{showForm && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-					<div className="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full max-w-md my-4 sm:my-8">
-						<h3 className="text-xl font-bold text-white mb-4">
-							{editingLocation
-								? "Edit Location"
-								: "Add New Location"}
-						</h3>
-						<form onSubmit={handleSubmit} className="space-y-4">
-							<div>
-								<label className="block text-gray-300 mb-2">
-									Name
-								</label>
-								<input
-									type="text"
-									value={formData.name}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											name: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
-									required
-								/>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2">
-									Address
-								</label>
-								<textarea
-									value={formData.address}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											address: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
-									rows={3}
-									required
-								/>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2">
-									Icon
-								</label>
-								<input
-									type="text"
-									value={formData.icon}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											icon: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
-									placeholder="e.g., 📍"
-								/>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2">
-									Display Order
-								</label>
-								<input
-									type="number"
-									value={formData.displayOrder}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											displayOrder:
-												parseInt(e.target.value) || 0,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
-								/>
-							</div>
-							<div className="flex gap-3">
-								<button
-									type="submit"
-									className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors"
-								>
-									{editingLocation ? "Update" : "Create"}
-								</button>
-								<button
-									type="button"
-									onClick={resetForm}
-									className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors"
-								>
-									Cancel
-								</button>
-							</div>
-						</form>
+				<Portal>
+					<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+						<div className="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full max-w-md my-4 sm:my-8">
+							<h3 className="text-xl font-bold text-white mb-4">
+								{editingLocation
+									? "Edit Location"
+									: "Add New Location"}
+							</h3>
+							<form onSubmit={handleSubmit} className="space-y-4">
+								<div>
+									<label className="block text-gray-300 mb-2">
+										Name
+									</label>
+									<input
+										type="text"
+										value={formData.name}
+										onChange={(e) =>
+											setFormData({
+												...formData,
+												name: e.target.value,
+											})
+										}
+										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+										required
+									/>
+								</div>
+								<div>
+									<label className="block text-gray-300 mb-2">
+										Address
+									</label>
+									<textarea
+										value={formData.address}
+										onChange={(e) =>
+											setFormData({
+												...formData,
+												address: e.target.value,
+											})
+										}
+										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+										rows={3}
+										required
+									/>
+								</div>
+								<div>
+									<label className="block text-gray-300 mb-2">
+										Icon
+									</label>
+									<input
+										type="text"
+										value={formData.icon}
+										onChange={(e) =>
+											setFormData({
+												...formData,
+												icon: e.target.value,
+											})
+										}
+										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+										placeholder="e.g., 📍"
+									/>
+								</div>
+								<div>
+									<label className="block text-gray-300 mb-2">
+										Display Order
+									</label>
+									<input
+										type="number"
+										value={formData.displayOrder}
+										onChange={(e) =>
+											setFormData({
+												...formData,
+												displayOrder:
+													parseInt(e.target.value) ||
+													0,
+											})
+										}
+										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+									/>
+								</div>
+								<div className="flex gap-3">
+									<button
+										type="submit"
+										className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors"
+									>
+										{editingLocation ? "Update" : "Create"}
+									</button>
+									<button
+										type="button"
+										onClick={resetForm}
+										className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors"
+									>
+										Cancel
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
-				</div>
+				</Portal>
 			)}
 
 			{/* Locations List */}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { journeyAPI } from "../../services/api";
+import Portal from "../../components/Portal";
 
 interface JourneyItem {
 	_id: string;
@@ -162,158 +163,162 @@ const JourneyManagement: React.FC = () => {
 
 			{/* Form Modal */}
 			{showForm && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-					<div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto my-4 sm:my-8">
-						<h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">
-							{editingItem
-								? "Edit Journey Item"
-								: "Add Journey Item"}
-						</h3>
-						<form
-							onSubmit={handleSubmit}
-							className="space-y-3 sm:space-y-4"
-						>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+				<Portal>
+					<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+						<div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto my-4 sm:my-8">
+							<h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">
+								{editingItem
+									? "Edit Journey Item"
+									: "Add Journey Item"}
+							</h3>
+							<form
+								onSubmit={handleSubmit}
+								className="space-y-3 sm:space-y-4"
+							>
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+									<div>
+										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+											Year
+										</label>
+										<input
+											type="text"
+											value={formData.year}
+											onChange={(e) =>
+												setFormData({
+													...formData,
+													year: e.target.value,
+												})
+											}
+											className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+											placeholder="e.g., 2025 or 2020-21"
+											required
+										/>
+									</div>
+									<div>
+										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+											Display Order
+										</label>
+										<input
+											type="number"
+											value={formData.displayOrder}
+											onChange={(e) =>
+												setFormData({
+													...formData,
+													displayOrder:
+														parseInt(
+															e.target.value
+														) || 0,
+												})
+											}
+											className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+										/>
+									</div>
+								</div>
 								<div>
 									<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-										Year
+										Title
 									</label>
 									<input
 										type="text"
-										value={formData.year}
+										value={formData.title}
 										onChange={(e) =>
 											setFormData({
 												...formData,
-												year: e.target.value,
+												title: e.target.value,
 											})
 										}
 										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
-										placeholder="e.g., 2025 or 2020-21"
 										required
 									/>
 								</div>
 								<div>
 									<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-										Display Order
+										Description
 									</label>
-									<input
-										type="number"
-										value={formData.displayOrder}
+									<textarea
+										value={formData.description}
 										onChange={(e) =>
 											setFormData({
 												...formData,
-												displayOrder:
-													parseInt(e.target.value) ||
-													0,
+												description: e.target.value,
 											})
 										}
-										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
-									/>
-								</div>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-									Title
-								</label>
-								<input
-									type="text"
-									value={formData.title}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											title: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
-									required
-								/>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-									Description
-								</label>
-								<textarea
-									value={formData.description}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											description: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base resize-none"
-									rows={3}
-									required
-								/>
-							</div>
-							<div>
-								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-									Logo Path (Optional)
-								</label>
-								<input
-									type="text"
-									value={formData.logo}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											logo: e.target.value,
-										})
-									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
-									placeholder="e.g., ./logo/company_logo.jpg"
-								/>
-							</div>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-								<div>
-									<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-										Logo Alt Text
-									</label>
-									<input
-										type="text"
-										value={formData.logoAlt}
-										onChange={(e) =>
-											setFormData({
-												...formData,
-												logoAlt: e.target.value,
-											})
-										}
-										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base resize-none"
+										rows={3}
+										required
 									/>
 								</div>
 								<div>
 									<label className="block text-gray-300 mb-2 text-sm sm:text-base">
-										Logo Description
+										Logo Path (Optional)
 									</label>
 									<input
 										type="text"
-										value={formData.logoDescription}
+										value={formData.logo}
 										onChange={(e) =>
 											setFormData({
 												...formData,
-												logoDescription: e.target.value,
+												logo: e.target.value,
 											})
 										}
 										className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+										placeholder="e.g., ./logo/company_logo.jpg"
 									/>
 								</div>
-							</div>
-							<div className="flex flex-col sm:flex-row gap-3 pt-2">
-								<button
-									type="submit"
-									className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base font-medium"
-								>
-									{editingItem ? "Update" : "Create"}
-								</button>
-								<button
-									type="button"
-									onClick={resetForm}
-									className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base font-medium"
-								>
-									Cancel
-								</button>
-							</div>
-						</form>
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+									<div>
+										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+											Logo Alt Text
+										</label>
+										<input
+											type="text"
+											value={formData.logoAlt}
+											onChange={(e) =>
+												setFormData({
+													...formData,
+													logoAlt: e.target.value,
+												})
+											}
+											className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+										/>
+									</div>
+									<div>
+										<label className="block text-gray-300 mb-2 text-sm sm:text-base">
+											Logo Description
+										</label>
+										<input
+											type="text"
+											value={formData.logoDescription}
+											onChange={(e) =>
+												setFormData({
+													...formData,
+													logoDescription:
+														e.target.value,
+												})
+											}
+											className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
+										/>
+									</div>
+								</div>
+								<div className="flex flex-col sm:flex-row gap-3 pt-2">
+									<button
+										type="submit"
+										className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base font-medium"
+									>
+										{editingItem ? "Update" : "Create"}
+									</button>
+									<button
+										type="button"
+										onClick={resetForm}
+										className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base font-medium"
+									>
+										Cancel
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
-				</div>
+				</Portal>
 			)}
 
 			{/* Journey Items List */}

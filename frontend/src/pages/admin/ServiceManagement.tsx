@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { servicesAPI } from "../../services/api";
+import Portal from "../../components/Portal";
 import GalleryManagement from "./GalleryManagement";
 
 interface Service {
@@ -361,211 +362,227 @@ const ServiceManagement: React.FC = () => {
 
 					{/* Form Modal */}
 					{showForm && (
-						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
-							<div className="bg-gray-800 rounded-lg p-4 sm:p-6 max-w-2xl w-full my-4 sm:my-8">
-								<div className="flex justify-between items-center mb-4 sm:mb-6">
-									<h3 className="text-lg sm:text-xl font-bold text-white">
-										{editingService
-											? "Edit Service"
-											: "Add New Service"}
-									</h3>
-									<button
-										onClick={resetForm}
-										className="text-gray-400 hover:text-white text-xl sm:text-2xl"
-									>
-										×
-									</button>
-								</div>
-
-								<form
-									onSubmit={handleSubmit}
-									className="space-y-3 sm:space-y-4"
-								>
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-										<div>
-											<label className="block text-sm font-medium text-gray-300 mb-2">
-												Title *
-											</label>
-											<input
-												type="text"
-												value={formData.title}
-												onChange={(e) =>
-													setFormData({
-														...formData,
-														title: e.target.value,
-													})
-												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
-												required
-											/>
-										</div>
-
-										<div>
-											<label className="block text-sm font-medium text-gray-300 mb-2">
-												Icon (Emoji) *
-											</label>
-											<input
-												type="text"
-												value={formData.icon}
-												onChange={(e) =>
-													setFormData({
-														...formData,
-														icon: e.target.value,
-													})
-												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
-												placeholder="🎈"
-												required
-											/>
-										</div>
+						<Portal>
+							<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+								<div className="bg-gray-800 rounded-lg p-4 sm:p-6 max-w-2xl w-full my-4 sm:my-8">
+									<div className="flex justify-between items-center mb-4 sm:mb-6">
+										<h3 className="text-lg sm:text-xl font-bold text-white">
+											{editingService
+												? "Edit Service"
+												: "Add New Service"}
+										</h3>
+										<button
+											onClick={resetForm}
+											className="text-gray-400 hover:text-white text-xl sm:text-2xl"
+										>
+											×
+										</button>
 									</div>
 
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+									<form
+										onSubmit={handleSubmit}
+										className="space-y-3 sm:space-y-4"
+									>
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+											<div>
+												<label className="block text-sm font-medium text-gray-300 mb-2">
+													Title *
+												</label>
+												<input
+													type="text"
+													value={formData.title}
+													onChange={(e) =>
+														setFormData({
+															...formData,
+															title: e.target
+																.value,
+														})
+													}
+													className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+													required
+												/>
+											</div>
+
+											<div>
+												<label className="block text-sm font-medium text-gray-300 mb-2">
+													Icon (Emoji) *
+												</label>
+												<input
+													type="text"
+													value={formData.icon}
+													onChange={(e) =>
+														setFormData({
+															...formData,
+															icon: e.target
+																.value,
+														})
+													}
+													className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+													placeholder="🎈"
+													required
+												/>
+											</div>
+										</div>
+
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+											<div>
+												<label className="block text-sm font-medium text-gray-300 mb-2">
+													Category *
+												</label>
+												<select
+													value={formData.category}
+													onChange={(e) =>
+														setFormData({
+															...formData,
+															category:
+																e.target.value,
+														})
+													}
+													className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+													required
+												>
+													<option value="Our Services">
+														Our Services
+													</option>
+													<option value="Why Choose Us">
+														Why Choose Us
+													</option>
+												</select>
+											</div>
+
+											<div>
+												<label className="block text-sm font-medium text-gray-300 mb-2">
+													Display Order
+												</label>
+												<input
+													type="number"
+													value={
+														formData.displayOrder
+													}
+													onChange={(e) =>
+														setFormData({
+															...formData,
+															displayOrder:
+																parseInt(
+																	e.target
+																		.value
+																) || 0,
+														})
+													}
+													className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+												/>
+											</div>
+										</div>
+
 										<div>
 											<label className="block text-sm font-medium text-gray-300 mb-2">
-												Category *
+												Description
 											</label>
-											<select
-												value={formData.category}
+											<textarea
+												value={formData.description}
 												onChange={(e) =>
 													setFormData({
 														...formData,
-														category:
+														description:
 															e.target.value,
 													})
 												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
-												required
-											>
-												<option value="Our Services">
-													Our Services
-												</option>
-												<option value="Why Choose Us">
-													Why Choose Us
-												</option>
-											</select>
-										</div>
-
-										<div>
-											<label className="block text-sm font-medium text-gray-300 mb-2">
-												Display Order
-											</label>
-											<input
-												type="number"
-												value={formData.displayOrder}
-												onChange={(e) =>
-													setFormData({
-														...formData,
-														displayOrder:
-															parseInt(
-																e.target.value
-															) || 0,
-													})
-												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+												rows={3}
+												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base resize-none"
+												placeholder="Optional description for the service..."
 											/>
 										</div>
-									</div>
 
-									<div>
-										<label className="block text-sm font-medium text-gray-300 mb-2">
-											Description
-										</label>
-										<textarea
-											value={formData.description}
-											onChange={(e) =>
-												setFormData({
-													...formData,
-													description: e.target.value,
-												})
-											}
-											rows={3}
-											className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base resize-none"
-											placeholder="Optional description for the service..."
-										/>
-									</div>
-
-									{/* Items Section */}
-									<div>
-										<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3">
-											<label className="block text-sm font-medium text-gray-300">
-												Service Items (Optional)
-											</label>
-											<button
-												type="button"
-												onClick={addItem}
-												className="w-full sm:w-auto bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
-											>
-												Add Item
-											</button>
-										</div>
-
-										{formData.items.map((item, index) => (
-											<div
-												key={index}
-												className="flex flex-col sm:flex-row gap-2 mb-2"
-											>
-												<input
-													type="text"
-													value={item.name}
-													onChange={(e) =>
-														updateItem(
-															index,
-															"name",
-															e.target.value
-														)
-													}
-													placeholder="Item name"
-													className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
-												/>
-												<input
-													type="number"
-													value={item.displayOrder}
-													onChange={(e) =>
-														updateItem(
-															index,
-															"displayOrder",
-															parseInt(
-																e.target.value
-															) || 0
-														)
-													}
-													placeholder="Order"
-													className="w-full sm:w-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
-												/>
+										{/* Items Section */}
+										<div>
+											<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3">
+												<label className="block text-sm font-medium text-gray-300">
+													Service Items (Optional)
+												</label>
 												<button
 													type="button"
-													onClick={() =>
-														removeItem(index)
-													}
-													className="w-full sm:w-auto bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition-colors"
+													onClick={addItem}
+													className="w-full sm:w-auto bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
 												>
-													×
+													Add Item
 												</button>
 											</div>
-										))}
-									</div>
 
-									<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 sm:pt-4">
-										<button
-											type="submit"
-											className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
-										>
-											{editingService
-												? "Update Service"
-												: "Create Service"}
-										</button>
-										<button
-											type="button"
-											onClick={resetForm}
-											className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base"
-										>
-											Cancel
-										</button>
-									</div>
-								</form>
+											{formData.items.map(
+												(item, index) => (
+													<div
+														key={index}
+														className="flex flex-col sm:flex-row gap-2 mb-2"
+													>
+														<input
+															type="text"
+															value={item.name}
+															onChange={(e) =>
+																updateItem(
+																	index,
+																	"name",
+																	e.target
+																		.value
+																)
+															}
+															placeholder="Item name"
+															className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+														/>
+														<input
+															type="number"
+															value={
+																item.displayOrder
+															}
+															onChange={(e) =>
+																updateItem(
+																	index,
+																	"displayOrder",
+																	parseInt(
+																		e.target
+																			.value
+																	) || 0
+																)
+															}
+															placeholder="Order"
+															className="w-full sm:w-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+														/>
+														<button
+															type="button"
+															onClick={() =>
+																removeItem(
+																	index
+																)
+															}
+															className="w-full sm:w-auto bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition-colors"
+														>
+															×
+														</button>
+													</div>
+												)
+											)}
+										</div>
+
+										<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 sm:pt-4">
+											<button
+												type="submit"
+												className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
+											>
+												{editingService
+													? "Update Service"
+													: "Create Service"}
+											</button>
+											<button
+												type="button"
+												onClick={resetForm}
+												className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base"
+											>
+												Cancel
+											</button>
+										</div>
+									</form>
+								</div>
 							</div>
-						</div>
+						</Portal>
 					)}
 				</div>
 			)}
