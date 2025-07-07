@@ -1,6 +1,103 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { profileAPI } from "../services/api";
+
+interface ProfileData {
+	name: string;
+	title: string;
+	tagline: string;
+	missionStatement: string;
+	profilePicture: {
+		url: string;
+		publicId: string | null;
+	};
+	organizationLogos: {
+		eventLogo: {
+			url: string;
+			publicId: string | null;
+		};
+		schoolLogo: {
+			url: string;
+			publicId: string | null;
+		};
+	};
+	stats: {
+		majorEvents: number;
+		fashionShows: number;
+		skillsTaught: number;
+		yearsExperience: number;
+	};
+}
 
 function Home() {
+	const [profile, setProfile] = useState<ProfileData | null>(null);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchProfile = async () => {
+			try {
+				const data = await profileAPI.getProfile();
+				setProfile(data);
+			} catch (error) {
+				console.error("Error fetching profile:", error);
+				// Use default data if fetch fails
+				setProfile({
+					name: "SAURAV SHIL",
+					title: "Event Management & Media Pioneer",
+					tagline: "Your Vision, Our Spectacle",
+					missionStatement:
+						"Transforming Northeast India's cultural landscape through world-class events, traditional runway shows, and comprehensive arts education. Celebrating tribal heritage while nurturing the next generation of artists and performers.",
+					profilePicture: {
+						url: "/profile-picture-2.jpg",
+						publicId: null,
+					},
+					organizationLogos: {
+						eventLogo: {
+							url: "./logo/sankalp_event_entertainment.jpg",
+							publicId: null,
+						},
+						schoolLogo: {
+							url: "./logo/sankalp_school.jpg",
+							publicId: null,
+						},
+					},
+					stats: {
+						majorEvents: 15,
+						fashionShows: 8,
+						skillsTaught: 13,
+						yearsExperience: 6,
+					},
+				});
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchProfile();
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-800 via-purple-700 to-red-600">
+				<div className="text-center">
+					<div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+					<p className="text-white text-xl">Loading...</p>
+				</div>
+			</div>
+		);
+	}
+
+	if (!profile) {
+		return (
+			<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-800 via-purple-700 to-red-600">
+				<div className="text-center">
+					<p className="text-white text-xl">
+						Unable to load profile data
+					</p>
+				</div>
+			</div>
+		);
+	}
 	return (
 		<>
 			{/* Hero Section */}
@@ -9,17 +106,17 @@ function Home() {
 					{/* Profile Picture */}
 					<div className="mb-6 sm:mb-8">
 						<img
-							src="/profile-picture-2.jpg"
-							alt="Saurav Shil - Event Management Expert"
+							src={profile.profilePicture.url}
+							alt={`${profile.name} - Event Management Expert`}
 							className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full mx-auto border-4 border-yellow-400 shadow-2xl object-cover"
 						/>
 					</div>
 					{/* Name & Title */}
 					<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-3 sm:mb-4">
-						<span className="text-yellow-400">SAURAV SHIL</span>
+						<span className="text-yellow-400">{profile.name}</span>
 						<br />
 						<span className="text-lg sm:text-xl md:text-2xl lg:text-4xl">
-							Event Management & Media Pioneer
+							{profile.title}
 						</span>
 					</h1>
 					{/* Organization */}
@@ -37,7 +134,7 @@ function Home() {
 					<div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-4 sm:mb-6">
 						<div className="bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 sm:p-6 rounded-xl border border-yellow-400/40 shadow-xl flex flex-col items-center w-full sm:w-auto">
 							<img
-								src="./logo/sankalp_event_entertainment.jpg"
+								src={profile.organizationLogos.eventLogo.url}
 								alt="Sankalp Event and Entertainment Logo"
 								className="h-16 w-16 sm:h-20 sm:w-20 object-cover rounded-lg shadow-lg mb-2 sm:mb-3"
 							/>
@@ -47,7 +144,7 @@ function Home() {
 						</div>
 						<div className="bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-4 sm:p-6 rounded-xl border border-purple-400/40 shadow-xl flex flex-col items-center w-full sm:w-auto">
 							<img
-								src="./logo/sankalp_school.jpg"
+								src={profile.organizationLogos.schoolLogo.url}
 								alt="Sankalp School Logo"
 								className="h-16 w-16 sm:h-20 sm:w-20 object-cover rounded-lg shadow-lg mb-2 sm:mb-3"
 							/>
@@ -58,15 +155,11 @@ function Home() {
 					</div>
 					{/* Tagline */}
 					<div className="text-lg sm:text-xl md:text-2xl text-green-300 mb-4 sm:mb-6 font-medium italic">
-						"Your Vision, Our Spectacle"
+						"{profile.tagline}"
 					</div>
 					{/* Mission Statement */}
 					<p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto px-2">
-						Transforming Northeast India's cultural landscape
-						through world-class events, traditional runway shows,
-						and comprehensive arts education. Celebrating tribal
-						heritage while nurturing the next generation of artists
-						and performers.
+						{profile.missionStatement}
 					</p>
 					{/* Call to Action Buttons */}
 					<div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center mb-8 sm:mb-12 px-2">
@@ -105,7 +198,7 @@ function Home() {
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-5xl mx-auto px-2">
 						<div className="text-center">
 							<div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-								15+
+								{profile.stats.majorEvents}+
 							</div>
 							<p className="text-gray-300 text-sm sm:text-base lg:text-lg">
 								Major Events Organized
@@ -113,7 +206,7 @@ function Home() {
 						</div>
 						<div className="text-center">
 							<div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-								8
+								{profile.stats.fashionShows}
 							</div>
 							<p className="text-gray-300 text-sm sm:text-base lg:text-lg">
 								Fashion Show Seasons
@@ -121,7 +214,7 @@ function Home() {
 						</div>
 						<div className="text-center">
 							<div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-								13+
+								{profile.stats.skillsTaught}+
 							</div>
 							<p className="text-gray-300 text-sm sm:text-base lg:text-lg">
 								Skills Taught at School
@@ -129,7 +222,7 @@ function Home() {
 						</div>
 						<div className="text-center">
 							<div className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent">
-								6+
+								{profile.stats.yearsExperience}+
 							</div>
 							<p className="text-gray-300 text-sm sm:text-base lg:text-lg">
 								Years Experience

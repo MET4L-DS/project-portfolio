@@ -17,6 +17,7 @@ const journeyRoutes = require("./routes/journey");
 const achievementRoutes = require("./routes/achievements");
 const serviceRoutes = require("./routes/services");
 const galleryRoutes = require("./routes/gallery");
+const profileRoutes = require("./routes/profile");
 
 // Load environment variables
 dotenv.config();
@@ -129,6 +130,7 @@ app.use("/api/journey", journeyRoutes);
 app.use("/api/achievements", achievementRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/profile", profileRoutes);
 
 // Health check endpoint
 app.get("/api/health", async (req, res) => {

@@ -642,4 +642,30 @@ export const galleryAPI = {
 	},
 };
 
+// Profile API
+export const profileAPI = {
+	getProfile: async () => {
+		const response = await api.get("/profile");
+		return response.data;
+	},
+
+	updateProfile: async (profileData: FormData) => {
+		const response = await api.put("/profile", profileData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+
+	updateOrganizationLogos: async (logoData: FormData) => {
+		const response = await api.put("/profile/logos", logoData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return response.data;
+	},
+};
+
 export default api;

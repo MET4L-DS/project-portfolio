@@ -55,6 +55,60 @@ const uploadToCloudinary = (buffer, options = {}) => {
 	});
 };
 
+// Upload profile image to Cloudinary (preserves aspect ratio)
+const uploadProfileToCloudinary = (buffer, options = {}) => {
+	return new Promise((resolve, reject) => {
+		const uploadOptions = {
+			folder: "portfolio-profile",
+			transformation: [
+				{ width: 800, crop: "limit", quality: "auto" }, // Use "limit" instead of "fill" to preserve aspect ratio
+				{ fetch_format: "auto" },
+			],
+			...options,
+		};
+
+		cloudinary.uploader
+			.upload_stream(uploadOptions, (error, result) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve({
+						url: result.secure_url,
+						publicId: result.public_id,
+					});
+				}
+			})
+			.end(buffer);
+	});
+};
+
+// Upload logo to Cloudinary (preserves aspect ratio)
+const uploadLogoToCloudinary = (buffer, options = {}) => {
+	return new Promise((resolve, reject) => {
+		const uploadOptions = {
+			folder: "portfolio-organization",
+			transformation: [
+				{ width: 400, crop: "limit", quality: "auto" }, // Use "limit" for logos too
+				{ fetch_format: "auto" },
+			],
+			...options,
+		};
+
+		cloudinary.uploader
+			.upload_stream(uploadOptions, (error, result) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve({
+						url: result.secure_url,
+						publicId: result.public_id,
+					});
+				}
+			})
+			.end(buffer);
+	});
+};
+
 // Upload PDF or other files to Cloudinary
 const uploadPdfToCloudinary = (buffer, options = {}) => {
 	return new Promise((resolve, reject) => {
@@ -99,6 +153,8 @@ module.exports = {
 	cloudinary,
 	upload,
 	uploadToCloudinary,
+	uploadProfileToCloudinary,
+	uploadLogoToCloudinary,
 	uploadPdfToCloudinary,
 	deleteFromCloudinary,
 };

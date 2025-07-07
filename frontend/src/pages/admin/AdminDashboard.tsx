@@ -7,6 +7,7 @@ import CandidateManagement from "./CandidateManagement";
 import SchoolManagement from "./SchoolManagement";
 import AboutManagement from "./AboutManagement";
 import ServiceManagement from "./ServiceManagement";
+import ProfileManagement from "./ProfileManagement";
 
 const AdminDashboard: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<
@@ -17,6 +18,7 @@ const AdminDashboard: React.FC = () => {
 		| "school"
 		| "about"
 		| "services"
+		| "profile"
 	>("events");
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -103,6 +105,9 @@ const AdminDashboard: React.FC = () => {
 								<option value="services">
 									Services Management
 								</option>
+								<option value="profile">
+									Profile Management
+								</option>
 							</select>
 						</div>
 
@@ -178,6 +183,16 @@ const AdminDashboard: React.FC = () => {
 							>
 								Services
 							</button>
+							<button
+								onClick={() => setActiveTab("profile")}
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
+									activeTab === "profile"
+										? "border-yellow-400 text-yellow-400"
+										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
+								}`}
+							>
+								Profile
+							</button>
 						</nav>
 					</div>
 				</div>
@@ -198,6 +213,8 @@ const AdminDashboard: React.FC = () => {
 					<AboutManagement />
 				) : activeTab === "services" ? (
 					<ServiceManagement />
+				) : activeTab === "profile" ? (
+					<ProfileManagement />
 				) : null}
 			</div>
 		</div>
