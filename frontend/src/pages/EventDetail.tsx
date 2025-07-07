@@ -481,7 +481,10 @@ function EventDetail() {
 								Apply for Event
 							</button>
 						)}
-						<button className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold hover:bg-green-400 hover:text-black transition-all transform hover:scale-105">
+						<button
+							onClick={() => navigate("/contact")}
+							className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold hover:bg-green-400 hover:text-black transition-all transform hover:scale-105"
+						>
 							Book Consultation
 						</button>
 						<button

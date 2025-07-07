@@ -31,16 +31,16 @@ const userSchema = new mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
-		profilePicture: {
-			url: {
-				type: String,
-				default: "/profile-picture-2.jpg", // Default profile picture
-			},
-			publicId: {
-				type: String,
-				default: null,
-			},
-		},
+		// profilePicture: {
+		// 	url: {
+		// 		type: String,
+		// 		default: "/profile-picture-2.jpg", // Default profile picture
+		// 	},
+		// 	publicId: {
+		// 		type: String,
+		// 		default: null,
+		// 	},
+		// },
 	},
 	{
 		timestamps: true,

@@ -3,7 +3,7 @@ const Journey = require("../models/Journey");
 const { authenticateToken, requireAdmin } = require("../middleware/auth");
 const {
 	upload,
-	uploadToCloudinary,
+	uploadLogoToCloudinary,
 	deleteFromCloudinary,
 } = require("../config/cloudinary");
 
@@ -84,7 +84,7 @@ router.post(
 			// Handle logo upload
 			let logoData = null;
 			if (req.file) {
-				logoData = await uploadToCloudinary(req.file.buffer, {
+				logoData = await uploadLogoToCloudinary(req.file.buffer, {
 					folder: "portfolio-journey",
 					public_id: `journey_logo_${Date.now()}`,
 				});
@@ -164,8 +164,8 @@ router.put(
 					await deleteFromCloudinary(journeyItem.logo.publicId);
 				}
 
-				// Upload new logo
-				const logoData = await uploadToCloudinary(req.file.buffer, {
+				// Upload new logo (preserves aspect ratio)
+				const logoData = await uploadLogoToCloudinary(req.file.buffer, {
 					folder: "portfolio-journey",
 					public_id: `journey_logo_${Date.now()}`,
 				});

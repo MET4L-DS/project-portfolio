@@ -274,13 +274,14 @@ function Events() {
 						Sankalp Entertainment
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<button className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg">
-							Book Consultation
-						</button>
 						<a
-							href="https://aamarxopun.com"
-							target="_blank"
-							rel="noopener noreferrer"
+							href="/contact"
+							className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg"
+						>
+							Book Consultation
+						</a>
+						<a
+							href="/magazine"
 							className="border-2 border-green-400 text-green-400 px-8 py-4 rounded-lg font-semibold hover:bg-green-400 hover:text-black transition-all transform hover:scale-105"
 						>
 							Visit AAMAR XOPUN
