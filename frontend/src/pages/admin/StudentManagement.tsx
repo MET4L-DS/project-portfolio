@@ -172,45 +172,45 @@ const StudentManagement: React.FC = () => {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-3xl font-bold text-white">
+		<div className="max-w-7xl mx-auto px-2 sm:px-4">
+			<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-4">
+				<h1 className="text-2xl sm:text-3xl font-bold text-white">
 					Student Registrations
 				</h1>
 			</div>
 
 			{/* Statistics */}
 			{statistics && (
-				<div className="grid md:grid-cols-4 gap-4 mb-6">
-					<div className="bg-gray-800 rounded-lg p-4">
-						<h3 className="text-lg font-semibold text-white mb-2">
+				<div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-6">
+					<div className="bg-gray-800 rounded-lg p-3 sm:p-4">
+						<h3 className="text-sm sm:text-lg font-semibold text-white mb-1 sm:mb-2">
 							Total Students
 						</h3>
-						<p className="text-2xl font-bold text-yellow-400">
+						<p className="text-lg sm:text-2xl font-bold text-yellow-400">
 							{statistics.totalStudents}
 						</p>
 					</div>
-					<div className="bg-gray-800 rounded-lg p-4">
-						<h3 className="text-lg font-semibold text-white mb-2">
+					<div className="bg-gray-800 rounded-lg p-3 sm:p-4">
+						<h3 className="text-sm sm:text-lg font-semibold text-white mb-1 sm:mb-2">
 							Approved
 						</h3>
-						<p className="text-2xl font-bold text-green-400">
+						<p className="text-lg sm:text-2xl font-bold text-green-400">
 							{statistics.approvedStudents}
 						</p>
 					</div>
-					<div className="bg-gray-800 rounded-lg p-4">
-						<h3 className="text-lg font-semibold text-white mb-2">
+					<div className="bg-gray-800 rounded-lg p-3 sm:p-4">
+						<h3 className="text-sm sm:text-lg font-semibold text-white mb-1 sm:mb-2">
 							Pending
 						</h3>
-						<p className="text-2xl font-bold text-yellow-400">
+						<p className="text-lg sm:text-2xl font-bold text-yellow-400">
 							{statistics.pendingStudents}
 						</p>
 					</div>
-					<div className="bg-gray-800 rounded-lg p-4">
-						<h3 className="text-lg font-semibold text-white mb-2">
+					<div className="bg-gray-800 rounded-lg p-3 sm:p-4">
+						<h3 className="text-sm sm:text-lg font-semibold text-white mb-1 sm:mb-2">
 							Popular Course
 						</h3>
-						<p className="text-lg font-bold text-blue-400">
+						<p className="text-sm sm:text-lg font-bold text-blue-400">
 							{statistics.courseStats[0]?._id || "N/A"}
 						</p>
 					</div>
@@ -218,14 +218,14 @@ const StudentManagement: React.FC = () => {
 			)}
 
 			{error && (
-				<div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
+				<div className="bg-red-500/20 border border-red-500 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 sm:mb-6 text-sm sm:text-base">
 					{error}
 				</div>
 			)}
 
 			{/* Filters */}
-			<div className="bg-gray-800 rounded-lg p-4 mb-6">
-				<div className="grid md:grid-cols-5 gap-4">
+			<div className="bg-gray-800 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
 					<input
 						type="text"
 						placeholder="Search students..."
@@ -233,14 +233,14 @@ const StudentManagement: React.FC = () => {
 						onChange={(e) =>
 							setFilters({ ...filters, search: e.target.value })
 						}
-						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 					/>
 					<select
 						value={filters.status}
 						onChange={(e) =>
 							setFilters({ ...filters, status: e.target.value })
 						}
-						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 					>
 						<option value="">All Status</option>
 						<option value="Pending">Pending</option>
@@ -252,7 +252,7 @@ const StudentManagement: React.FC = () => {
 						onChange={(e) =>
 							setFilters({ ...filters, course: e.target.value })
 						}
-						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 					>
 						<option value="">All Courses</option>
 						{skills.map((skill) => (
@@ -266,7 +266,7 @@ const StudentManagement: React.FC = () => {
 						onChange={(e) =>
 							setFilters({ ...filters, sortBy: e.target.value })
 						}
-						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 					>
 						<option value="createdAt">Registration Date</option>
 						<option value="studentName">Name</option>
@@ -280,7 +280,7 @@ const StudentManagement: React.FC = () => {
 								sortOrder: e.target.value,
 							})
 						}
-						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 					>
 						<option value="desc">Descending</option>
 						<option value="asc">Ascending</option>
@@ -290,42 +290,46 @@ const StudentManagement: React.FC = () => {
 
 			{/* Student List */}
 			{loading ? (
-				<div className="flex justify-center items-center h-64">
-					<div className="text-white">Loading registrations...</div>
+				<div className="flex justify-center items-center h-40 sm:h-64">
+					<div className="text-white text-sm sm:text-base">
+						Loading registrations...
+					</div>
 				</div>
 			) : students.length === 0 ? (
-				<div className="text-center py-12">
-					<div className="text-gray-400 text-lg mb-4">
+				<div className="text-center py-8 sm:py-12">
+					<div className="text-gray-400 text-base sm:text-lg mb-4">
 						No registrations found
 					</div>
 				</div>
 			) : (
-				<div className="space-y-4">
+				<div className="space-y-3 sm:space-y-4">
 					{students.map((student) => (
 						<div
 							key={student._id}
-							className="bg-gray-800 rounded-lg p-6"
+							className="bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6"
 						>
-							<div className="flex justify-between items-start">
+							<div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
 								<div className="flex-1">
-									<div className="flex items-center gap-3 mb-2">
-										<h3 className="text-xl font-semibold text-white">
+									<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+										<h3 className="text-lg sm:text-xl font-semibold text-white">
 											{student.studentName}
 										</h3>
-										<span className="text-sm text-gray-400">
-											#{student.formNo}
-										</span>
-										<span
-											className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
-												student.status
-											)}`}
-										>
-											{student.status}
-										</span>
+										<div className="flex flex-wrap items-center gap-2">
+											<span className="text-xs sm:text-sm text-gray-400">
+												#{student.formNo}
+											</span>
+											<span
+												className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+													student.status
+												)}`}
+											>
+												{student.status}
+											</span>
+										</div>
 									</div>
 
-									<div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300 mb-3">
-										<div>
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm text-gray-300 mb-3">
+										<div className="space-y-1">
 											<p>
 												<strong>Age:</strong>{" "}
 												{student.age} years
@@ -339,7 +343,7 @@ const StudentManagement: React.FC = () => {
 												{student.phoneNumber}
 											</p>
 										</div>
-										<div>
+										<div className="space-y-1">
 											<p>
 												<strong>Parents:</strong>{" "}
 												{student.parentsName}
@@ -352,10 +356,21 @@ const StudentManagement: React.FC = () => {
 									</div>
 
 									<div className="mb-3">
-										<p className="text-sm text-gray-400">
-											<strong>Courses:</strong>{" "}
-											{student.courses.join(", ")}
-										</p>
+										<div className="flex flex-wrap items-center gap-1">
+											<span className="text-xs sm:text-sm text-gray-400">
+												<strong>Courses:</strong>
+											</span>
+											{student.courses.map(
+												(course, index) => (
+													<span
+														key={index}
+														className="bg-yellow-400/20 text-yellow-400 px-2 py-1 rounded text-xs"
+													>
+														{course}
+													</span>
+												)
+											)}
+										</div>
 									</div>
 
 									<div className="text-xs text-gray-400">
@@ -366,28 +381,28 @@ const StudentManagement: React.FC = () => {
 									</div>
 								</div>
 
-								<div className="flex items-center gap-2 ml-4">
+								<div className="flex items-center gap-2 mt-4 lg:mt-0">
 									{student.photoUrl && (
 										<img
 											src={student.photoUrl}
 											alt={student.studentName}
-											className="w-16 h-20 object-cover rounded border border-gray-600"
+											className="w-12 h-16 sm:w-16 sm:h-20 object-cover rounded border border-gray-600"
 										/>
 									)}
 								</div>
 							</div>
 
 							{/* Actions */}
-							<div className="flex gap-2 mt-4 pt-4 border-t border-gray-700">
+							<div className="flex flex-wrap gap-2 mt-4 pt-3 sm:pt-4 border-t border-gray-700">
 								<button
 									onClick={() => handleViewDetails(student)}
-									className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
+									className="px-2 sm:px-3 py-1 bg-blue-500 text-white text-xs sm:text-sm rounded hover:bg-blue-600 transition-colors"
 								>
 									View Details
 								</button>
 								<button
 									onClick={() => handleViewPDF(student)}
-									className="px-3 py-1 bg-purple-500 text-white text-sm rounded hover:bg-purple-600 transition-colors"
+									className="px-2 sm:px-3 py-1 bg-purple-500 text-white text-xs sm:text-sm rounded hover:bg-purple-600 transition-colors"
 								>
 									📄 PDF
 								</button>
@@ -399,7 +414,7 @@ const StudentManagement: React.FC = () => {
 										)
 									}
 									disabled={student.status === "Approved"}
-									className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors disabled:opacity-50"
+									className="px-2 sm:px-3 py-1 bg-green-500 text-white text-xs sm:text-sm rounded hover:bg-green-600 transition-colors disabled:opacity-50"
 								>
 									Approve
 								</button>
@@ -411,7 +426,7 @@ const StudentManagement: React.FC = () => {
 										)
 									}
 									disabled={student.status === "Rejected"}
-									className="px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors disabled:opacity-50"
+									className="px-2 sm:px-3 py-1 bg-orange-500 text-white text-xs sm:text-sm rounded hover:bg-orange-600 transition-colors disabled:opacity-50"
 								>
 									Reject
 								</button>
@@ -422,7 +437,7 @@ const StudentManagement: React.FC = () => {
 											student.studentName
 										)
 									}
-									className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+									className="px-2 sm:px-3 py-1 bg-red-500 text-white text-xs sm:text-sm rounded hover:bg-red-600 transition-colors"
 								>
 									Delete
 								</button>
@@ -434,23 +449,23 @@ const StudentManagement: React.FC = () => {
 
 			{/* Pagination */}
 			{pagination.total > 1 && (
-				<div className="flex justify-center items-center gap-4 mt-8">
+				<div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 mt-6 sm:mt-8">
 					<button
 						onClick={() => fetchStudents(pagination.current - 1)}
 						disabled={!pagination.hasPrev}
-						className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+						className="px-3 sm:px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
 					>
 						Previous
 					</button>
 
-					<span className="text-gray-300">
+					<span className="text-gray-300 text-sm sm:text-base">
 						Page {pagination.current} of {pagination.total}
 					</span>
 
 					<button
 						onClick={() => fetchStudents(pagination.current + 1)}
 						disabled={!pagination.hasNext}
-						className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+						className="px-3 sm:px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
 					>
 						Next
 					</button>
@@ -459,10 +474,10 @@ const StudentManagement: React.FC = () => {
 
 			{/* Detail Modal */}
 			{showDetailModal && selectedStudent && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-					<div className="bg-gray-800 rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-						<div className="flex justify-between items-center mb-6">
-							<h2 className="text-2xl font-bold text-white">
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+					<div className="bg-gray-800 rounded-lg p-3 sm:p-4 lg:p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto my-4 sm:my-8">
+						<div className="flex justify-between items-center mb-4 sm:mb-6">
+							<h2 className="text-xl sm:text-2xl font-bold text-white">
 								Registration Details
 							</h2>
 							<button

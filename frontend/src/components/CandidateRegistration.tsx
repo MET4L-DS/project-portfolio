@@ -63,9 +63,9 @@ const CandidateRegistration: React.FC<CandidateRegistrationProps> = ({
 				return;
 			}
 
-			// Validate file size (5MB)
-			if (file.size > 5 * 1024 * 1024) {
-				setError("Image size should be less than 5MB");
+			// Validate file size (200KB)
+			if (file.size > 200 * 1024) {
+				setError("Image size should be less than 200KB");
 				return;
 			}
 
@@ -385,7 +385,7 @@ const CandidateRegistration: React.FC<CandidateRegistrationProps> = ({
 										className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black file:font-semibold hover:file:bg-yellow-300"
 									/>
 									<p className="text-gray-400 text-sm mt-2">
-										Maximum file size: 5MB. Supported
+										Maximum file size: 200KB. Supported
 										formats: JPG, PNG, WEBP
 									</p>
 								</div>

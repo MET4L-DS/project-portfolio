@@ -114,7 +114,7 @@ function Home() {
 								8
 							</div>
 							<p className="text-gray-300 text-lg">
-								Beauty Pageant Seasons
+								Fashion Show Seasons
 							</p>
 						</div>
 						<div className="text-center">
@@ -155,8 +155,8 @@ function Home() {
 								Event Management
 							</h4>
 							<p className="text-gray-300">
-								Specialized in traditional runway shows, beauty
-								pageants, and cultural festivals showcasing
+								Specialized in traditional runway shows, fashion
+								events, and cultural celebrations showcasing
 								Northeast India's tribal heritage and modern
 								fashion.
 							</p>

@@ -81,10 +81,10 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 
 		// Check image size before submission
 		if (formData.image) {
-			const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+			const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
 			if (formData.image.size > maxSizeInBytes) {
 				setError(
-					`Image size must be less than 10MB. Your image is ${(
+					`Image size must be less than 5MB. Your image is ${(
 						formData.image.size /
 						(1024 * 1024)
 					).toFixed(2)}MB.`
@@ -182,8 +182,8 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
 			const file = e.target.files[0];
-			const maxSizeInMB = 10;
-			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 10MB in bytes
+			const maxSizeInMB = 5;
+			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 5MB in bytes
 
 			// Check file size
 			if (file.size > maxSizeInBytes) {
@@ -213,27 +213,27 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 	}
 
 	return (
-		<div className="space-y-6">
-			<div className="flex justify-between items-center">
-				<h3 className="text-2xl font-bold text-white">
+		<div className="space-y-4 sm:space-y-6">
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+				<h3 className="text-xl sm:text-2xl font-bold text-white">
 					{category} Gallery Management
 				</h3>
 				<button
 					onClick={() => setShowForm(true)}
-					className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+					className="w-full sm:w-auto bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 				>
 					Add New Image
 				</button>
 			</div>
 
 			{error && (
-				<div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded">
+				<div className="bg-red-500/20 border border-red-500 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded text-sm sm:text-base">
 					{error}
 				</div>
 			)}
 
 			{/* Gallery Grid */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 				{images.map((image) => (
 					<div
 						key={image._id}
@@ -243,22 +243,22 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 							<img
 								src={image.image.url}
 								alt={image.title}
-								className="w-full h-48 object-cover cursor-pointer"
+								className="w-full h-40 sm:h-48 object-cover cursor-pointer"
 								onClick={() =>
 									setSelectedImage(image.image.url)
 								}
 							/>
 							<div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-								<span className="text-white text-sm text-center px-2">
+								<span className="text-white text-xs sm:text-sm text-center px-2">
 									{image.description ||
 										"Click to view full size"}
 								</span>
 							</div>
 						</div>
 
-						<div className="p-4">
-							<div className="flex justify-between items-start mb-2">
-								<h4 className="text-white font-bold">
+						<div className="p-3 sm:p-4">
+							<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-2">
+								<h4 className="text-white font-bold text-sm sm:text-base">
 									{image.title}
 								</h4>
 								<div className="flex gap-2">
@@ -278,25 +278,25 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 							</div>
 
 							{image.description && (
-								<p className="text-gray-300 text-sm mb-3">
+								<p className="text-gray-300 text-xs sm:text-sm mb-3">
 									{image.description}
 								</p>
 							)}
 
-							<div className="flex justify-between items-center">
+							<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
 								<span className="text-xs text-gray-500">
 									Order: {image.displayOrder}
 								</span>
 								<div className="flex gap-2">
 									<button
 										onClick={() => handleEdit(image)}
-										className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-all duration-200 hover:scale-105"
+										className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm hover:bg-blue-700 transition-all duration-200 hover:scale-105"
 									>
 										Edit
 									</button>
 									<button
 										onClick={() => handleDelete(image._id)}
-										className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-all duration-200 hover:scale-105"
+										className="bg-red-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm hover:bg-red-700 transition-all duration-200 hover:scale-105"
 									>
 										Delete
 									</button>
@@ -308,28 +308,31 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 			</div>
 
 			{images.length === 0 && (
-				<div className="text-center py-8 text-gray-400">
+				<div className="text-center py-6 sm:py-8 text-gray-400 text-sm sm:text-base">
 					No gallery images found. Add some images to get started.
 				</div>
 			)}
 
 			{/* Form Modal */}
 			{showForm && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-					<div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
-						<div className="flex justify-between items-center mb-6">
-							<h3 className="text-xl font-bold text-white">
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+					<div className="bg-gray-800 rounded-lg p-4 sm:p-6 max-w-md w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto my-4 sm:my-8">
+						<div className="flex justify-between items-center mb-4 sm:mb-6">
+							<h3 className="text-lg sm:text-xl font-bold text-white">
 								{editingImage ? "Edit Image" : "Add New Image"}
 							</h3>
 							<button
 								onClick={resetForm}
-								className="text-gray-400 hover:text-white text-2xl"
+								className="text-gray-400 hover:text-white text-xl sm:text-2xl"
 							>
 								×
 							</button>
 						</div>
 
-						<form onSubmit={handleSubmit} className="space-y-4">
+						<form
+							onSubmit={handleSubmit}
+							className="space-y-3 sm:space-y-4"
+						>
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">
 									Title *
@@ -343,7 +346,7 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 											title: e.target.value,
 										})
 									}
-									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 									required
 								/>
 							</div>
@@ -361,7 +364,7 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 										})
 									}
 									rows={3}
-									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base resize-none"
 									placeholder="Optional description shown on hover..."
 								/>
 							</div>
@@ -380,7 +383,7 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 												parseInt(e.target.value) || 0,
 										})
 									}
-									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 								/>
 							</div>
 
@@ -392,15 +395,15 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 									type="file"
 									accept="image/*"
 									onChange={handleImageChange}
-									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 									required={!editingImage}
 								/>
 								<p className="text-xs text-gray-500 mt-1">
-									Maximum file size: 10MB. Supported formats:
+									Maximum file size: 5MB. Supported formats:
 									JPG, PNG, GIF, WebP
 								</p>
 								{editingImage && (
-									<p className="text-sm text-gray-400 mt-1">
+									<p className="text-xs sm:text-sm text-gray-400 mt-1">
 										Leave empty to keep current image
 									</p>
 								)}
@@ -412,15 +415,15 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 									<label className="block text-sm font-medium text-gray-300">
 										Preview
 									</label>
-									<div className="flex items-start gap-4 p-3 bg-gray-700 rounded-lg">
+									<div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-3 bg-gray-700 rounded-lg">
 										<img
 											src={URL.createObjectURL(
 												formData.image
 											)}
 											alt="Preview"
-											className="w-20 h-20 object-cover rounded-lg"
+											className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg"
 										/>
-										<div className="flex-1 text-sm text-gray-300">
+										<div className="flex-1 text-xs sm:text-sm text-gray-300">
 											<p>
 												<strong>Name:</strong>{" "}
 												{formData.image.name}
@@ -457,10 +460,10 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 								</div>
 							)}
 
-							<div className="flex gap-4 pt-4">
+							<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 sm:pt-4">
 								<button
 									type="submit"
-									className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+									className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 								>
 									{editingImage
 										? "Update Image"
@@ -469,7 +472,7 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 								<button
 									type="button"
 									onClick={resetForm}
-									className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors"
+									className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base"
 								>
 									Cancel
 								</button>
@@ -481,8 +484,8 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 
 			{/* Image Modal */}
 			{selectedImage && (
-				<div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
-					<div className="relative max-w-4xl max-h-[90vh]">
+				<div className="fixed inset-0 bg-black bg-opacity-90 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+					<div className="relative max-w-4xl max-h-[95vh] sm:max-h-[90vh] my-4 sm:my-8">
 						<img
 							src={selectedImage}
 							alt="Gallery Image"
@@ -490,7 +493,7 @@ const GalleryManagement: React.FC<GalleryManagementProps> = ({ category }) => {
 						/>
 						<button
 							onClick={() => setSelectedImage(null)}
-							className="absolute top-4 right-4 bg-black bg-opacity-50 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold hover:bg-opacity-70 transition-colors"
+							className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-lg sm:text-xl font-bold hover:bg-opacity-70 transition-colors"
 						>
 							×
 						</button>

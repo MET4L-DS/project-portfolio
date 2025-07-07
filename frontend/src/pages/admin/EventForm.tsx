@@ -29,7 +29,7 @@ const EventForm: React.FC = () => {
 
 	const [event, setEvent] = useState<Event>({
 		title: "",
-		category: "Beauty Pageant",
+		category: "Fashion Show",
 		eventDate: new Date().toISOString().split("T")[0], // Format as YYYY-MM-DD for input[type="date"]
 		location: "",
 		description: "",
@@ -48,8 +48,6 @@ const EventForm: React.FC = () => {
 	const [error, setError] = useState("");
 
 	const categories = [
-		"Beauty Pageant",
-		"Cultural Festival",
 		"Fashion Show",
 		"City Festival",
 		"Cultural Event",
@@ -107,8 +105,8 @@ const EventForm: React.FC = () => {
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
-			const maxSizeInMB = 10;
-			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 10MB in bytes
+			const maxSizeInMB = 5;
+			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 5MB in bytes
 
 			// Check file size
 			if (file.size > maxSizeInBytes) {
@@ -139,8 +137,8 @@ const EventForm: React.FC = () => {
 	const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = Array.from(e.target.files || []);
 		if (files.length > 0) {
-			const maxSizeInMB = 10;
-			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 10MB in bytes
+			const maxSizeInMB = 5;
+			const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // 5MB in bytes
 
 			// Check each file size
 			const oversizedFiles = files.filter(
@@ -438,7 +436,7 @@ const EventForm: React.FC = () => {
 									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
 								/>
 								<p className="text-xs text-gray-500 mt-1">
-									Maximum file size: 10MB. Supported formats:
+									Maximum file size: 5MB. Supported formats:
 									JPG, PNG, GIF, WebP
 								</p>
 							</div>
@@ -479,7 +477,7 @@ const EventForm: React.FC = () => {
 								/>
 								<div className="mt-1 space-y-1">
 									<p className="text-xs text-gray-500">
-										Maximum file size per image: 10MB.
+										Maximum file size per image: 5MB.
 										Supported formats: JPG, PNG, GIF, WebP
 									</p>
 									<p className="text-sm text-gray-400">

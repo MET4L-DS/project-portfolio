@@ -124,29 +124,29 @@ const LocationManagement: React.FC = () => {
 	}
 
 	return (
-		<div className="space-y-6">
-			<div className="flex justify-between items-center">
-				<h2 className="text-2xl font-bold text-white">
+		<div className="space-y-4 sm:space-y-6">
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+				<h2 className="text-xl sm:text-2xl font-bold text-white">
 					Location Management
 				</h2>
 				<button
 					onClick={() => setShowForm(true)}
-					className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors"
+					className="w-full sm:w-auto bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base"
 				>
 					Add New Location
 				</button>
 			</div>
 
 			{error && (
-				<div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
+				<div className="bg-red-500/20 border border-red-500 text-red-400 px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base">
 					{error}
 				</div>
 			)}
 
 			{/* Form Modal */}
 			{showForm && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-					<div className="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full max-w-md">
+				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+					<div className="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full max-w-md my-4 sm:my-8">
 						<h3 className="text-xl font-bold text-white mb-4">
 							{editingLocation
 								? "Edit Location"

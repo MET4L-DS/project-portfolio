@@ -57,8 +57,6 @@ function Events() {
 
 	const categories = [
 		"All",
-		"Beauty Pageant",
-		"Cultural Festival",
 		"Fashion Show",
 		"City Festival",
 		"Cultural Event",
@@ -136,7 +134,7 @@ function Events() {
 						</span>
 					</h1>
 					<p className="text-xl text-gray-300 max-w-3xl mx-auto">
-						From beauty pageants to cultural festivals, witness the
+						From fashion shows to cultural events, witness the
 						spectacular events that have shaped Northeast India's
 						entertainment landscape
 					</p>

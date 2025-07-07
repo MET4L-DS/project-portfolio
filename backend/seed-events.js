@@ -5,7 +5,7 @@ require("dotenv").config();
 const sampleEvents = [
 	{
 		title: "NABARD Karigar Mela - Traditional Runway",
-		category: "Cultural Festival",
+		category: "Cultural Event",
 		year: "2022-2023",
 		location: "Guwahati",
 		description:
@@ -33,7 +33,7 @@ const sampleEvents = [
 	},
 	{
 		title: "Aadibazaar - Aadi The Runway Show",
-		category: "Cultural Festival",
+		category: "Cultural Event",
 		year: "Dec 15, 2023",
 		location: "Guwahati",
 		description:

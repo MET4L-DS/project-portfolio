@@ -211,11 +211,9 @@ function Contact() {
 								{isSubmitting ? "Sending..." : "Send Message"}
 							</button>
 						</form>
-					</div>
 
-					{/* Contact Info */}
-					<div className="space-y-8">
-						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
+						{/* Email Addresses Section */}
+						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl mt-8">
 							<h3 className="text-xl font-bold text-yellow-400 mb-4">
 								📧 Email Addresses
 							</h3>
@@ -255,6 +253,10 @@ function Contact() {
 								</div>
 							</div>
 						</div>
+					</div>
+
+					{/* Contact Info */}
+					<div className="space-y-8">
 						<div className="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl">
 							<h3 className="text-xl font-bold text-yellow-400 mb-4">
 								🏢 Company
@@ -285,29 +287,49 @@ function Contact() {
 							<h3 className="text-xl font-bold text-yellow-400 mb-4">
 								🌐 Follow Us
 							</h3>
-							<div className="space-y-2">
-								<div className="flex space-x-4">
+							<div className="space-y-4">
+								<div>
+									<p className="font-semibold text-yellow-300 mb-2">
+										Sankalp School of Art & Skills:
+									</p>
 									<a
-										href="#"
-										className="text-gray-300 hover:text-yellow-400 transition-colors"
+										href="https://www.instagram.com/sankalp_school/?igsh=MXRhc3owN2IwMjB2Mw%3D%3D#"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-gray-300 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2"
 									>
-										Facebook
-									</a>
-									<a
-										href="#"
-										className="text-gray-300 hover:text-yellow-400 transition-colors"
-									>
-										Instagram
-									</a>
-									<a
-										href="#"
-										className="text-gray-300 hover:text-yellow-400 transition-colors"
-									>
-										LinkedIn
+										📷 Instagram @sankalp_school
 									</a>
 								</div>
-								<div className="text-sm text-gray-400">
-									Follow for latest events and updates
+								<div>
+									<p className="font-semibold text-yellow-300 mb-2">
+										Sankalp Event & Entertainment:
+									</p>
+									<a
+										href="https://www.instagram.com/sankalp_event/?igsh=dmU2N29mNmNtazV4#"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-gray-300 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2"
+									>
+										📷 Instagram @sankalp_event
+									</a>
+								</div>
+								<div>
+									<p className="font-semibold text-yellow-300 mb-2">
+										Aamar Xopun Magazine:
+									</p>
+									<a
+										href="https://www.facebook.com/people/%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A7%B0-%E0%A6%B8%E0%A6%AA%E0%A7%8B%E0%A6%A8/100070507135885/"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-gray-300 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2"
+									>
+										📘 Facebook Page
+									</a>
+								</div>
+								<div className="text-sm text-gray-400 pt-2 border-t border-gray-600">
+									Follow for latest events, training updates,
+									and magazine releases
 								</div>
 							</div>
 						</div>{" "}
@@ -317,9 +339,8 @@ function Contact() {
 							</h3>
 							<ul className="text-gray-300 text-sm space-y-1">
 								<li>• Traditional Runway Shows</li>
-								<li>• Beauty Pageant Organization</li>
-								<li>• Cultural Festival Management</li>
 								<li>• Fashion Show Production</li>
+								<li>• Cultural Event Management</li>
 								<li>• Arts & Skills Training</li>
 								<li>• Event Planning & Management</li>
 								<li>• Photography & Modelling Training</li>

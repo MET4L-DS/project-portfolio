@@ -199,18 +199,18 @@ const ServiceManagement: React.FC = () => {
 	}
 
 	return (
-		<div className="space-y-6">
-			<div className="flex justify-between items-center">
-				<h3 className="text-2xl font-bold text-white">
+		<div className="space-y-4 sm:space-y-6">
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+				<h3 className="text-xl sm:text-2xl font-bold text-white">
 					Service Management
 				</h3>
 			</div>
 
 			{/* Tab Navigation */}
-			<div className="flex gap-4 border-b border-gray-700">
+			<div className="flex gap-2 sm:gap-4 border-b border-gray-700 overflow-x-auto">
 				<button
 					onClick={() => setActiveTab("services")}
-					className={`px-4 py-2 font-semibold border-b-2 transition-colors ${
+					className={`px-3 sm:px-4 py-2 font-semibold border-b-2 transition-colors whitespace-nowrap text-sm sm:text-base ${
 						activeTab === "services"
 							? "border-yellow-400 text-yellow-400"
 							: "border-transparent text-gray-400 hover:text-white"
@@ -220,7 +220,7 @@ const ServiceManagement: React.FC = () => {
 				</button>
 				<button
 					onClick={() => setActiveTab("gallery")}
-					className={`px-4 py-2 font-semibold border-b-2 transition-colors ${
+					className={`px-3 sm:px-4 py-2 font-semibold border-b-2 transition-colors whitespace-nowrap text-sm sm:text-base ${
 						activeTab === "gallery"
 							? "border-yellow-400 text-yellow-400"
 							: "border-transparent text-gray-400 hover:text-white"
@@ -232,31 +232,31 @@ const ServiceManagement: React.FC = () => {
 
 			{/* Services Tab Content */}
 			{activeTab === "services" && (
-				<div className="space-y-6">
-					<div className="flex justify-between items-center">
+				<div className="space-y-4 sm:space-y-6">
+					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
 						<button
 							onClick={() => setShowForm(true)}
-							className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+							className="w-full sm:w-auto bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 						>
 							Add New Service
 						</button>
 					</div>
 
 					{error && (
-						<div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded">
+						<div className="bg-red-500/20 border border-red-500 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded text-sm sm:text-base">
 							{error}
 						</div>
 					)}
 
 					{/* Filter */}
-					<div className="flex gap-4 items-center">
-						<label className="text-gray-300 font-medium">
+					<div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center">
+						<label className="text-gray-300 font-medium text-sm sm:text-base">
 							Filter by Category:
 						</label>
 						<select
 							value={filterCategory}
 							onChange={(e) => setFilterCategory(e.target.value)}
-							className="bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+							className="w-full sm:w-auto bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 						>
 							{categories.map((category) => (
 								<option key={category} value={category}>
@@ -267,32 +267,32 @@ const ServiceManagement: React.FC = () => {
 					</div>
 
 					{/* Services List */}
-					<div className="grid gap-6">
+					<div className="grid gap-4 sm:gap-6">
 						{filteredServices.map((service) => (
 							<div
 								key={service._id}
-								className="bg-gray-800 border border-gray-700 rounded-lg p-6"
+								className="bg-gray-800 border border-gray-700 rounded-lg p-4 sm:p-6"
 							>
-								<div className="flex justify-between items-start mb-4">
+								<div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0 mb-4">
 									<div className="flex items-center gap-3">
-										<span className="text-2xl">
+										<span className="text-xl sm:text-2xl">
 											{service.icon}
 										</span>
 										<div>
-											<h4 className="text-xl font-bold text-white">
+											<h4 className="text-lg sm:text-xl font-bold text-white">
 												{service.title}
 											</h4>
-											<span className="text-sm text-gray-400">
+											<span className="text-xs sm:text-sm text-gray-400">
 												{service.category}
 											</span>
 										</div>
 									</div>
-									<div className="flex gap-2">
+									<div className="flex flex-wrap gap-2 w-full sm:w-auto">
 										<button
 											onClick={() =>
 												handleToggleStatus(service._id)
 											}
-											className={`px-3 py-1 rounded text-sm font-medium transition-all duration-200 hover:scale-105 ${
+											className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-all duration-200 hover:scale-105 ${
 												service.isActive
 													? "bg-green-600 text-white hover:bg-green-700"
 													: "bg-gray-600 text-gray-300 hover:bg-gray-500"
@@ -304,7 +304,7 @@ const ServiceManagement: React.FC = () => {
 										</button>
 										<button
 											onClick={() => handleEdit(service)}
-											className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-all duration-200 hover:scale-105"
+											className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm hover:bg-blue-700 transition-all duration-200 hover:scale-105"
 										>
 											Edit
 										</button>
@@ -312,7 +312,7 @@ const ServiceManagement: React.FC = () => {
 											onClick={() =>
 												handleDelete(service._id)
 											}
-											className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-all duration-200 hover:scale-105"
+											className="bg-red-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm hover:bg-red-700 transition-all duration-200 hover:scale-105"
 										>
 											Delete
 										</button>
@@ -320,17 +320,17 @@ const ServiceManagement: React.FC = () => {
 								</div>
 
 								{service.description && (
-									<p className="text-gray-300 mb-3">
+									<p className="text-gray-300 mb-3 text-sm sm:text-base">
 										{service.description}
 									</p>
 								)}
 
 								{service.items && service.items.length > 0 && (
 									<div>
-										<h5 className="text-sm font-medium text-gray-400 mb-2">
+										<h5 className="text-xs sm:text-sm font-medium text-gray-400 mb-2">
 											Items:
 										</h5>
-										<ul className="list-disc list-inside text-gray-300 space-y-1">
+										<ul className="list-disc list-inside text-gray-300 space-y-1 text-sm">
 											{service.items.map(
 												(item, index) => (
 													<li key={index}>
@@ -354,24 +354,24 @@ const ServiceManagement: React.FC = () => {
 					</div>
 
 					{filteredServices.length === 0 && (
-						<div className="text-center py-8 text-gray-400">
+						<div className="text-center py-6 sm:py-8 text-gray-400 text-sm sm:text-base">
 							No services found for the selected category.
 						</div>
 					)}
 
 					{/* Form Modal */}
 					{showForm && (
-						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-							<div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-								<div className="flex justify-between items-center mb-6">
-									<h3 className="text-xl font-bold text-white">
+						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+							<div className="bg-gray-800 rounded-lg p-4 sm:p-6 max-w-2xl w-full my-4 sm:my-8">
+								<div className="flex justify-between items-center mb-4 sm:mb-6">
+									<h3 className="text-lg sm:text-xl font-bold text-white">
 										{editingService
 											? "Edit Service"
 											: "Add New Service"}
 									</h3>
 									<button
 										onClick={resetForm}
-										className="text-gray-400 hover:text-white text-2xl"
+										className="text-gray-400 hover:text-white text-xl sm:text-2xl"
 									>
 										×
 									</button>
@@ -379,9 +379,9 @@ const ServiceManagement: React.FC = () => {
 
 								<form
 									onSubmit={handleSubmit}
-									className="space-y-4"
+									className="space-y-3 sm:space-y-4"
 								>
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
 										<div>
 											<label className="block text-sm font-medium text-gray-300 mb-2">
 												Title *
@@ -395,7 +395,7 @@ const ServiceManagement: React.FC = () => {
 														title: e.target.value,
 													})
 												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 												required
 											/>
 										</div>
@@ -413,14 +413,14 @@ const ServiceManagement: React.FC = () => {
 														icon: e.target.value,
 													})
 												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 												placeholder="🎈"
 												required
 											/>
 										</div>
 									</div>
 
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
 										<div>
 											<label className="block text-sm font-medium text-gray-300 mb-2">
 												Category *
@@ -434,7 +434,7 @@ const ServiceManagement: React.FC = () => {
 															e.target.value,
 													})
 												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 												required
 											>
 												<option value="Our Services">
@@ -462,7 +462,7 @@ const ServiceManagement: React.FC = () => {
 															) || 0,
 													})
 												}
-												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+												className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 											/>
 										</div>
 									</div>
@@ -480,21 +480,21 @@ const ServiceManagement: React.FC = () => {
 												})
 											}
 											rows={3}
-											className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+											className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base resize-none"
 											placeholder="Optional description for the service..."
 										/>
 									</div>
 
 									{/* Items Section */}
 									<div>
-										<div className="flex justify-between items-center mb-3">
+										<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-3">
 											<label className="block text-sm font-medium text-gray-300">
 												Service Items (Optional)
 											</label>
 											<button
 												type="button"
 												onClick={addItem}
-												className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
+												className="w-full sm:w-auto bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors"
 											>
 												Add Item
 											</button>
@@ -503,7 +503,7 @@ const ServiceManagement: React.FC = () => {
 										{formData.items.map((item, index) => (
 											<div
 												key={index}
-												className="flex gap-2 mb-2"
+												className="flex flex-col sm:flex-row gap-2 mb-2"
 											>
 												<input
 													type="text"
@@ -516,7 +516,7 @@ const ServiceManagement: React.FC = () => {
 														)
 													}
 													placeholder="Item name"
-													className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+													className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 												/>
 												<input
 													type="number"
@@ -531,14 +531,14 @@ const ServiceManagement: React.FC = () => {
 														)
 													}
 													placeholder="Order"
-													className="w-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+													className="w-full sm:w-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 												/>
 												<button
 													type="button"
 													onClick={() =>
 														removeItem(index)
 													}
-													className="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition-colors"
+													className="w-full sm:w-auto bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition-colors"
 												>
 													×
 												</button>
@@ -546,10 +546,10 @@ const ServiceManagement: React.FC = () => {
 										))}
 									</div>
 
-									<div className="flex gap-4 pt-4">
+									<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 sm:pt-4">
 										<button
 											type="submit"
-											className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+											className="flex-1 bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 										>
 											{editingService
 												? "Update Service"
@@ -558,7 +558,7 @@ const ServiceManagement: React.FC = () => {
 										<button
 											type="button"
 											onClick={resetForm}
-											className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors"
+											className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base"
 										>
 											Cancel
 										</button>

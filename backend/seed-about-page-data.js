@@ -26,7 +26,7 @@ const journeyData = [
 		year: "2022",
 		title: "Expansion Year",
 		description:
-			"Founded Sankalp Event and Entertainment. Organized Perfect Glam Beauty Pageant Season 2, launched Goalpara Shining Star Season 1, and managed Rongmon cultural event.",
+			"Founded Sankalp Event and Entertainment. Organized Perfect Glam Fashion Show Season 2, launched Goalpara Shining Star Season 1, and managed Rongmon cultural event.",
 		logo: "./logo/sankalp_event_entertainment.jpg",
 		logoAlt: "Sankalp Event and Entertainment Logo",
 		logoDescription: "Event & Entertainment",
@@ -73,7 +73,7 @@ const achievementsData = [
 		items: [
 			{ name: "Northeast Talent Hunt", displayOrder: 1 },
 			{ name: "Northeast Shining Star", displayOrder: 2 },
-			{ name: "Perfect Glam Beauty Pageant Season 2", displayOrder: 3 },
+			{ name: "Perfect Glam Fashion Show Season 2", displayOrder: 3 },
 		],
 		displayOrder: 1,
 		isActive: true,

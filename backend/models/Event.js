@@ -11,8 +11,6 @@ const eventSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			enum: [
-				"Beauty Pageant",
-				"Cultural Festival",
 				"Fashion Show",
 				"City Festival",
 				"Cultural Event",

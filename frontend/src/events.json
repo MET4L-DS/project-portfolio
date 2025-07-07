@@ -2,7 +2,7 @@
 	{
 		"id": 1,
 		"title": "NABARD Karigar Mela - Traditional Runway",
-		"category": "Cultural Festival",
+		"category": "Cultural Event",
 		"year": "2022-2023",
 		"location": "Guwahati",
 		"image": "./images/Nabard.jpg",
@@ -12,7 +12,7 @@
 	{
 		"id": 2,
 		"title": "Aadibazaar - Aadi The Runway Show",
-		"category": "Cultural Festival",
+		"category": "Cultural Event",
 		"year": "Dec 15, 2023",
 		"location": "Guwahati",
 		"image": "./images/Aadibazaar.jpg",
@@ -42,17 +42,17 @@
 	{
 		"id": 5,
 		"title": "Goalpara Shining Star (3 Seasons)",
-		"category": "Beauty Pageant",
+		"category": "Fashion Show",
 		"year": "2022-2024",
 		"location": "Goalpara",
 		"image": "./images/Goalpara_s2.jpg",
-		"description": "Director of Season 1 (2022), Season 2 (2023), Season 3 (Sep 8, 2024) - Premier beauty pageant series.",
+		"description": "Director of Season 1 (2022), Season 2 (2023), Season 3 (Sep 8, 2024) - Premier fashion show series.",
 		"importance": "high"
 	},
 	{
 		"id": 6,
 		"title": "Bokajan Shining Star",
-		"category": "Beauty Pageant",
+		"category": "Fashion Show",
 		"year": "May 16, 2024",
 		"location": "Bokajan",
 		"image": "./images/Bokajan Shining Star.jpg",
@@ -62,11 +62,11 @@
 	{
 		"id": 7,
 		"title": "Dudhnoi Shining Star",
-		"category": "Beauty Pageant",
+		"category": "Fashion Show",
 		"year": "Jan 12, 2025",
 		"location": "Dudhnoi",
 		"image": "./images/Dudhnoi Shining Star.jpg",
-		"description": "Director of Season 1 - Latest addition to the Shining Star pageant series.",
+		"description": "Director of Season 1 - Latest addition to the Shining Star fashion show series.",
 		"importance": "high"
 	},
 	{
@@ -82,11 +82,11 @@
 	{
 		"id": 9,
 		"title": "Style Stunner by Ekadfa",
-		"category": "Beauty Pageant",
+		"category": "Fashion Show",
 		"year": "Oct 27, 2024",
 		"location": "Bokajan",
 		"image": "./images/Style Stunner.jpg",
-		"description": "Management Head of this beauty pageant organized by Ekadfa.",
+		"description": "Management Head of this fashion show organized by Ekadfa.",
 		"importance": "low"
 	},
 	{
@@ -122,11 +122,11 @@
 	{
 		"id": 13,
 		"title": "IIT Alcheringa Runway Show",
-		"category": "Cultural Festival",
+		"category": "Cultural Event",
 		"year": "Various",
 		"location": "IIT Guwahati",
 		"image": "https://via.placeholder.com/400x300/ec4899/ffffff?text=Alcheringa",
-		"description": "Management head of runway show for IIT Guwahati's premier cultural festival.",
+		"description": "Management head of runway show for IIT Guwahati's premier cultural event.",
 		"importance": "low"
 	}
 ]

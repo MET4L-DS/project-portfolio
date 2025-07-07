@@ -145,35 +145,38 @@ const SkillManagement: React.FC = () => {
 	}
 
 	return (
-		<div className="space-y-6">
-			<div className="flex justify-between items-center">
-				<h2 className="text-2xl font-bold text-white">
+		<div className="space-y-4 sm:space-y-6">
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+				<h2 className="text-xl sm:text-2xl font-bold text-white">
 					Skill Management
 				</h2>
 				<button
 					onClick={() => setShowForm(true)}
-					className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors"
+					className="w-full sm:w-auto bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base"
 				>
 					Add New Skill
 				</button>
 			</div>
 
 			{error && (
-				<div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
+				<div className="bg-red-500/20 border border-red-500 text-red-400 px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-sm sm:text-base">
 					{error}
 				</div>
 			)}
 
 			{/* Form Modal */}
 			{showForm && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-					<div className="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full max-w-md max-h-[90vh] overflow-y-auto">
-						<h3 className="text-xl font-bold text-white mb-4">
+				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+					<div className="bg-gray-800 p-4 sm:p-6 rounded-xl border border-gray-700 w-full max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto my-4 sm:my-8">
+						<h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">
 							{editingSkill ? "Edit Skill" : "Add New Skill"}
 						</h3>
-						<form onSubmit={handleSubmit} className="space-y-4">
+						<form
+							onSubmit={handleSubmit}
+							className="space-y-3 sm:space-y-4"
+						>
 							<div>
-								<label className="block text-gray-300 mb-2">
+								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
 									Name
 								</label>
 								<input
@@ -185,12 +188,12 @@ const SkillManagement: React.FC = () => {
 											name: e.target.value,
 										})
 									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
 									required
 								/>
 							</div>
 							<div>
-								<label className="block text-gray-300 mb-2">
+								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
 									Icon
 								</label>
 								<input
@@ -202,15 +205,15 @@ const SkillManagement: React.FC = () => {
 											icon: e.target.value,
 										})
 									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
 									placeholder="e.g., 🎨"
 									required
 								/>
 								<div className="mt-2">
-									<p className="text-sm text-gray-400 mb-2">
+									<p className="text-xs sm:text-sm text-gray-400 mb-2">
 										Quick select:
 									</p>
-									<div className="grid grid-cols-8 gap-2">
+									<div className="grid grid-cols-6 sm:grid-cols-8 gap-1 sm:gap-2">
 										{commonIcons.map((icon, index) => (
 											<button
 												key={index}
@@ -221,7 +224,7 @@ const SkillManagement: React.FC = () => {
 														icon,
 													})
 												}
-												className="text-xl p-2 bg-gray-700 hover:bg-gray-600 rounded border border-gray-600 hover:border-yellow-400 transition-colors"
+												className="text-lg sm:text-xl p-1.5 sm:p-2 bg-gray-700 hover:bg-gray-600 rounded border border-gray-600 hover:border-yellow-400 transition-colors"
 											>
 												{icon}
 											</button>
@@ -230,7 +233,7 @@ const SkillManagement: React.FC = () => {
 								</div>
 							</div>
 							<div>
-								<label className="block text-gray-300 mb-2">
+								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
 									Description (Optional)
 								</label>
 								<textarea
@@ -241,13 +244,13 @@ const SkillManagement: React.FC = () => {
 											description: e.target.value,
 										})
 									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base resize-none"
 									rows={3}
 									placeholder="Brief description of the skill..."
 								/>
 							</div>
 							<div>
-								<label className="block text-gray-300 mb-2">
+								<label className="block text-gray-300 mb-2 text-sm sm:text-base">
 									Display Order
 								</label>
 								<input
@@ -260,20 +263,20 @@ const SkillManagement: React.FC = () => {
 												parseInt(e.target.value) || 0,
 										})
 									}
-									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none"
+									className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 focus:border-yellow-400 focus:outline-none text-sm sm:text-base"
 								/>
 							</div>
-							<div className="flex gap-3">
+							<div className="flex flex-col sm:flex-row gap-3 pt-2">
 								<button
 									type="submit"
-									className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors"
+									className="flex-1 bg-yellow-500 text-black py-2 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base font-medium"
 								>
 									{editingSkill ? "Update" : "Create"}
 								</button>
 								<button
 									type="button"
 									onClick={resetForm}
-									className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors"
+									className="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-500 transition-colors text-sm sm:text-base font-medium"
 								>
 									Cancel
 								</button>
@@ -284,19 +287,21 @@ const SkillManagement: React.FC = () => {
 			)}
 
 			{/* Skills Grid */}
-			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
 				{skills.map((skill) => (
 					<div
 						key={skill._id}
-						className={`p-4 rounded-xl border transition-all ${
+						className={`p-3 sm:p-4 rounded-xl border transition-all ${
 							skill.isActive
 								? "bg-gray-800 border-gray-700 hover:border-yellow-400"
 								: "bg-gray-800/50 border-gray-600"
 						}`}
 					>
 						<div className="flex justify-between items-start mb-3">
-							<span className="text-3xl">{skill.icon}</span>
-							<div className="flex gap-1">
+							<span className="text-2xl sm:text-3xl">
+								{skill.icon}
+							</span>
+							<div className="flex gap-1 sm:gap-1.5">
 								<button
 									onClick={() => handleEdit(skill)}
 									className="text-blue-400 hover:text-blue-300 hover:bg-blue-400/20 p-1 text-sm rounded-md transition-all duration-200 transform hover:scale-110"
@@ -331,7 +336,7 @@ const SkillManagement: React.FC = () => {
 							</div>
 						</div>
 						<h3
-							className={`font-bold text-sm mb-2 ${
+							className={`font-bold text-sm sm:text-base mb-2 ${
 								skill.isActive ? "text-white" : "text-gray-400"
 							}`}
 						>
@@ -339,7 +344,7 @@ const SkillManagement: React.FC = () => {
 						</h3>
 						{skill.description && (
 							<p
-								className={`text-xs mb-2 ${
+								className={`text-xs sm:text-sm mb-2 ${
 									skill.isActive
 										? "text-gray-300"
 										: "text-gray-500"
@@ -353,7 +358,7 @@ const SkillManagement: React.FC = () => {
 								#{skill.displayOrder}
 							</span>
 							<span
-								className={`px-2 py-1 rounded ${
+								className={`px-2 py-1 rounded text-center ${
 									skill.isActive
 										? "bg-green-500/20 text-green-400"
 										: "bg-gray-500/20 text-gray-400"
@@ -367,11 +372,13 @@ const SkillManagement: React.FC = () => {
 			</div>
 
 			{skills.length === 0 && (
-				<div className="text-center py-12">
-					<p className="text-gray-400 text-lg">No skills found</p>
+				<div className="text-center py-8 sm:py-12">
+					<p className="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">
+						No skills found
+					</p>
 					<button
 						onClick={() => setShowForm(true)}
-						className="mt-4 bg-yellow-500 text-black px-6 py-3 rounded-lg hover:bg-yellow-400 transition-colors"
+						className="bg-yellow-500 text-black px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-yellow-400 transition-colors text-sm sm:text-base"
 					>
 						Add First Skill
 					</button>

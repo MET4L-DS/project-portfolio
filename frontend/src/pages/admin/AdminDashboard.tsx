@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { eventsAPI } from "../../services/api";
+import EventManagement from "./EventManagement";
 import MagazineManagement from "./MagazineManagement";
 import StudentManagement from "./StudentManagement";
 import CandidateManagement from "./CandidateManagement";
@@ -9,27 +8,7 @@ import SchoolManagement from "./SchoolManagement";
 import AboutManagement from "./AboutManagement";
 import ServiceManagement from "./ServiceManagement";
 
-interface Event {
-	_id: string;
-	title: string;
-	category: string;
-	eventDate: string;
-	year?: string; // Keep for backward compatibility
-	location: string;
-	description: string;
-	importance: string;
-	image: {
-		url: string;
-		publicId: string;
-	};
-	isActive: boolean;
-	createdAt: string;
-}
-
 const AdminDashboard: React.FC = () => {
-	const [events, setEvents] = useState<Event[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
 	const [activeTab, setActiveTab] = useState<
 		| "events"
 		| "magazines"
@@ -39,111 +18,55 @@ const AdminDashboard: React.FC = () => {
 		| "about"
 		| "services"
 	>("events");
-	const [filter, setFilter] = useState({
-		category: "All",
-		importance: "",
-	});
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const { user, logout } = useAuth();
-
-	// Helper function to format date
-	const formatEventDate = (eventDate: string) => {
-		const date = new Date(eventDate);
-		return date.toLocaleDateString("en-US", {
-			year: "numeric",
-			month: "short",
-			day: "numeric",
-		});
-	};
-
-	useEffect(() => {
-		fetchEvents();
-	}, [filter]);
-
-	const fetchEvents = async () => {
-		try {
-			setLoading(true);
-			const params = {
-				...(filter.category !== "All" && { category: filter.category }),
-				...(filter.importance && { importance: filter.importance }),
-			};
-			const response = await eventsAPI.getAdminEvents(params);
-			setEvents(response.events);
-		} catch (err) {
-			setError("Failed to fetch events");
-			console.error("Fetch events error:", err);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const handleDelete = async (id: string) => {
-		if (!window.confirm("Are you sure you want to delete this event?")) {
-			return;
-		}
-
-		try {
-			await eventsAPI.deleteEvent(id);
-			setEvents(events.filter((event) => event._id !== id));
-		} catch (err) {
-			setError("Failed to delete event");
-			console.error("Delete event error:", err);
-		}
-	};
-
-	const handleToggleActive = async (event: Event) => {
-		try {
-			const formData = new FormData();
-			formData.append("isActive", String(!event.isActive));
-
-			await eventsAPI.updateEvent(event._id, formData);
-			setEvents(
-				events.map((e) =>
-					e._id === event._id ? { ...e, isActive: !e.isActive } : e
-				)
-			);
-		} catch (err) {
-			setError("Failed to update event status");
-			console.error("Toggle active error:", err);
-		}
-	};
-
-	const categories = [
-		"All",
-		"Beauty Pageant",
-		"Cultural Festival",
-		"Fashion Show",
-		"City Festival",
-		"Cultural Event",
-		"Talent Hunt",
-	];
 
 	return (
 		<div className="min-h-screen bg-gray-900">
 			{/* Header */}
 			<div className="bg-gray-800 shadow">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex justify-between items-center py-6">
-						<div>
-							<h1 className="text-3xl font-bold text-white">
-								Content Management System
-							</h1>
-							<p className="text-gray-400">
-								Welcome, {user?.username}
-							</p>
-						</div>
-						<div className="flex space-x-4">
-							{activeTab === "events" ? (
-								<Link
-									to="/admin/events/new"
-									className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+					<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6">
+						<div className="flex justify-between items-center">
+							<div>
+								<h1 className="text-2xl sm:text-3xl font-bold text-white">
+									Content Management System
+								</h1>
+								<p className="text-gray-400 text-sm sm:text-base">
+									Welcome, {user?.username}
+								</p>
+							</div>
+							{/* Mobile menu button */}
+							<button
+								onClick={() =>
+									setIsMobileMenuOpen(!isMobileMenuOpen)
+								}
+								className="sm:hidden text-gray-400 hover:text-white p-2"
+							>
+								<svg
+									className="w-6 h-6"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
 								>
-									Add New Event
-								</Link>
-							) : null}
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M4 6h16M4 12h16M4 18h16"
+									/>
+								</svg>
+							</button>
+						</div>
+						<div
+							className={`${
+								isMobileMenuOpen ? "block" : "hidden"
+							} sm:block mt-4 sm:mt-0`}
+						>
 							<button
 								onClick={logout}
-								className="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+								className="w-full sm:w-auto bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors"
 							>
 								Logout
 							</button>
@@ -152,256 +75,117 @@ const AdminDashboard: React.FC = () => {
 
 					{/* Tab Navigation */}
 					<div className="border-b border-gray-700">
-						<nav className="-mb-px flex space-x-8">
+						{/* Mobile Dropdown */}
+						<div className="sm:hidden">
+							<select
+								value={activeTab}
+								onChange={(e) =>
+									setActiveTab(e.target.value as any)
+								}
+								className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:border-yellow-400"
+							>
+								<option value="events">
+									Events Management
+								</option>
+								<option value="magazines">
+									Magazine Management
+								</option>
+								<option value="students">
+									Student Management
+								</option>
+								<option value="candidates">
+									Candidate Management
+								</option>
+								<option value="school">
+									School Management
+								</option>
+								<option value="about">About Management</option>
+								<option value="services">
+									Services Management
+								</option>
+							</select>
+						</div>
+
+						{/* Desktop Tabs */}
+						<nav className="hidden sm:flex -mb-px space-x-2 lg:space-x-8 overflow-x-auto">
 							<button
 								onClick={() => setActiveTab("events")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "events"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								Events Management
+								Events
 							</button>
 							<button
 								onClick={() => setActiveTab("magazines")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "magazines"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								Magazine Management
+								Magazines
 							</button>
 							<button
 								onClick={() => setActiveTab("students")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "students"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								Student Management
+								Students
 							</button>
 							<button
 								onClick={() => setActiveTab("candidates")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "candidates"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								Candidate Management
+								Candidates
 							</button>
 							<button
 								onClick={() => setActiveTab("school")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "school"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								School Management
+								School
 							</button>
 							<button
 								onClick={() => setActiveTab("about")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "about"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								About Management
+								About
 							</button>
 							<button
 								onClick={() => setActiveTab("services")}
-								className={`py-2 px-1 border-b-2 font-medium text-sm ${
+								className={`py-2 px-1 border-b-2 font-medium text-xs lg:text-sm whitespace-nowrap ${
 									activeTab === "services"
 										? "border-yellow-400 text-yellow-400"
 										: "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
 								}`}
 							>
-								Services Management
+								Services
 							</button>
 						</nav>
 					</div>
 				</div>
 			</div>
 
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-8">
 				{activeTab === "events" ? (
-					<>
-						{/* Filters */}
-						<div className="mb-8 flex flex-wrap gap-4">
-							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">
-									Category
-								</label>
-								<select
-									value={filter.category}
-									onChange={(e) =>
-										setFilter({
-											...filter,
-											category: e.target.value,
-										})
-									}
-									className="bg-gray-800 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-								>
-									{categories.map((category) => (
-										<option key={category} value={category}>
-											{category}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-gray-300 mb-2">
-									Importance
-								</label>
-								<select
-									value={filter.importance}
-									onChange={(e) =>
-										setFilter({
-											...filter,
-											importance: e.target.value,
-										})
-									}
-									className="bg-gray-800 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-								>
-									<option value="">All</option>
-									<option value="high">High</option>
-									<option value="low">Low</option>
-								</select>
-							</div>
-						</div>
-
-						{/* Error Message */}
-						{error && (
-							<div className="mb-6 bg-red-900/50 border border-red-600 rounded-lg p-4">
-								<p className="text-red-300">{error}</p>
-							</div>
-						)}
-
-						{/* Events Grid */}
-						{loading ? (
-							<div className="text-center py-12">
-								<div className="text-gray-400">
-									Loading events...
-								</div>
-							</div>
-						) : (
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-								{events.map((event) => (
-									<div
-										key={event._id}
-										className={`bg-gray-800 rounded-lg overflow-hidden shadow-lg border-2 ${
-											event.isActive
-												? "border-green-600"
-												: "border-red-600"
-										}`}
-									>
-										<div className="relative">
-											<img
-												src={event.image.url}
-												alt={event.title}
-												className="w-full h-48 object-cover"
-											/>
-											<div className="absolute top-2 right-2 flex gap-2">
-												<span
-													className={`px-2 py-1 text-xs font-semibold rounded ${
-														event.importance ===
-														"high"
-															? "bg-red-600 text-white"
-															: "bg-gray-600 text-gray-300"
-													}`}
-												>
-													{event.importance}
-												</span>
-												<span
-													className={`px-2 py-1 text-xs font-semibold rounded ${
-														event.isActive
-															? "bg-green-600 text-white"
-															: "bg-red-600 text-white"
-													}`}
-												>
-													{event.isActive
-														? "Active"
-														: "Inactive"}
-												</span>
-											</div>
-										</div>
-										<div className="p-4">
-											<div className="flex justify-between items-start mb-2">
-												<span className="bg-yellow-400 text-black px-2 py-1 rounded text-sm font-semibold">
-													{event.category}
-												</span>
-											</div>
-											<h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
-												{event.title}
-											</h3>
-											<p className="text-gray-400 text-sm mb-2">
-												{formatEventDate(
-													event.eventDate
-												)}{" "}
-												• {event.location}
-											</p>
-											<p className="text-gray-300 text-sm mb-4 line-clamp-3">
-												{event.description}
-											</p>
-											<div className="flex justify-between items-center">
-												<div className="flex space-x-2">
-													<Link
-														to={`/admin/events/${event._id}/edit`}
-														className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
-													>
-														Edit
-													</Link>
-													<button
-														onClick={() =>
-															handleToggleActive(
-																event
-															)
-														}
-														className={`px-3 py-1 rounded text-sm transition-colors ${
-															event.isActive
-																? "bg-orange-600 text-white hover:bg-orange-700"
-																: "bg-green-600 text-white hover:bg-green-700"
-														}`}
-													>
-														{event.isActive
-															? "Deactivate"
-															: "Activate"}
-													</button>
-												</div>
-												<button
-													onClick={() =>
-														handleDelete(event._id)
-													}
-													className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 transition-colors"
-												>
-													Delete
-												</button>
-											</div>
-										</div>
-									</div>
-								))}
-							</div>
-						)}
-
-						{events.length === 0 && !loading && (
-							<div className="text-center py-12">
-								<p className="text-gray-400 text-lg">
-									No events found
-								</p>
-								<Link
-									to="/admin/events/new"
-									className="inline-block mt-4 bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
-								>
-									Create Your First Event
-								</Link>
-							</div>
-						)}
-					</>
+					<EventManagement />
 				) : activeTab === "magazines" ? (
 					<MagazineManagement />
 				) : activeTab === "students" ? (

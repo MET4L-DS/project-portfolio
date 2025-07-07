@@ -503,8 +503,6 @@ router.delete("/:id", authenticateToken, requireAdmin, async (req, res) => {
 // GET event categories
 router.get("/meta/categories", (req, res) => {
 	const categories = [
-		"Beauty Pageant",
-		"Cultural Festival",
 		"Fashion Show",
 		"City Festival",
 		"Cultural Event",

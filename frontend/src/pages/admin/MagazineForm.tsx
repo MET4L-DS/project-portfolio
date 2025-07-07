@@ -127,8 +127,8 @@ const MagazineForm: React.FC<MagazineFormProps> = ({
 					setError("Please select an image file");
 					return;
 				}
-				if (file.size > 10 * 1024 * 1024) {
-					setError("Image file size must be less than 10MB");
+				if (file.size > 5 * 1024 * 1024) {
+					setError("Image file size must be less than 5MB");
 					return;
 				}
 				setCoverImageFile(file);
@@ -323,7 +323,7 @@ const MagazineForm: React.FC<MagazineFormProps> = ({
 							<span className="text-gray-300">
 								{coverImageFile
 									? coverImageFile.name
-									: "Click to upload cover image (max 10MB)"}
+									: "Click to upload cover image (max 5MB)"}
 							</span>
 							{magazine?.coverImageUrl && !coverImageFile && (
 								<span className="text-green-400 text-sm mt-2">

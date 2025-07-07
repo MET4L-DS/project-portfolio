@@ -124,28 +124,28 @@ const MagazineManagement: React.FC = () => {
 	}
 
 	return (
-		<div className="max-w-7xl mx-auto">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-3xl font-bold text-white">
+		<div className="max-w-7xl mx-auto px-2 sm:px-4">
+			<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-4">
+				<h1 className="text-2xl sm:text-3xl font-bold text-white">
 					Magazine Management
 				</h1>
 				<button
 					onClick={handleCreate}
-					className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-300 transition-colors"
+					className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 				>
 					Add New Magazine
 				</button>
 			</div>
 
 			{error && (
-				<div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
+				<div className="bg-red-500/20 border border-red-500 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 sm:mb-6 text-sm sm:text-base">
 					{error}
 				</div>
 			)}
 
 			{/* Filters */}
-			<div className="bg-gray-800 rounded-lg p-4 mb-6">
-				<div className="grid md:grid-cols-3 gap-4">
+			<div className="bg-gray-800 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 					<div>
 						<input
 							type="text"
@@ -157,7 +157,7 @@ const MagazineManagement: React.FC = () => {
 									search: e.target.value,
 								})
 							}
-							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 						/>
 					</div>
 					<div>
@@ -166,7 +166,7 @@ const MagazineManagement: React.FC = () => {
 							onChange={(e) =>
 								setFilters({ ...filters, year: e.target.value })
 							}
-							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 						>
 							<option value="">All Years</option>
 							{Array.from(
@@ -188,7 +188,7 @@ const MagazineManagement: React.FC = () => {
 									isActive: e.target.value,
 								})
 							}
-							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+							className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
 						>
 							<option value="">All Status</option>
 							<option value="true">Active</option>
@@ -200,23 +200,25 @@ const MagazineManagement: React.FC = () => {
 
 			{/* Magazine List */}
 			{loading ? (
-				<div className="flex justify-center items-center h-64">
-					<div className="text-white">Loading magazines...</div>
+				<div className="flex justify-center items-center h-40 sm:h-64">
+					<div className="text-white text-sm sm:text-base">
+						Loading magazines...
+					</div>
 				</div>
 			) : magazines.length === 0 ? (
-				<div className="text-center py-12">
-					<div className="text-gray-400 text-lg mb-4">
+				<div className="text-center py-8 sm:py-12">
+					<div className="text-gray-400 text-base sm:text-lg mb-4">
 						No magazines found
 					</div>
 					<button
 						onClick={handleCreate}
-						className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-300 transition-colors"
+						className="px-4 sm:px-6 py-2 sm:py-3 bg-yellow-400 text-black font-semibold rounded-md hover:bg-yellow-300 transition-colors text-sm sm:text-base"
 					>
 						Create Your First Magazine
 					</button>
 				</div>
 			) : (
-				<div className="space-y-4">
+				<div className="space-y-3 sm:space-y-4">
 					{magazines.map((magazine) => (
 						<div
 							key={magazine._id}
