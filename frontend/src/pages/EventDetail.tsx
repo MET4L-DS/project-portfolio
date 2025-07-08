@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { eventsAPI } from "../services/api";
-import CandidateRegistration from "../components/CandidateRegistration";
-import { CandidateRegistrationSuccess } from "../components/CandidateRegistrationSuccess";
 
 interface Event {
 	_id: string;
@@ -34,13 +32,6 @@ function EventDetail() {
 		string | null
 	>(null);
 	const [relatedEvents, setRelatedEvents] = useState<Event[]>([]);
-	const [showCandidateRegistration, setShowCandidateRegistration] =
-		useState(false);
-	const [showRegistrationSuccess, setShowRegistrationSuccess] =
-		useState(false);
-	const [registrationFormNo, setRegistrationFormNo] = useState<string | null>(
-		null
-	);
 
 	// Helper function to format date
 	const formatEventDate = (eventDate: string) => {
@@ -99,22 +90,11 @@ function EventDetail() {
 	};
 
 	const handleApplyForEvent = () => {
-		setShowCandidateRegistration(true);
-	};
-
-	const handleCloseRegistration = () => {
-		setShowCandidateRegistration(false);
-	};
-
-	const handleRegistrationSuccess = (formNo: string) => {
-		setRegistrationFormNo(formNo);
-		setShowCandidateRegistration(false);
-		setShowRegistrationSuccess(true);
-	};
-
-	const handleCloseSuccess = () => {
-		setShowRegistrationSuccess(false);
-		setRegistrationFormNo(null);
+		navigate(
+			`/events/${id}/register?eventName=${encodeURIComponent(
+				event!.title
+			)}`
+		);
 	};
 
 	if (loading) {
@@ -463,7 +443,7 @@ function EventDetail() {
 						{isEventUpcoming(event.eventDate) && (
 							<button
 								onClick={handleApplyForEvent}
-								className="bg-gradient-to-r from-yellow-400 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+								className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-lg font-semibold hover:from-yellow-300 hover:to-orange-400 transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
 							>
 								<svg
 									className="w-5 h-5"
@@ -519,24 +499,6 @@ function EventDetail() {
 						</div>
 					</div>
 				</div>
-			)}
-
-			{/* Candidate Registration Modal */}
-			{showCandidateRegistration && (
-				<CandidateRegistration
-					eventId={id!}
-					eventName={event.title}
-					onClose={handleCloseRegistration}
-					onSuccess={handleRegistrationSuccess}
-				/>
-			)}
-
-			{/* Registration Success Modal */}
-			{showRegistrationSuccess && registrationFormNo && (
-				<CandidateRegistrationSuccess
-					formNo={registrationFormNo}
-					onClose={handleCloseSuccess}
-				/>
 			)}
 		</div>
 	);

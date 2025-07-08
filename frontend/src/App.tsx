@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
+import CandidateRegistrationForm from "./pages/CandidateRegistrationForm";
 import School from "./pages/School";
 import Services from "./pages/Services";
 import Magazine from "./pages/Magazine";
@@ -61,6 +62,17 @@ function App() {
 									<Navigation />
 									<main>
 										<EventDetail />
+									</main>
+								</>
+							}
+						/>
+						<Route
+							path="/events/:eventId/register"
+							element={
+								<>
+									<Navigation />
+									<main>
+										<CandidateRegistrationForm />
 									</main>
 								</>
 							}

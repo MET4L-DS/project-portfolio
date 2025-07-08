@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { eventsAPI } from "../services/api";
-import CandidateRegistration from "../components/CandidateRegistration";
-import { CandidateRegistrationSuccess } from "../components/CandidateRegistrationSuccess";
 
 interface Event {
 	_id: string;
@@ -30,15 +28,6 @@ function Events() {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
-	const [selectedEventForRegistration, setSelectedEventForRegistration] =
-		useState<Event | null>(null);
-	const [showCandidateRegistration, setShowCandidateRegistration] =
-		useState(false);
-	const [showRegistrationSuccess, setShowRegistrationSuccess] =
-		useState(false);
-	const [registrationFormNo, setRegistrationFormNo] = useState<string | null>(
-		null
-	);
 
 	// Helper function to format date
 	const formatEventDate = (eventDate: string) => {
@@ -90,25 +79,11 @@ function Events() {
 
 	const handleApplyForEvent = (event: Event, e: React.MouseEvent) => {
 		e.stopPropagation(); // Prevent navigation to event detail
-		setSelectedEventForRegistration(event);
-		setShowCandidateRegistration(true);
-	};
-
-	const handleCloseRegistration = () => {
-		setShowCandidateRegistration(false);
-		setSelectedEventForRegistration(null);
-	};
-
-	const handleRegistrationSuccess = (formNo: string) => {
-		setRegistrationFormNo(formNo);
-		setShowCandidateRegistration(false);
-		setShowRegistrationSuccess(true);
-	};
-
-	const handleCloseSuccess = () => {
-		setShowRegistrationSuccess(false);
-		setRegistrationFormNo(null);
-		setSelectedEventForRegistration(null);
+		navigate(
+			`/events/${event._id}/register?eventName=${encodeURIComponent(
+				event.title
+			)}`
+		);
 	};
 
 	// Sort events by importance and date
@@ -289,24 +264,6 @@ function Events() {
 					</div>
 				</div>
 			</div>
-
-			{/* Candidate Registration Modal */}
-			{showCandidateRegistration && selectedEventForRegistration && (
-				<CandidateRegistration
-					eventId={selectedEventForRegistration._id}
-					eventName={selectedEventForRegistration.title}
-					onClose={handleCloseRegistration}
-					onSuccess={handleRegistrationSuccess}
-				/>
-			)}
-
-			{/* Registration Success Message */}
-			{showRegistrationSuccess && registrationFormNo && (
-				<CandidateRegistrationSuccess
-					formNo={registrationFormNo}
-					onClose={handleCloseSuccess}
-				/>
-			)}
 		</div>
 	);
 }
