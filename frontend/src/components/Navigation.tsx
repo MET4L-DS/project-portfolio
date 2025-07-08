@@ -48,8 +48,8 @@ function Navigation() {
 							className="h-6 w-auto sm:h-8 rounded"
 						/>
 						<div className="text-sm sm:text-xl font-bold">
-							<span className="text-white">Saurav Shil</span>
-							<span className="text-yellow-400"> | Sankalp</span>
+							<span className="text-yellow-400">Sankalp</span>
+							<span className="text-white"> | Saurav Shil</span>
 						</div>
 					</div>
 
