@@ -9,7 +9,7 @@ const AboutManagement: React.FC = () => {
 	>("journey");
 
 	return (
-		<div className="min-h-screen bg-gray-900 p-2 sm:p-4 lg:p-6">
+		<div className="space-y-6">
 			<div className="max-w-7xl mx-auto">
 				{/* Header */}
 				<div className="relative bg-gradient-to-r from-amber-900/30 via-yellow-900/30 to-amber-900/30 backdrop-blur-sm rounded-2xl p-6 mb-6 sm:mb-8 border border-white/10">
