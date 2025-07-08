@@ -259,28 +259,75 @@ const EventForm: React.FC = () => {
 		<div className="min-h-screen bg-gray-900 py-8">
 			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div className="mb-8">
-					<h1 className="text-3xl font-bold text-white">
-						{isEditing ? "Edit Event" : "Create New Event"}
-					</h1>
-					<p className="text-gray-400 mt-2">
-						{isEditing
-							? "Update event details"
-							: "Add a new event to the portfolio"}
-					</p>
+				<div className="bg-gradient-to-r from-yellow-400/20 to-orange-400/20 backdrop-blur-lg rounded-xl p-6 border border-yellow-400/30 mb-8">
+					<div className="flex items-center justify-between">
+						<div>
+							<h1 className="text-3xl font-bold text-white mb-2">
+								{isEditing ? "Edit Event" : "Create New Event"}
+							</h1>
+							<p className="text-gray-300">
+								{isEditing
+									? "Update event details and manage gallery"
+									: "Add a new event to showcase your work"}
+							</p>
+						</div>
+						<div className="hidden sm:flex items-center justify-center w-16 h-16 bg-yellow-400/20 rounded-lg">
+							<svg
+								className="w-8 h-8 text-yellow-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+								/>
+							</svg>
+						</div>
+					</div>
 				</div>
 
 				{/* Error Message */}
 				{error && (
-					<div className="mb-6 bg-red-900/50 border border-red-600 rounded-lg p-4">
-						<p className="text-red-300">{error}</p>
+					<div className="mb-6 bg-red-900/50 border border-red-500 rounded-xl p-4 backdrop-blur-lg">
+						<div className="flex items-center gap-3">
+							<svg
+								className="w-5 h-5 text-red-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+							<p className="text-red-300 font-medium">{error}</p>
+						</div>
 					</div>
 				)}
 
 				{/* Form */}
 				<form onSubmit={handleSubmit} className="space-y-6">
-					<div className="bg-gray-800 rounded-lg p-6">
-						<h2 className="text-xl font-semibold text-white mb-4">
+					<div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700">
+						<h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+							<svg
+								className="w-5 h-5 text-yellow-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								/>
+							</svg>
 							Event Details
 						</h2>
 
@@ -296,8 +343,8 @@ const EventForm: React.FC = () => {
 									value={event.title}
 									onChange={handleInputChange}
 									required
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-									placeholder="Event title"
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200"
+									placeholder="Enter event title"
 								/>
 							</div>
 
@@ -311,7 +358,7 @@ const EventForm: React.FC = () => {
 									value={event.category}
 									onChange={handleInputChange}
 									required
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200"
 								>
 									{categories.map((category) => (
 										<option key={category} value={category}>
@@ -332,7 +379,7 @@ const EventForm: React.FC = () => {
 									value={event.eventDate}
 									onChange={handleInputChange}
 									required
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200"
 								/>
 							</div>
 
@@ -347,21 +394,22 @@ const EventForm: React.FC = () => {
 									value={event.location}
 									onChange={handleInputChange}
 									required
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-									placeholder="Event location"
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200"
+									placeholder="Enter event location"
 								/>
 							</div>
 
 							{/* Importance */}
 							<div>
 								<label className="block text-sm font-medium text-gray-300 mb-2">
-									Importance
+									Importance *
 								</label>
 								<select
 									name="importance"
 									value={event.importance}
 									onChange={handleInputChange}
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+									required
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200"
 								>
 									<option value="low">Low</option>
 									<option value="high">High</option>
@@ -379,38 +427,23 @@ const EventForm: React.FC = () => {
 									onChange={handleInputChange}
 									required
 									rows={4}
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-									placeholder="Event description"
+									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200 resize-none"
+									placeholder="Enter event description"
 								/>
 							</div>
 
 							{/* Active Status */}
 							<div className="md:col-span-2">
-								<label className="flex items-center">
+								<label className="flex items-center gap-3 cursor-pointer">
 									<input
 										type="checkbox"
 										name="isActive"
 										checked={event.isActive}
 										onChange={handleInputChange}
-										className="sr-only"
+										className="w-5 h-5 text-yellow-400 bg-gray-700 border-gray-600 rounded focus:ring-yellow-400 focus:ring-2"
 									/>
-									<div
-										className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-											event.isActive
-												? "bg-yellow-400"
-												: "bg-gray-600"
-										}`}
-									>
-										<span
-											className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-												event.isActive
-													? "translate-x-6"
-													: "translate-x-1"
-											}`}
-										/>
-									</div>
-									<span className="ml-3 text-sm font-medium text-gray-300">
-										Active (visible on website)
+									<span className="text-sm font-medium text-gray-300">
+										Active (visible on the website)
 									</span>
 								</label>
 							</div>
@@ -418,9 +451,22 @@ const EventForm: React.FC = () => {
 					</div>
 
 					{/* Image Upload */}
-					<div className="bg-gray-800 rounded-lg p-6">
-						<h2 className="text-xl font-semibold text-white mb-4">
-							Event Image
+					<div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700">
+						<h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+							<svg
+								className="w-5 h-5 text-yellow-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+								/>
+							</svg>
+							Main Event Image
 						</h2>
 
 						<div className="space-y-4">
@@ -428,14 +474,29 @@ const EventForm: React.FC = () => {
 								<label className="block text-sm font-medium text-gray-300 mb-2">
 									Upload Image {!isEditing && "*"}
 								</label>
-								<input
-									type="file"
-									accept="image/*"
-									onChange={handleImageChange}
-									required={!isEditing}
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
-								/>
-								<p className="text-xs text-gray-500 mt-1">
+								<div className="relative">
+									<input
+										type="file"
+										accept="image/*"
+										onChange={handleImageChange}
+										required={!isEditing}
+										className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+									/>
+								</div>
+								<p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+									<svg
+										className="w-3 h-3"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+										/>
+									</svg>
 									Maximum file size: 5MB. Supported formats:
 									JPG, PNG, GIF, WebP
 								</p>
@@ -443,14 +504,33 @@ const EventForm: React.FC = () => {
 
 							{/* Image Preview */}
 							{imagePreview && (
-								<div>
-									<p className="text-sm font-medium text-gray-300 mb-2">
-										Preview:
+								<div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+									<p className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
+										<svg
+											className="w-4 h-4 text-yellow-400"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+											/>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+											/>
+										</svg>
+										Image Preview
 									</p>
 									<img
 										src={imagePreview}
-										alt="Preview"
-										className="w-full max-w-md h-48 object-cover rounded-lg border border-gray-600"
+										alt="Event preview"
+										className="w-full max-w-md h-48 object-cover rounded-lg border border-gray-600 shadow-lg"
 									/>
 								</div>
 							)}
@@ -458,8 +538,21 @@ const EventForm: React.FC = () => {
 					</div>
 
 					{/* Gallery Upload */}
-					<div className="bg-gray-800 rounded-lg p-6">
-						<h2 className="text-xl font-semibold text-white mb-4">
+					<div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700">
+						<h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+							<svg
+								className="w-5 h-5 text-yellow-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+								/>
+							</svg>
 							Event Gallery (Optional)
 						</h2>
 
@@ -468,19 +561,47 @@ const EventForm: React.FC = () => {
 								<label className="block text-sm font-medium text-gray-300 mb-2">
 									Upload Gallery Images
 								</label>
-								<input
-									type="file"
-									accept="image/*"
-									multiple
-									onChange={handleGalleryChange}
-									className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300"
-								/>
-								<div className="mt-1 space-y-1">
-									<p className="text-xs text-gray-500">
+								<div className="relative">
+									<input
+										type="file"
+										accept="image/*"
+										multiple
+										onChange={handleGalleryChange}
+										className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black hover:file:bg-yellow-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+									/>
+								</div>
+								<div className="mt-2 space-y-1">
+									<p className="text-xs text-gray-400 flex items-center gap-1">
+										<svg
+											className="w-3 h-3"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+											/>
+										</svg>
 										Maximum file size per image: 5MB.
 										Supported formats: JPG, PNG, GIF, WebP
 									</p>
-									<p className="text-sm text-gray-400">
+									<p className="text-sm text-gray-300 flex items-center gap-1">
+										<svg
+											className="w-3 h-3 text-yellow-400"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+											/>
+										</svg>
 										You can select multiple images for the
 										gallery
 									</p>
@@ -490,19 +611,32 @@ const EventForm: React.FC = () => {
 							{/* Gallery Preview */}
 							{(existingGallery.length > 0 ||
 								newGalleryPreviews.length > 0) && (
-								<div>
-									<p className="text-sm font-medium text-gray-300 mb-2">
+								<div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
+									<p className="text-sm font-medium text-gray-300 mb-4 flex items-center gap-2">
+										<svg
+											className="w-4 h-4 text-yellow-400"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+											/>
+										</svg>
 										Gallery Preview (
 										{existingGallery.length +
 											newGalleryPreviews.length}{" "}
-										images):
+										images)
 									</p>
 									<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 										{/* Existing Gallery Images */}
 										{existingGallery.map((image, index) => (
 											<div
 												key={`existing-${index}`}
-												className="relative"
+												className="relative group"
 											>
 												<img
 													src={image.url}
@@ -566,25 +700,72 @@ const EventForm: React.FC = () => {
 					</div>
 
 					{/* Actions */}
-					<div className="flex justify-between">
-						<button
-							type="button"
-							onClick={() => navigate("/admin/dashboard")}
-							className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
-						>
-							Cancel
-						</button>
-						<button
-							type="submit"
-							disabled={loading}
-							className="px-6 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-						>
-							{loading
-								? "Saving..."
-								: isEditing
-								? "Update Event"
-								: "Create Event"}
-						</button>
+					<div className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700">
+						<div className="flex flex-col sm:flex-row gap-4 sm:justify-between">
+							<button
+								type="button"
+								onClick={() => navigate("/admin/dashboard")}
+								className="px-6 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 hover:border-gray-500 transition-all duration-200 flex items-center justify-center gap-2"
+							>
+								<svg
+									className="w-4 h-4"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M10 19l-7-7m0 0l7-7m-7 7h18"
+									/>
+								</svg>
+								Cancel
+							</button>
+							<button
+								type="submit"
+								disabled={loading}
+								className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-400 text-black rounded-lg font-semibold hover:from-yellow-300 hover:to-orange-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+							>
+								{loading ? (
+									<>
+										<svg
+											className="animate-spin w-4 h-4"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M12 4.354a7.646 7.646 0 100 15.292 7.646 7.646 0 000-15.292zm0 0V1m0 3.354a7.646 7.646 0 100 15.292 7.646 7.646 0 000-15.292z"
+											/>
+										</svg>
+										Saving...
+									</>
+								) : (
+									<>
+										<svg
+											className="w-4 h-4"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M5 13l4 4L19 7"
+											/>
+										</svg>
+										{isEditing
+											? "Update Event"
+											: "Create Event"}
+									</>
+								)}
+							</button>
+						</div>
 					</div>
 				</form>
 			</div>
