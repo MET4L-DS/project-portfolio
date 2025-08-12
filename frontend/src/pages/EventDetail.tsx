@@ -45,7 +45,7 @@ function EventDetail() {
 
 	// Helper function to check if event is upcoming
 	const isEventUpcoming = (eventDate: string) => {
-		return new Date(eventDate) > new Date();
+		return new Date(eventDate) >= new Date();
 	};
 
 	useEffect(() => {
